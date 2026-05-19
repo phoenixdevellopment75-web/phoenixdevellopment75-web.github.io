@@ -3,19 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Phoenix 75 | Android Dev · UI/UX · Custom ROM Builder</title>
   <meta name="description" content="Phoenix 75 – Android developer, custom ROM builder, veena player, Carnatic musician, and UI/UX designer.">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 </head>
 <body>
 
+<!-- CURSOR GLOW -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- ANIMATED MESH BG -->
+<div class="mesh-bg"><div class="mesh-blob b1"></div><div class="mesh-blob b2"></div><div class="mesh-blob b3"></div></div>
+
+<!-- FLOATING PARTICLES -->
+<canvas id="particles"></canvas>
+
 <!-- LOADER -->
 <div class="loader" id="loader">
-  <div class="loader-text">
-    <span style="--i:0">P</span><span style="--i:1">h</span><span style="--i:2">o</span><span style="--i:3">e</span><span style="--i:4">n</span><span style="--i:5">i</span><span style="--i:6">x</span><span style="--i:7">&nbsp;</span><span style="--i:8">7</span><span style="--i:9">5</span>
-  </div>
+  <div class="loader-text"><span style="--i:0">P</span><span style="--i:1">h</span><span style="--i:2">o</span><span style="--i:3">e</span><span style="--i:4">n</span><span style="--i:5">i</span><span style="--i:6">x</span><span style="--i:7">&nbsp;</span><span style="--i:8">7</span><span style="--i:9">5</span></div>
+  <div class="loader-sub">Loading portfolio</div>
+  <div class="loader-bar"></div>
 </div>
 
 <!-- NAV -->
@@ -33,125 +45,78 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-label"><span>Student · Developer · Musician</span></div>
+  <div class="hero-label">Student · Developer · Musician</div>
   <h1 class="hero-title">
     <span class="line"><span style="--i:0">I build things</span></span>
     <span class="line"><span style="--i:1">for <em>Android,</em></span></span>
     <span class="line"><span style="--i:2">and play <em>veena</em></span></span>
     <span class="line"><span style="--i:3">in between.</span></span>
   </h1>
-  <div class="hero-desc"><span>A Class 11 student who's into custom ROMs, UI/UX design, Carnatic music, and actually understanding the code — not just making it work.</span></div>
+  <div class="hero-desc">A Class 11 student who's into custom ROMs, UI/UX design, Carnatic music, and actually understanding the code — not just making it work.</div>
   <div class="hero-cta">
     <a href="#projects" class="btn btn-fill"><span class="material-symbols-rounded">arrow_downward</span> View work</a>
     <a href="#contact" class="btn btn-ghost"><span class="material-symbols-rounded">waving_hand</span> Say hello</a>
   </div>
-  <div class="hero-scroll-hint">
-    <div class="scroll-line"></div>
-    Scroll to explore
-  </div>
-  <div class="hero-img-float">
-    <img src="pfp.png" alt="Phoenix 75">
-  </div>
+  <div class="hero-scroll"><div class="scroll-bar"></div> Scroll to explore</div>
+  <div class="hero-pfp"><img src="pfp.png" alt="Phoenix 75"></div>
 </section>
 
 <!-- MARQUEE -->
-<div class="marquee-section">
+<div class="marquee-wrap">
   <div class="marquee-track">
-    <span class="marquee-item">Android Development <span class="dot"></span></span>
-    <span class="marquee-item">Custom ROMs <span class="dot"></span></span>
-    <span class="marquee-item">UI/UX Design <span class="dot"></span></span>
-    <span class="marquee-item">Carnatic Music <span class="dot"></span></span>
-    <span class="marquee-item">Veena <span class="dot"></span></span>
-    <span class="marquee-item">Jetpack Compose <span class="dot"></span></span>
-    <span class="marquee-item">AOSP <span class="dot"></span></span>
-    <span class="marquee-item">Kotlin <span class="dot"></span></span>
-    <!-- duplicate for seamless loop -->
-    <span class="marquee-item">Android Development <span class="dot"></span></span>
-    <span class="marquee-item">Custom ROMs <span class="dot"></span></span>
-    <span class="marquee-item">UI/UX Design <span class="dot"></span></span>
-    <span class="marquee-item">Carnatic Music <span class="dot"></span></span>
-    <span class="marquee-item">Veena <span class="dot"></span></span>
-    <span class="marquee-item">Jetpack Compose <span class="dot"></span></span>
-    <span class="marquee-item">AOSP <span class="dot"></span></span>
-    <span class="marquee-item">Kotlin <span class="dot"></span></span>
+    <span class="marquee-item">Android Development <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Custom ROMs <span class="marquee-dot"></span></span>
+    <span class="marquee-item">UI/UX Design <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Carnatic Music <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Veena <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Jetpack Compose <span class="marquee-dot"></span></span>
+    <span class="marquee-item">AOSP <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Kotlin <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Android Development <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Custom ROMs <span class="marquee-dot"></span></span>
+    <span class="marquee-item">UI/UX Design <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Carnatic Music <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Veena <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Jetpack Compose <span class="marquee-dot"></span></span>
+    <span class="marquee-item">AOSP <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Kotlin <span class="marquee-dot"></span></span>
   </div>
 </div>
 
 <!-- ABOUT -->
 <section id="about">
   <div class="section-inner">
-    <div class="about-layout">
-      <div class="reveal-left">
-        <div class="section-header">
-          <div class="section-num">01 — About</div>
-          <h2 class="section-heading">A little bit about <em>who I am</em></h2>
-        </div>
-        <div class="about-text">
-          <p>My name's Phoenix, and I'm currently in Class 11 — though if you asked me what I spend most of my time doing, school probably wouldn't be the first thing I mention. I've been studying Carnatic music and learning veena for about 10 years now. That journey taught me something no tutorial ever could: real skill takes patience, repetition, and a genuine willingness to sit with something until you actually get it.</p>
+    <div class="about-lay">
+      <div class="rv-l">
+        <div class="s-num">01 — About</div>
+        <h2 class="s-heading">A little bit about <em>who I am</em></h2>
+        <div class="about-txt" style="margin-top:2rem">
+          <p>My name's Phoenix, and I'm currently in Class 11 — though if you asked what I spend most of my time on, school probably wouldn't be the first thing I mention. I've been studying Carnatic music and learning veena for about 10 years now. That journey taught me something no tutorial ever could: real skill takes patience, repetition, and a genuine willingness to sit with something until you actually get it.</p>
           <p>On the tech side, I'm deep into Android — building apps, porting custom ROMs, and designing interfaces. I care about how things work under the hood just as much as how they look on screen. I'm not here to fake expertise or take shortcuts. I want to understand things properly, even if it takes longer.</p>
         </div>
-        <div class="about-stats-row">
-          <div>
-            <div class="about-stat-num">10+</div>
-            <div class="about-stat-label">Years of Music</div>
-          </div>
-          <div>
-            <div class="about-stat-num">1</div>
-            <div class="about-stat-label">ROM Ported</div>
-          </div>
-          <div>
-            <div class="about-stat-num">∞</div>
-            <div class="about-stat-label">Curiosity</div>
-          </div>
+        <div class="about-stats">
+          <div><div class="a-num">10+</div><div class="a-label">Years of Music</div></div>
+          <div><div class="a-num">1</div><div class="a-label">ROM Ported</div></div>
+          <div><div class="a-num">∞</div><div class="a-label">Curiosity</div></div>
         </div>
       </div>
-      <div class="reveal-right" style="display:flex;justify-content:center;">
-        <div style="width:320px;height:320px;border-radius:24px;overflow:hidden;border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,0.06);">
-          <img src="pfp.png" alt="Phoenix 75" style="width:100%;height:100%;object-fit:cover;">
-        </div>
+      <div class="rv-r" style="display:flex;justify-content:center">
+        <div class="about-img"><img src="pfp.png" alt="Phoenix 75"></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- PASSIONS -->
-<section id="passions" style="background:var(--bg-alt)">
+<section id="passions" style="background:var(--bg2)">
   <div class="section-inner">
-    <div class="section-header reveal">
-      <div class="section-num">02 — Passions</div>
-      <h2 class="section-heading">The things I <em>genuinely</em> care about</h2>
-    </div>
-    <div class="passions-grid">
-      <div class="passion-card matcha-accent reveal" style="transition-delay:.05s">
-        <div class="p-icon matcha"><span class="material-symbols-rounded">android</span></div>
-        <h3>Android Development</h3>
-        <p>Probably what excites me the most right now. I'm learning Kotlin, getting into Jetpack Compose, and trying to understand how Android really works — the architecture, the lifecycle, all of it. Not just the beginner tutorials.</p>
-        <span class="p-tag matcha">Primary Focus</span>
-      </div>
-      <div class="passion-card matcha-accent reveal" style="transition-delay:.1s">
-        <div class="p-icon matcha"><span class="material-symbols-rounded">build</span></div>
-        <h3>Custom ROM Building</h3>
-        <p>I've always needed to know what's happening behind the screen. That curiosity led me to custom ROMs — device trees, kernel configs, vendor blobs. I ported HyperOS 2 to the Samsung M34, and it was one of the most satisfying things I've done.</p>
-        <span class="p-tag matcha">Active Builder</span>
-      </div>
-      <div class="passion-card matcha-accent reveal" style="transition-delay:.15s">
-        <div class="p-icon matcha"><span class="material-symbols-rounded">palette</span></div>
-        <h3>UI/UX Design</h3>
-        <p>I notice when apps feel off — a button in the wrong spot, weird spacing, clunky transitions. I want to be the person who fixes that. Currently going deeper into design systems, motion, and the psychology behind good interfaces.</p>
-        <span class="p-tag matcha">Going Deeper</span>
-      </div>
-      <div class="passion-card gold-accent reveal" style="transition-delay:.2s">
-        <div class="p-icon gold"><span class="material-symbols-rounded">music_note</span></div>
-        <h3>Carnatic Music & Veena</h3>
-        <p>10 years of Carnatic music and currently learning veena. It's taught me discipline, pattern recognition, and how to focus deeply on one thing for hours. A lot of my work ethic honestly traces back to those years of practice.</p>
-        <span class="p-tag gold">10 Year Journey</span>
-      </div>
-      <div class="passion-card gold-accent reveal" style="transition-delay:.25s">
-        <div class="p-icon gold"><span class="material-symbols-rounded">code</span></div>
-        <h3>Learning to Code — For Real</h3>
-        <p>I don't want to be someone who just prompts an AI and calls it coding. I'm learning data structures, algorithms, and how systems work underneath. It's slower and harder, but the feeling when something clicks because you truly get it — nothing beats that.</p>
-        <span class="p-tag gold">Leveling Up</span>
-      </div>
+    <div class="rv"><div class="s-num">02 — Passions</div><h2 class="s-heading">The things I <em>genuinely</em> care about</h2></div>
+    <div class="p-grid" style="margin-top:3rem">
+      <div class="p-card mc rv" style="transition-delay:.05s"><div class="p-ico mi"><span class="material-symbols-rounded">android</span></div><h3>Android Development</h3><p>Probably what excites me the most right now. I'm learning Kotlin, getting into Jetpack Compose, and trying to understand how Android really works — the architecture, the lifecycle, all of it.</p><span class="p-tag mt">Primary Focus</span></div>
+      <div class="p-card mc rv" style="transition-delay:.1s"><div class="p-ico mi"><span class="material-symbols-rounded">build</span></div><h3>Custom ROM Building</h3><p>I've always needed to know what's happening behind the screen. That curiosity led me to custom ROMs — device trees, kernel configs, vendor blobs. I ported HyperOS 2 to the Samsung M34.</p><span class="p-tag mt">Active Builder</span></div>
+      <div class="p-card mc rv" style="transition-delay:.15s"><div class="p-ico mi"><span class="material-symbols-rounded">palette</span></div><h3>UI/UX Design</h3><p>I notice when apps feel off — a button in the wrong spot, weird spacing, clunky transitions. Currently going deeper into design systems, motion, and the psychology behind good interfaces.</p><span class="p-tag mt">Going Deeper</span></div>
+      <div class="p-card gc rv" style="transition-delay:.2s"><div class="p-ico gi"><span class="material-symbols-rounded">music_note</span></div><h3>Carnatic Music & Veena</h3><p>10 years of Carnatic music and currently learning veena. It's taught me discipline, pattern recognition, and how to focus deeply on one thing for hours. My work ethic traces back to those years.</p><span class="p-tag gt">10 Year Journey</span></div>
+      <div class="p-card gc rv" style="transition-delay:.25s"><div class="p-ico gi"><span class="material-symbols-rounded">code</span></div><h3>Learning to Code — For Real</h3><p>I don't want to be someone who just prompts an AI and calls it coding. I'm learning data structures, algorithms, and how systems work underneath. It's slower but the understanding is worth it.</p><span class="p-tag gt">Leveling Up</span></div>
     </div>
   </div>
 </section>
@@ -159,153 +124,118 @@
 <!-- PROJECTS -->
 <section id="projects">
   <div class="section-inner">
-    <div class="section-header reveal">
-      <div class="section-num">03 — Work</div>
-      <h2 class="section-heading">Things I've actually <em>shipped</em></h2>
-    </div>
-
-    <div class="project-item">
-      <div class="project-visual reveal-left">
-        <div class="project-visual-inner pv-matcha"><span class="material-symbols-rounded">settings_suggest</span></div>
-      </div>
-      <div class="project-info reveal-right">
-        <div class="pi-num">Project 01</div>
-        <h3>HyperOS 2 — Samsung M34 Port</h3>
-        <p>Took Xiaomi's HyperOS 2 and got it running on the Samsung Galaxy M34. Modified device trees, patched drivers, spent way too many late nights debugging. But watching that first boot animation come up made every bit of it worth it.</p>
-        <div class="project-tags">
-          <span>AOSP</span><span>Device Tree</span><span>Kernel</span><span>Custom ROM</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-item">
-      <div class="project-visual reveal-left">
-        <div class="project-visual-inner pv-gold"><span class="material-symbols-rounded">language</span></div>
-      </div>
-      <div class="project-info reveal-right">
-        <div class="pi-num">Project 02</div>
-        <h3>This Portfolio</h3>
-        <p>You're looking at it. Built from scratch with HTML, CSS, and vanilla JS. No frameworks, no libraries. Partly because I wanted something clean, and partly to prove I could actually ship a real site without leaning on abstractions.</p>
-        <div class="project-tags">
-          <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Design</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-item">
-      <div class="project-visual reveal-left">
-        <div class="project-visual-inner pv-mixed"><span class="material-symbols-rounded">rocket_launch</span></div>
-      </div>
-      <div class="project-info reveal-right">
-        <div class="pi-num">Project 03</div>
-        <h3>More on the way...</h3>
-        <p>Got a few things cooking — Android apps with Jetpack Compose, more ROM ports, and some UI/UX case studies. This section's going to fill up. Give me a little time.</p>
-        <div class="project-tags">
-          <span>Android</span><span>Kotlin</span><span>Compose</span><span>WIP</span>
-        </div>
-      </div>
+    <div class="rv"><div class="s-num">03 — Work</div><h2 class="s-heading">Things I've actually <em>shipped</em></h2></div>
+    <div style="margin-top:4rem">
+      <div class="proj"><div class="proj-vis rv-l"><div class="proj-vis-in pvm"><span class="material-symbols-rounded">settings_suggest</span></div></div><div class="proj-info rv-r"><div class="pi-n">Project 01</div><h3>HyperOS 2 — Samsung M34 Port</h3><p>Took Xiaomi's HyperOS 2 and got it running on the Samsung Galaxy M34. Modified device trees, patched drivers, spent way too many late nights debugging. Watching that first boot animation was worth every second.</p><div class="proj-tags"><span>AOSP</span><span>Device Tree</span><span>Kernel</span><span>Custom ROM</span></div></div></div>
+      <div class="proj"><div class="proj-vis rv-l"><div class="proj-vis-in pvg"><span class="material-symbols-rounded">language</span></div></div><div class="proj-info rv-r"><div class="pi-n">Project 02</div><h3>This Portfolio</h3><p>You're looking at it. Built from scratch with HTML, CSS, and vanilla JS. No frameworks, no libraries — just to prove I could ship a real site without leaning on abstractions.</p><div class="proj-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Design</span></div></div></div>
+      <div class="proj"><div class="proj-vis rv-l"><div class="proj-vis-in pvx"><span class="material-symbols-rounded">rocket_launch</span></div></div><div class="proj-info rv-r"><div class="pi-n">Project 03</div><h3>More on the way...</h3><p>Got a few things cooking — Android apps with Jetpack Compose, more ROM ports, and some UI/UX case studies. This section will fill up. Give me a little time.</p><div class="proj-tags"><span>Android</span><span>Kotlin</span><span>Compose</span><span>WIP</span></div></div></div>
     </div>
   </div>
 </section>
 
 <!-- JOURNEY -->
-<section id="journey" style="background:var(--bg-alt)">
+<section id="journey" style="background:var(--bg2)">
   <div class="section-inner">
-    <div class="section-header reveal">
-      <div class="section-num">04 — Journey</div>
-      <h2 class="section-heading">How I <em>got here</em></h2>
-    </div>
-    <div class="journey-grid reveal">
-      <div class="journey-col">
-        <div class="j-item">
-          <div class="j-year">~2016</div>
-          <h3>Started Carnatic Music & Veena</h3>
-          <p>Began learning one of the world's most intricate classical music traditions and picked up the veena. Had no idea it would end up shaping my entire approach to learning.</p>
-        </div>
-        <div class="j-item">
-          <div class="j-year">2023</div>
-          <h3>Fell into the Android rabbit hole</h3>
-          <p>Realized you could build apps and even change how a phone's entire OS works. That was it — I was hooked. Started learning, broke a few things, never looked back.</p>
-        </div>
+    <div class="rv"><div class="s-num">04 — Journey</div><h2 class="s-heading">How I <em>got here</em></h2></div>
+    <div class="j-grid rv" style="margin-top:3rem">
+      <div class="j-col">
+        <div class="j-item"><div class="j-yr">~2016</div><h3>Started Carnatic Music & Veena</h3><p>Began learning one of the world's most intricate classical music traditions and picked up the veena. It would shape my entire approach to learning.</p></div>
+        <div class="j-item"><div class="j-yr">2023</div><h3>Fell into the Android rabbit hole</h3><p>Realized you could build apps and even change how a phone's entire OS works. Started learning, broke things, never looked back.</p></div>
       </div>
-      <div class="journey-col">
-        <div class="j-item">
-          <div class="j-year">2024–25</div>
-          <h3>Custom ROMs & HyperOS 2</h3>
-          <p>Went from flashing other people's ROMs to building my own. Ported HyperOS 2 to the Samsung M34 — the project that changed everything for me.</p>
-        </div>
-        <div class="j-item">
-          <div class="j-year">2026</div>
-          <h3>11th class — going all in</h3>
-          <p>Balancing school with everything else. Learning to code properly, diving deeper into UI/UX, continuing veena. The goal: be someone who actually knows what they're doing.</p>
-        </div>
+      <div class="j-col">
+        <div class="j-item"><div class="j-yr">2024–25</div><h3>Custom ROMs & HyperOS 2</h3><p>Went from flashing other people's ROMs to building my own. Ported HyperOS 2 to the Samsung M34 — the project that changed everything.</p></div>
+        <div class="j-item"><div class="j-yr">2026</div><h3>11th class — going all in</h3><p>Balancing school with everything else. Learning to code properly, diving deeper into UI/UX, continuing veena. The goal: be genuine.</p></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="contact-section">
+<section id="contact" class="contact-s">
   <div class="section-inner">
-    <div class="contact-inner reveal">
-      <div class="section-num" style="text-align:center">05 — Contact</div>
-      <h2 class="contact-heading">Got an idea?<br><em>Let's talk.</em></h2>
-      <p class="contact-desc">Whether you want to collaborate on a project, chat about Android, or just say hi — my DMs are always open.</p>
-      <div class="contact-links">
-        <a href="https://github.com/phoenixdevellopment75-web" class="c-link" target="_blank"><span class="material-symbols-rounded">code</span> GitHub</a>
-        <a href="https://www.instagram.com/phoenix_veena/" class="c-link" target="_blank"><span class="material-symbols-rounded">photo_camera</span> Instagram</a>
-        <a href="https://t.me/PhoenixEditz75" class="c-link" target="_blank"><span class="material-symbols-rounded">send</span> Telegram</a>
+    <div class="contact-in rv">
+      <div class="s-num" style="text-align:center">05 — Contact</div>
+      <h2 class="c-head">Got an idea?<br><em>Let's talk.</em></h2>
+      <p class="c-desc">Whether you want to collaborate on a project, chat about Android, or just say hi — my DMs are always open.</p>
+      <div class="c-links">
+        <a href="https://github.com/phoenixdevellopment75-web" class="c-link" target="_blank" rel="noopener noreferrer"><span class="material-symbols-rounded">code</span> GitHub</a>
+        <a href="https://www.instagram.com/phoenix_veena/" class="c-link" target="_blank" rel="noopener noreferrer"><span class="material-symbols-rounded">photo_camera</span> Instagram</a>
+        <a href="https://t.me/PhoenixEditz75" class="c-link" target="_blank" rel="noopener noreferrer"><span class="material-symbols-rounded">send</span> Telegram</a>
       </div>
     </div>
   </div>
 </section>
 
-<footer>
-  Built with <span class="material-symbols-rounded">favorite</span> by Phoenix 75 · © 2026
-</footer>
+<footer>Built with <span class="material-symbols-rounded">favorite</span> by Phoenix 75 · © 2026</footer>
 
 <script>
-// Loader
-window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('loader').classList.add('done'), 1200);
-});
+// === LOADER with cinematic wipe ===
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('done'),1800)});
 
-// Nav
-const nav = document.getElementById('navbar');
-window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
-document.getElementById('menuBtn').addEventListener('click', () => {
-  const nl = document.getElementById('navLinks');
-  nl.classList.toggle('open');
-  document.getElementById('menuBtn').querySelector('span').textContent = nl.classList.contains('open') ? 'close' : 'menu';
-});
-document.querySelectorAll('.nav-links a').forEach(a => {
-  a.addEventListener('click', () => {
-    document.getElementById('navLinks').classList.remove('open');
-    document.getElementById('menuBtn').querySelector('span').textContent = 'menu';
+// === CURSOR GLOW ===
+const glow=document.getElementById('cursorGlow');
+document.addEventListener('mousemove',e=>{glow.style.transform=`translate(${e.clientX-200}px,${e.clientY-200}px)`});
+
+// === FLOATING PARTICLES ===
+(function(){
+  const c=document.getElementById('particles'),ctx=c.getContext('2d');
+  let w,h,pts=[];
+  function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<50;i++){
+    pts.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+.5,dx:(Math.random()-.5)*.3,dy:(Math.random()-.5)*.3,o:Math.random()*.3+.1});
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    pts.forEach(p=>{
+      p.x+=p.dx;p.y+=p.dy;
+      if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(107,154,91,${p.o})`;ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// === PARALLAX on mesh blobs ===
+window.addEventListener('scroll',()=>{
+  const s=window.scrollY;
+  document.querySelectorAll('.mesh-blob').forEach((b,i)=>{
+    b.style.transform=`translateY(${s*(.05+i*.02)}px)`;
   });
 });
 
-// Scroll reveal
-const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
-const revealObs = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObs.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-revealEls.forEach(el => revealObs.observe(el));
-
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', function(e) {
-    e.preventDefault();
-    const t = document.querySelector(this.getAttribute('href'));
-    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
+// === NAV ===
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
+document.getElementById('menuBtn').addEventListener('click',()=>{
+  const n=document.getElementById('navLinks');n.classList.toggle('open');
+  document.getElementById('menuBtn').querySelector('span').textContent=n.classList.contains('open')?'close':'menu';
 });
+document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>{
+  document.getElementById('navLinks').classList.remove('open');
+  document.getElementById('menuBtn').querySelector('span').textContent='menu';
+}));
+
+// === SCROLL REVEAL ===
+const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){en.target.classList.add('vis');obs.unobserve(en.target)}})},{threshold:.1});
+document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-s').forEach(el=>obs.observe(el));
+
+// === SMOOTH SCROLL ===
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});
+});
+
+// === COUNTER ANIMATION for stats ===
+const cObs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){
+  const el=en.target,end=el.dataset.count;
+  if(!end)return;
+  let cur=0;const step=Math.ceil(end/40);
+  const iv=setInterval(()=>{cur+=step;if(cur>=end){cur=end;clearInterval(iv)}el.textContent=cur+'+'},30);
+  cObs.unobserve(el);
+}})},{threshold:.5});
+document.querySelectorAll('.a-num[data-count]').forEach(el=>cObs.observe(el));
 </script>
-
 </body>
 </html>
