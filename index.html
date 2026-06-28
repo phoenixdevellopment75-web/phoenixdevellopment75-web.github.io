@@ -5,249 +5,1657 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-Frame-Options" content="DENY">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>Phoenix 75 | Android Dev · UI/UX · Custom ROM Builder</title>
-  <meta name="description" content="Phoenix 75 – Android developer, custom ROM builder, veena player, Carnatic musician, and UI/UX designer.">
-  <link rel="stylesheet" href="style.css">
+  <title>Phoenix | Student Developer & Veena Player</title>
+  <meta name="description" content="16-year-old student developer building language models and practicing the classical Veena.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap">
+  
+  <style>
+    :root {
+      /* Cozy Matcha Coffee & Cream Palette */
+      --bg: #160f0a;           /* Dark espresso coffee background */
+      --bg-panel: #22160f;     /* Medium roast coffee panel background */
+      --accent: #8cb877;       /* Soft matcha green highlight */
+      --accent-muted: #5e844e;  /* Darker matcha green */
+      --text: #fcf8f2;         /* Silky cream text */
+      --text-muted: #af9b8e;   /* Soft warm grey-brown text */
+      --card: #271c14;         /* Coffee bean card background */
+      --border: #35261d;       /* Warm roast border */
+      
+      --white: #ffffff;
+      --black: #160f0a;
+      
+      /* Fonts */
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-accent: 'Syne', sans-serif;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'Space Grotesk', sans-serif;
+    }
+
+    /* Light Theme Variant */
+    body.light-mode {
+      --bg: #faf7f2;           /* Light cream background */
+      --bg-panel: #f2ebd9;     /* Warm coffee/matcha cream panel */
+      --accent: #6e995a;       /* Matcha green accent */
+      --accent-muted: #4e703d;  /* Darker matcha */
+      --text: #2c1a10;         /* Rich espresso brown text */
+      --text-muted: #725a4d;   /* Warm roasted coffee text */
+      --card: #ffffff;         /* Fresh milk card background */
+      --border: #e6dfd1;       /* Cream border */
+      --black: #faf7f2;
+      --white: #2c1a10;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 10px;
+    }
+
+    .material-symbols-rounded {
+      font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+
+    /* LOADER */
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: clip-path 1s cubic-bezier(.77, 0, .18, 1);
+      clip-path: inset(0 0 0 0);
+    }
+
+    .loader.done {
+      clip-path: inset(0 0 100% 0);
+    }
+
+    .loader-text {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 10vw, 8rem);
+      color: var(--accent);
+      letter-spacing: 2px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .loader-text span {
+      display: inline-block;
+      animation: ldIn .6s cubic-bezier(.77, 0, .18, 1) calc(var(--i)*.06s) both;
+    }
+
+    .loader-sub {
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 1rem;
+      animation: ldIn .6s .7s both;
+    }
+
+    .loader-bar {
+      width: 120px;
+      height: 2px;
+      background: rgba(175, 155, 142, 0.2);
+      margin-top: 2rem;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .loader-bar::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: var(--accent);
+      animation: ldBar 1.2s .3s ease-in-out both;
+    }
+
+    @keyframes ldIn {
+      from { transform: translateY(120%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes ldBar {
+      from { transform: scaleX(0); transform-origin: left; }
+      to { transform: scaleX(1); transform-origin: left; }
+    }
+
+    /* GLOBAL CONTAINER */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* HEADER / NAVIGATION */
+    nav {
+      width: 100%;
+      padding: 1.5rem 0;
+      position: sticky;
+      top: 0;
+      background-color: rgba(22, 15, 10, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      border-bottom: 1px solid transparent;
+      transition: all 0.4s ease;
+    }
+    
+    body.light-mode nav {
+      background-color: rgba(250, 247, 242, 0.85);
+    }
+
+    nav.scrolled {
+      padding: 1rem 0;
+      border-color: var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 3rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links li.active a {
+      color: var(--accent);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      color: var(--accent);
+      background-color: rgba(140, 184, 119, 0.1);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      padding-top: 2rem;
+      padding-bottom: 5rem;
+    }
+
+    .hero-card {
+      background-color: var(--accent);
+      border-radius: 40px;
+      padding: 4rem;
+      position: relative;
+      overflow: hidden;
+      min-height: 520px;
+      display: grid;
+      grid-template-columns: 1.2fr 1.1fr 1.2fr;
+      align-items: center;
+      color: var(--black);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+    
+    body.light-mode .hero-card {
+      background-color: var(--accent);
+      color: #faf7f2;
+    }
+
+    .hero-bg-text {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%) translateZ(-50px);
+      font-family: var(--font-display);
+      font-size: clamp(8rem, 22vw, 19rem);
+      line-height: 0.8;
+      color: rgba(22, 15, 10, 0.05);
+      white-space: nowrap;
+      pointer-events: none;
+      font-weight: 900;
+      text-transform: uppercase;
+      width: 100%;
+      text-align: center;
+    }
+    
+    body.light-mode .hero-bg-text {
+      color: rgba(250, 247, 242, 0.12);
+    }
+
+    .hero-col-left {
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      height: 100%;
+      justify-content: space-between;
+      transform: translateZ(30px);
+    }
+
+    .hero-col-left p {
+      font-family: var(--font-sans);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      font-weight: 500;
+      max-width: 320px;
+    }
+
+    .hero-socials {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(22, 15, 10, 0.15);
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--black);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    body.light-mode .social-btn {
+      border-color: rgba(250, 247, 242, 0.2);
+      color: #faf7f2;
+    }
+
+    .social-btn:hover {
+      background-color: var(--black);
+      color: var(--accent);
+      border-color: var(--black);
+    }
+    
+    body.light-mode .social-btn:hover {
+      background-color: #faf7f2;
+      color: var(--accent);
+      border-color: #faf7f2;
+    }
+
+    /* 3D CUBE CONTAINER IN HERO */
+    .hero-col-center {
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      transform: translateZ(50px);
+    }
+
+    .cube-container {
+      width: 220px;
+      height: 220px;
+      perspective: 1000px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cube {
+      width: 120px;
+      height: 120px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(-25deg) rotateY(45deg);
+      transition: transform 0.1s ease-out;
+      animation: floatCube 6s ease-in-out infinite;
+    }
+
+    .face {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border: 2px solid var(--black);
+      background: rgba(34, 22, 15, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      box-shadow: inset 0 0 20px rgba(140, 184, 119, 0.2);
+    }
+    
+    body.light-mode .face {
+      background: rgba(242, 235, 217, 0.9);
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: inset 0 0 20px rgba(110, 153, 90, 0.15);
+    }
+
+    .front  { transform: translateZ(60px); }
+    .back   { transform: rotateY(180deg) translateZ(60px); }
+    .right  { transform: rotateY(90deg) translateZ(60px); }
+    .left   { transform: rotateY(-90deg) translateZ(60px); }
+    .top    { transform: rotateX(90deg) translateZ(60px); background: rgba(140, 184, 119, 0.25); }
+    .bottom { transform: rotateX(-90deg) translateZ(60px); }
+
+    @keyframes floatCube {
+      0%, 100% { transform: rotateX(-25deg) rotateY(45deg) translateY(0); }
+      50% { transform: rotateX(-25deg) rotateY(45deg) translateY(-15px); }
+    }
+
+    .hero-col-right {
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      height: 100%;
+      justify-content: space-between;
+      align-items: flex-end;
+      text-align: right;
+      transform: translateZ(30px);
+    }
+
+    .hero-col-right p {
+      font-family: var(--font-sans);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      font-weight: 500;
+      max-width: 320px;
+      margin-left: auto;
+    }
+
+    .scroll-down-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: var(--black);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    body.light-mode .scroll-down-btn {
+      background-color: #faf7f2;
+      color: var(--accent);
+    }
+
+    .scroll-down-btn:hover {
+      transform: translateY(5px);
+    }
+
+    /* SECTION HEADERS */
+    .section-title {
+      font-family: var(--font-accent);
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 0.9;
+      margin-bottom: 3rem;
+      text-transform: lowercase;
+    }
+
+    /* ABOUT SECTION */
+    .about {
+      padding: 6rem 0;
+    }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .about-text {
+      font-family: var(--font-sans);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+    }
+
+    .about-text p {
+      margin-bottom: 1.5rem;
+    }
+
+    .about-text strong {
+      color: var(--text);
+    }
+
+    .about-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .btn-arrow {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.3s ease;
+    }
+
+    .btn-arrow:hover {
+      gap: 0.8rem;
+    }
+
+    .about-spinner-col {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .spinner-wrap {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spinner-svg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      animation: spin 25s linear infinite;
+    }
+
+    .spinner-svg text {
+      fill: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 6.8px;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* 3D ORB (SPHERE) IN ABOUT SPINNER */
+    .orb-3d {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      position: relative;
+      background: radial-gradient(circle at 35% 35%, var(--accent) 0%, var(--accent-muted) 55%, #160f0a 100%);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4), 
+                  inset -10px -10px 30px rgba(0,0,0,0.6), 
+                  inset 15px 15px 25px rgba(255,255,255,0.2);
+      overflow: hidden;
+      border: 4px solid var(--bg-panel);
+      animation: orbFloat 5s ease-in-out infinite;
+    }
+    
+    body.light-mode .orb-3d {
+      background: radial-gradient(circle at 35% 35%, #96c77e 0%, var(--accent) 55%, #223518 100%);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15), 
+                  inset -10px -10px 30px rgba(0,0,0,0.3), 
+                  inset 15px 15px 25px rgba(255,255,255,0.4);
+      border-color: var(--border);
+    }
+
+    .orb-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(140, 184, 119, 0.35) 0%, transparent 75%);
+      filter: blur(12px);
+    }
+
+    .orb-highlight {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+      transform: rotate(-30deg);
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-8px) scale(1.01); }
+    }
+
+    .slider-arrows {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .slider-arrow-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .slider-arrow-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* PASSIONS / WORKS SECTION */
+    .passions {
+      padding: 6rem 0;
+      background-color: rgba(34, 22, 15, 0.3);
+    }
+    
+    body.light-mode .passions {
+      background-color: rgba(242, 235, 217, 0.2);
+    }
+
+    .passions-list {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .passion-item {
+      display: grid;
+      grid-template-columns: 80px 1.5fr 1fr 120px;
+      align-items: center;
+      padding: 2.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
+      background-color: transparent;
+    }
+
+    .passion-num {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .passion-title {
+      font-family: var(--font-accent);
+      font-size: 2rem;
+      font-weight: 700;
+      text-transform: lowercase;
+      color: var(--text);
+      transition: color 0.4s ease;
+    }
+
+    .passion-desc {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 380px;
+      transition: color 0.4s ease;
+    }
+
+    .passion-discover {
+      justify-self: end;
+    }
+
+    .discover-btn {
+      padding: 0.6rem 1.5rem;
+      border-radius: 30px;
+      border: 1px solid var(--border);
+      background: transparent;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.3s ease;
+    }
+
+    /* Active State (diagonal grid stripes) */
+    .passion-item:hover,
+    .passion-item.active {
+      background-color: var(--accent);
+      border-color: var(--accent);
+      color: var(--black);
+      padding: 3rem 2rem;
+      background-image: repeating-linear-gradient(45deg, rgba(22, 15, 10, 0.04), rgba(22, 15, 10, 0.04) 10px, transparent 10px, transparent 20px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      transform: scale(1.005);
+    }
+    
+    body.light-mode .passion-item:hover,
+    body.light-mode .passion-item.active {
+      background-color: var(--accent);
+      color: #faf7f2;
+      background-image: repeating-linear-gradient(45deg, rgba(250, 247, 242, 0.04), rgba(250, 247, 242, 0.04) 10px, transparent 10px, transparent 20px);
+    }
+
+    .passion-item:hover .passion-num,
+    .passion-item.active .passion-num {
+      color: var(--black);
+    }
+    
+    body.light-mode .passion-item:hover .passion-num,
+    body.light-mode .passion-item.active .passion-num {
+      color: #faf7f2;
+    }
+
+    .passion-item:hover .passion-title,
+    .passion-item.active .passion-title {
+      color: var(--black);
+    }
+    
+    body.light-mode .passion-item:hover .passion-title,
+    body.light-mode .passion-item.active .passion-title {
+      color: #faf7f2;
+    }
+
+    .passion-item:hover .passion-desc,
+    .passion-item.active .passion-desc {
+      color: rgba(22, 15, 10, 0.7);
+    }
+    
+    body.light-mode .passion-item:hover .passion-desc,
+    body.light-mode .passion-item.active .passion-desc {
+      color: rgba(250, 247, 242, 0.8);
+    }
+
+    .passion-item:hover .discover-btn,
+    .passion-item.active .discover-btn {
+      background-color: var(--black);
+      color: var(--accent);
+      border-color: var(--black);
+    }
+    
+    body.light-mode .passion-item:hover .discover-btn,
+    body.light-mode .passion-item.active .discover-btn {
+      background-color: #faf7f2;
+      color: var(--accent);
+      border-color: #faf7f2;
+    }
+
+    /* PROJECTS / GALLERY SECTION */
+    .projects {
+      padding: 6rem 0;
+    }
+
+    .gallery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+    }
+
+    .gallery-header .section-title {
+      margin-bottom: 0;
+    }
+
+    /* FULL WIDTH FEATURED PROJECT CARD (NO SIDE BLACK BOX) */
+    .featured-project {
+      width: 100%;
+      border-radius: 30px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-panel);
+      padding: 3rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .featured-info-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      width: 100%;
+    }
+
+    .featured-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      width: fit-content;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .featured-info-col h3 {
+      font-family: var(--font-accent);
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-transform: lowercase;
+    }
+
+    .featured-info-col p {
+      font-family: var(--font-sans);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 800px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .project-tags span {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background-color: rgba(175, 155, 142, 0.08);
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      border: 1px solid rgba(175, 155, 142, 0.1);
+    }
+
+    /* Projects Grid (using Material shapes) */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+    }
+
+    .project-card {
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-panel);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+      cursor: pointer;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .project-card-image {
+      width: 100%;
+      aspect-ratio: 16/10;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background-color: #0d0906;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* CSS MATERIAL GEOMETRIC SHAPES FOR PROJECT PREVIEWS */
+    .material-shape {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .material-shape .shape-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+      opacity: 0.15;
+      animation: pulseShape 4s ease-in-out infinite;
+    }
+
+    .material-shape.waves .wave-ring {
+      position: absolute;
+      border: 2px solid rgba(140, 184, 119, 0.2);
+      border-radius: 50%;
+      animation: expandRings 6s linear infinite;
+    }
+    
+    body.light-mode .material-shape.waves .wave-ring {
+      border-color: rgba(110, 153, 90, 0.2);
+    }
+
+    .material-shape.waves .wave-ring:nth-child(2) { animation-delay: 2s; }
+    .material-shape.waves .wave-ring:nth-child(3) { animation-delay: 4s; }
+
+    @keyframes pulseShape {
+      0%, 100% { transform: scale(1); opacity: 0.12; }
+      50% { transform: scale(1.15); opacity: 0.22; }
+    }
+
+    @keyframes expandRings {
+      0% { width: 0px; height: 0px; opacity: 0.8; }
+      100% { width: 280px; height: 280px; opacity: 0; }
+    }
+
+    .project-card h4 {
+      font-family: var(--font-accent);
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: lowercase;
+    }
+
+    .project-card p {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      flex-grow: 1;
+    }
+
+    /* CONTACT SECTION */
+    .contact {
+      padding: 6rem 0;
+    }
+
+    .contact-card {
+      background-color: var(--accent);
+      border-radius: 40px;
+      padding: 4rem;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      align-items: center;
+      gap: 4rem;
+      min-height: 480px;
+      color: var(--black);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+    }
+    
+    body.light-mode .contact-card {
+      color: #faf7f2;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      z-index: 2;
+    }
+
+    .contact-card h2 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 0.85;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .contact-card p {
+      font-family: var(--font-sans);
+      font-size: 1.15rem;
+      line-height: 1.7;
+      font-weight: 500;
+      max-width: 480px;
+    }
+
+    .contact-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      border-radius: 30px;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      background-color: var(--black);
+      color: var(--accent);
+      border: 1px solid var(--black);
+    }
+    
+    body.light-mode .contact-btn {
+      background-color: #faf7f2;
+      color: var(--accent);
+      border-color: #faf7f2;
+    }
+
+    .contact-btn:hover {
+      background-color: transparent;
+      color: var(--black);
+    }
+    
+    body.light-mode .contact-btn:hover {
+      background-color: transparent;
+      color: #faf7f2;
+    }
+
+    .contact-img-col {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      position: relative;
+    }
+
+    /* 2D LAYERED HARDWARE STACK IN CONTACT */
+    .material-paper-stack {
+      width: 220px;
+      height: 220px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .paper {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 20px;
+      background: var(--bg-panel);
+      border: 2px solid var(--border);
+      box-shadow: 0 8px 24px rgba(22, 15, 10, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    body.light-mode .paper {
+      background: rgba(242, 235, 217, 0.8);
+      border-color: var(--border);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+
+    .paper span {
+      font-size: 3.5rem;
+      color: var(--black);
+    }
+
+    .p-1 {
+      transform: rotate(-8deg) translate(-12px, -12px);
+      background: rgba(140, 184, 119, 0.12);
+    }
+
+    .p-2 {
+      transform: rotate(6deg) translate(12px, 12px);
+      background: rgba(22, 15, 10, 0.5);
+    }
+
+    .p-3 {
+      transform: rotate(0deg);
+      border-color: var(--black);
+      background: var(--black);
+      border: 2px solid var(--accent);
+    }
+    
+    body.light-mode .p-3 {
+      background: var(--accent);
+      border-color: var(--black);
+    }
+
+    .p-3 span {
+      font-size: 3.2rem;
+      color: var(--accent);
+    }
+    
+    body.light-mode .p-3 span {
+      color: var(--black);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 6rem 0 3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-huge-text {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 15vw, 15rem);
+      line-height: 0.8;
+      color: var(--accent);
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-bottom: 2rem;
+    }
+
+    .footer-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .footer-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .footer-meta .material-symbols-rounded {
+      color: var(--accent);
+      font-size: 1rem;
+    }
+
+    /* RESPONSIVE LAYOUTS */
+    @media (max-width: 1024px) {
+      .hero-card {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 3rem;
+        padding: 3rem;
+        min-height: auto;
+        justify-items: center;
+        text-align: center;
+      }
+      .hero-col-left, .hero-col-right {
+        align-items: center;
+        text-align: center;
+        gap: 1.5rem;
+      }
+      .hero-col-right p {
+        margin-right: auto;
+      }
+      .about-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+      }
+      .about-cta-row {
+        justify-content: center;
+      }
+      .passion-item {
+        grid-template-columns: 50px 1.5fr 1fr;
+        padding: 2rem 1rem;
+      }
+      .passion-discover {
+        display: none;
+      }
+      .featured-project {
+        padding: 2rem;
+      }
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+      .contact-card {
+        grid-template-columns: 1fr;
+        gap: 3.5rem;
+        padding: 3rem;
+        text-align: center;
+      }
+      .contact-info {
+        align-items: center;
+      }
+      .contact-card p {
+        margin: 0 auto;
+      }
+      .contact-buttons {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 1.2rem 0;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg);
+        border-bottom: 1px solid var(--border);
+        padding: 2rem;
+        flex-direction: column;
+        gap: 2rem;
+        z-index: 99;
+      }
+      .nav-links.open {
+        display: flex;
+      }
+      .passion-item {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 2rem 1rem;
+      }
+      .passion-desc {
+        max-width: 100%;
+      }
+      .footer-meta {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<!-- CURSOR GLOW -->
-<div class="cursor-glow" id="cursorGlow"></div>
-
-<!-- ANIMATED MESH BG -->
-<div class="mesh-bg"><div class="mesh-blob b1"></div><div class="mesh-blob b2"></div><div class="mesh-blob b3"></div></div>
-
-<!-- FLOATING PARTICLES -->
-<canvas id="particles"></canvas>
-
-<!-- LOADER -->
-<div class="loader" id="loader">
-  <div class="loader-text"><span style="--i:0">P</span><span style="--i:1">h</span><span style="--i:2">o</span><span style="--i:3">e</span><span style="--i:4">n</span><span style="--i:5">i</span><span style="--i:6">x</span><span style="--i:7">&nbsp;</span><span style="--i:8">7</span><span style="--i:9">5</span></div>
-  <div class="loader-sub">Loading portfolio</div>
-  <div class="loader-bar"></div>
-</div>
-
-<!-- NAV -->
-<nav id="navbar">
-  <a href="#" class="nav-name">Phoenix 75</a>
-  <button class="menu-btn" id="menuBtn"><span class="material-symbols-rounded">menu</span></button>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#about">About</a></li>
-    <li><a href="#passions">Passions</a></li>
-    <li><a href="#projects">Work</a></li>
-    <li><a href="#journey">Journey</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-label">Student · Developer · Musician</div>
-  <h1 class="hero-title">
-    <span class="line"><span style="--i:0">I build things</span></span>
-    <span class="line"><span style="--i:1">for <em>Fun,</em></span></span>
-    <span class="line"><span style="--i:2">and play <em>veena</em></span></span>
-    <span class="line"><span style="--i:3">in between.</span></span>
-  </h1>
-  <div class="hero-desc">A Class 11 student who's into custom ROMs, UI/UX design, Carnatic music, and actually understanding the code — not just making it work.</div>
-  <div class="hero-cta">
-    <a href="#projects" class="btn btn-fill"><span class="material-symbols-rounded">arrow_downward</span> View work</a>
-    <a href="#contact" class="btn btn-ghost"><span class="material-symbols-rounded">waving_hand</span> Say hello</a>
-  </div>
-  <div class="hero-scroll"><div class="scroll-bar"></div> Scroll to explore</div>
-  <div class="hero-pfp">
-    <div class="pfp-wrap">
-      <div class="pfp-ring"></div>
-      <div class="pfp-ring-inner"></div>
-      <div class="pfp-circle"><img src="pfp.png" alt="Phoenix 75"></div>
+  <!-- LOADER -->
+  <div class="loader" id="loader">
+    <div class="loader-text">
+      <span style="--i:0">P</span>
+      <span style="--i:1">h</span>
+      <span style="--i:2">o</span>
+      <span style="--i:3">e</span>
+      <span style="--i:4">n</span>
+      <span style="--i:5">i</span>
+      <span style="--i:6">x</span>
     </div>
+    <div class="loader-sub">Loading dev space</div>
+    <div class="loader-bar"></div>
   </div>
-</section>
 
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="marquee-item">Android Development <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Custom ROMs <span class="marquee-dot"></span></span>
-    <span class="marquee-item">UI/UX Design <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Carnatic Music <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Veena <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Jetpack Compose <span class="marquee-dot"></span></span>
-    <span class="marquee-item">AOSP <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Kotlin <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Android Development <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Custom ROMs <span class="marquee-dot"></span></span>
-    <span class="marquee-item">UI/UX Design <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Carnatic Music <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Veena <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Jetpack Compose <span class="marquee-dot"></span></span>
-    <span class="marquee-item">AOSP <span class="marquee-dot"></span></span>
-    <span class="marquee-item">Kotlin <span class="marquee-dot"></span></span>
-  </div>
-</div>
+  <!-- NAVIGATION -->
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">PHOENIX</a>
+      
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#passions">Passions</a></li>
+        <li><a href="#projects">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle Theme">
+          <span class="material-symbols-rounded">light_mode</span>
+        </button>
+        <button class="menu-toggle" id="menuBtn" aria-label="Toggle Menu">
+          <span class="material-symbols-rounded">menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-inner">
-    <div class="about-lay">
-      <div class="rv-l">
-        <div class="s-num">01 — About</div>
-        <h2 class="s-heading">A little bit about <em>who I am</em></h2>
-        <div class="about-txt" style="margin-top:2rem">
-          <p>My name's Phoenix, and I'm currently in Class 11 — though if you asked what I spend most of my time on, school probably wouldn't be the first thing I mention. I've been studying Carnatic music and learning veena for about 10 years now. That journey taught me something no tutorial ever could: real skill takes patience, repetition, and a genuine willingness to sit with something until you actually get it.</p>
-          <p>On the tech side, I'm deep into Android — building apps, porting custom ROMs, and designing interfaces. I care about how things work under the hood just as much as how they look on screen. I'm not here to fake expertise or take shortcuts. I want to understand things properly, even if it takes longer.</p>
+  <!-- HERO SECTION -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-card">
+        <div class="hero-bg-text">PHOENIX</div>
+        
+        <div class="hero-col-left">
+          <p>I write code for neural networks, practice the classical veena, and study in high school.</p>
+          <div class="hero-socials">
+            <a href="https://github.com/phoenixdevellopment75-web" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <span class="material-symbols-rounded">code</span>
+            </a>
+            <a href="https://www.instagram.com/phoenix_veena/" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <span class="material-symbols-rounded">photo_camera</span>
+            </a>
+            <a href="https://t.me/PhoenixEditz75" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+              <span class="material-symbols-rounded">send</span>
+            </a>
+          </div>
         </div>
-        <div class="about-stats">
-          <div><div class="a-num">10+</div><div class="a-label">Years of Music</div></div>
-          <div><div class="a-num">1</div><div class="a-label">ROM Ported</div></div>
-          <div><div class="a-num">∞</div><div class="a-label">Curiosity</div></div>
+        
+        <!-- 3D Isometric Cube at the start -->
+        <div class="hero-col-center">
+          <div class="cube-container">
+            <div class="cube">
+              <div class="face front">code</div>
+              <div class="face back">math</div>
+              <div class="face right">veena</div>
+              <div class="face left">tensor</div>
+              <div class="face top">ml</div>
+              <div class="face bottom">cuda</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="hero-col-right">
+          <p>I like to build smart software and play traditional classical music.</p>
+          <button class="scroll-down-btn" id="scrollDownBtn" aria-label="Scroll Down">
+            <span class="material-symbols-rounded">arrow_downward</span>
+          </button>
         </div>
       </div>
-      <div class="rv-r" style="display:flex;justify-content:center">
-        <div class="about-img">
-          <div class="pfp-wrap">
-            <div class="pfp-ring"></div>
-            <div class="pfp-ring-inner"></div>
-            <div class="pfp-circle"><img src="pfp.png" alt="Phoenix 75"></div>
+    </div>
+  </header>
+
+  <!-- ABOUT SECTION -->
+  <section class="about" id="about">
+    <div class="container about-layout">
+      <div class="about-content">
+        <h2 class="section-title">about</h2>
+        <div class="about-text">
+          <p>Hi, I'm <strong>Phoenix</strong>. I'm a 16-year-old student in 11th grade. While studying for my school exams, I spend my free time building neural networks and learning how they work under the hood.</p>
+          <p>I want to understand the math behind machine learning and make models that can run on simple, cheap devices instead of expensive cloud servers.</p>
+          <p>I also play the veena, a traditional Indian classical instrument. I have been learning it for ten years. Playing classical music takes a lot of patience, which helps me stay calm when my code has bugs.</p>
+        </div>
+        <div class="about-cta-row">
+          <a href="#contact" class="btn-arrow">get in touch <span class="material-symbols-rounded">arrow_outward</span></a>
+          <div class="slider-arrows">
+            <button class="slider-arrow-btn" aria-label="Previous"><span class="material-symbols-rounded">arrow_back</span></button>
+            <button class="slider-arrow-btn" aria-label="Next"><span class="material-symbols-rounded">arrow_forward</span></button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Rotating Spinner with 3D Orb center -->
+      <div class="about-spinner-col">
+        <div class="spinner-wrap">
+          <svg viewBox="0 0 100 100" class="spinner-svg">
+            <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
+            <text>
+              <textPath href="#circlePath">
+                Deep Learning • Carnatic Veena • Custom ROMs • Optimization •
+              </textPath>
+            </text>
+          </svg>
+          <div class="orb-3d">
+            <div class="orb-glow"></div>
+            <div class="orb-highlight"></div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- PASSIONS -->
-<section id="passions" style="background:var(--bg2)">
-  <div class="section-inner">
-    <div class="rv"><div class="s-num">02 — Passions</div><h2 class="s-heading">The things I <em>genuinely</em> care about</h2></div>
-    <div class="p-grid" style="margin-top:3rem">
-      <div class="p-card mc rv" style="transition-delay:.05s"><div class="p-ico mi"><span class="material-symbols-rounded">android</span></div><h3>Android Development</h3><p>Probably what excites me the most right now. I'm learning Kotlin, getting into Jetpack Compose, and trying to understand how Android really works — the architecture, the lifecycle, all of it.</p><span class="p-tag mt">Primary Focus</span></div>
-      <div class="p-card mc rv" style="transition-delay:.1s"><div class="p-ico mi"><span class="material-symbols-rounded">build</span></div><h3>Custom ROM Building</h3><p>I've always needed to know what's happening behind the screen. That curiosity led me to custom ROMs — device trees, kernel configs, vendor blobs. I ported HyperOS 2 to the Samsung M34.</p><span class="p-tag mt">Active Builder</span></div>
-      <div class="p-card mc rv" style="transition-delay:.15s"><div class="p-ico mi"><span class="material-symbols-rounded">palette</span></div><h3>UI/UX Design</h3><p>I notice when apps feel off — a button in the wrong spot, weird spacing, clunky transitions. Currently going deeper into design systems, motion, and the psychology behind good interfaces.</p><span class="p-tag mt">Going Deeper</span></div>
-      <div class="p-card gc rv" style="transition-delay:.2s"><div class="p-ico gi"><span class="material-symbols-rounded">music_note</span></div><h3>Carnatic Music & Veena</h3><p>10 years of Carnatic music and currently learning veena. It's taught me discipline, pattern recognition, and how to focus deeply on one thing for hours. My work ethic traces back to those years.</p><span class="p-tag gt">10 Year Journey</span></div>
-      <div class="p-card gc rv" style="transition-delay:.25s"><div class="p-ico gi"><span class="material-symbols-rounded">code</span></div><h3>Learning to Code — For Real</h3><p>I don't want to be someone who just prompts an AI and calls it coding. I'm learning data structures, algorithms, and how systems work underneath. It's slower but the understanding is worth it.</p><span class="p-tag gt">Leveling Up</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="section-inner">
-    <div class="rv"><div class="s-num">03 — Work</div><h2 class="s-heading">Things I've actually <em>shipped</em></h2></div>
-    <div style="margin-top:4rem">
-      <div class="proj"><div class="proj-vis rv-l"><div class="proj-vis-in pvm"><span class="material-symbols-rounded">settings_suggest</span></div></div><div class="proj-info rv-r"><div class="pi-n">Project 01</div><h3>HyperOS 2 — Samsung M34 Port</h3><p>Took Xiaomi's HyperOS 2 and got it running on the Samsung Galaxy M34. Modified device trees, patched drivers, spent way too many late nights debugging. Watching that first boot animation was worth every second.</p><div class="proj-tags"><span>AOSP</span><span>Device Tree</span><span>Kernel</span><span>Custom ROM</span></div></div></div>
-      <div class="proj"><div class="proj-vis rv-l"><div class="proj-vis-in pvg"><span class="material-symbols-rounded">language</span></div></div><div class="proj-info rv-r"><div class="pi-n">Project 02</div><h3>This Portfolio</h3><p>You're looking at it. Built from scratch with HTML, CSS, and vanilla JS. No frameworks, no libraries — just to prove I could ship a real site without leaning on abstractions.</p><div class="proj-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Design</span></div></div></div>
-      <div class="proj"><div class="proj-vis rv-l"><div class="proj-vis-in pvx"><span class="material-symbols-rounded">rocket_launch</span></div></div><div class="proj-info rv-r"><div class="pi-n">Project 03</div><h3>More on the way...</h3><p>Got a few things cooking — Android apps with Jetpack Compose, more ROM ports, and some UI/UX case studies. This section will fill up. Give me a little time.</p><div class="proj-tags"><span>Android</span><span>Kotlin</span><span>Compose</span><span>WIP</span></div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- JOURNEY -->
-<section id="journey" style="background:var(--bg2)">
-  <div class="section-inner">
-    <div class="rv"><div class="s-num">04 — Journey</div><h2 class="s-heading">How I <em>got here</em></h2></div>
-    <div class="j-grid rv" style="margin-top:3rem">
-      <div class="j-col">
-        <div class="j-item"><div class="j-yr">~2016</div><h3>Started Carnatic Music & Veena</h3><p>Began learning classical music and picked up the veena. It would shape my entire approach to learning.</p></div>
-        <div class="j-item"><div class="j-yr">2023</div><h3>Fell into the Android rabbit hole</h3><p>Realized you could build apps and even change how a phone's entire OS works. Started learning, broke things, never looked back.</p></div>
-      </div>
-      <div class="j-col">
-        <div class="j-item"><div class="j-yr">2024–25</div><h3>Custom ROMs & HyperOS 2</h3><p>Went from flashing other people's ROMs to building my own. Ported HyperOS 2 to the Samsung M34 — the project that changed everything.</p></div>
-        <div class="j-item"><div class="j-yr">2026</div><h3>11th class — going all in</h3><p>Balancing school with everything else. Learning to code properly, diving deeper into UI/UX, continuing veena. The goal: be genuine.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact" class="contact-s">
-  <div class="section-inner">
-    <div class="contact-in rv">
-      <div class="s-num" style="text-align:center">05 — Contact</div>
-      <h2 class="c-head">Got an idea?<br><em>Let's talk.</em></h2>
-      <p class="c-desc">Whether you want to collaborate on a project, chat about Android, or just say hi — my DMs are always open.</p>
-      <div class="c-links">
-        <a href="https://github.com/phoenixdevellopment75-web" class="c-link" target="_blank" rel="noopener noreferrer"><span class="material-symbols-rounded">code</span> GitHub</a>
-        <a href="https://www.instagram.com/phoenix_veena/" class="c-link" target="_blank" rel="noopener noreferrer"><span class="material-symbols-rounded">photo_camera</span> Instagram</a>
-        <a href="https://t.me/PhoenixEditz75" class="c-link" target="_blank" rel="noopener noreferrer"><span class="material-symbols-rounded">send</span> Telegram</a>
+  <!-- PASSIONS SECTION -->
+  <section class="passions" id="passions">
+    <div class="container">
+      <h2 class="section-title">passions</h2>
+      
+      <div class="passions-list">
+        <!-- Item 1 -->
+        <div class="passion-item active">
+          <span class="passion-num">01</span>
+          <h3 class="passion-title">Deep Learning</h3>
+          <p class="passion-desc">Writing neural network code and learning how models learn.</p>
+          <div class="passion-discover">
+            <button class="discover-btn">View R&D <span class="material-symbols-rounded">arrow_forward</span></button>
+          </div>
+        </div>
+        
+        <!-- Item 2 -->
+        <div class="passion-item">
+          <span class="passion-num">02</span>
+          <h3 class="passion-title">Model Optimization</h3>
+          <p class="passion-desc">Making models run fast on cheap computers and normal phones.</p>
+          <div class="passion-discover">
+            <button class="discover-btn">Explore <span class="material-symbols-rounded">arrow_forward</span></button>
+          </div>
+        </div>
+        
+        <!-- Item 3 -->
+        <div class="passion-item">
+          <span class="passion-num">03</span>
+          <h3 class="passion-title">Classical Music</h3>
+          <p class="passion-desc">Ten years learning classical music and playing the veena.</p>
+          <div class="passion-discover">
+            <button class="discover-btn">Listen <span class="material-symbols-rounded">arrow_forward</span></button>
+          </div>
+        </div>
+        
+        <!-- Item 4 -->
+        <div class="passion-item">
+          <span class="passion-num">04</span>
+          <h3 class="passion-title">Web Design</h3>
+          <p class="passion-desc">Building clean, simple, and fast websites.</p>
+          <div class="passion-discover">
+            <button class="discover-btn">Designs <span class="material-symbols-rounded">arrow_forward</span></button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer>Built with <span class="material-symbols-rounded">favorite</span> by Phoenix 75 · © 2026</footer>
+  <!-- PROJECTS / GALLERY SECTION -->
+  <section class="projects" id="projects">
+    <div class="container">
+      <div class="gallery-header">
+        <h2 class="section-title">gallery</h2>
+        <a href="https://github.com/phoenixdevellopment75-web" target="_blank" rel="noopener noreferrer" class="btn-arrow">view all projects <span class="material-symbols-rounded">arrow_outward</span></a>
+      </div>
+      
+      <!-- Full-Width Featured Project Card: NeuroSpark V1 (No Side Column / Black Box) -->
+      <div class="featured-project">
+        <div class="featured-info-col">
+          <span class="featured-badge">Current Project</span>
+          <h3>NeuroSpark V1</h3>
+          <p>I am building a smart language model named NeuroSpark V1. I want it to run fast on normal computers and cheap devices without needing expensive servers.</p>
+          <div class="project-tags">
+            <span>Machine Learning</span>
+            <span>Language Model</span>
+            <span>From Scratch</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sub Projects Grid -->
+      <div class="project-grid">
+        <!-- Card 1 -->
+        <div class="project-card" onclick="window.open('https://github.com/phoenixdevellopment75-web', '_blank')">
+          <div class="project-card-image">
+            <!-- Concentric wave rings Material CSS shape -->
+            <div class="material-shape waves">
+              <div class="wave-ring"></div>
+              <div class="wave-ring"></div>
+              <div class="wave-ring"></div>
+              <div class="shape-circle" style="width:100px;height:100px;background:var(--accent);"></div>
+            </div>
+          </div>
+          <h4>Veena Notation AI</h4>
+          <p>A project to convert classical music played on the veena into written notes automatically.</p>
+          <div class="project-tags">
+            <span>Audio Processing</span>
+            <span>Classical Music</span>
+          </div>
+        </div>
+        
+        <!-- Card 2 -->
+        <div class="project-card" onclick="window.open('https://github.com/phoenixdevellopment75-web', '_blank')">
+          <div class="project-card-image">
+            <!-- Overlapping glass capsules Material CSS shape -->
+            <div class="material-shape glass" style="display:flex;gap:15px;transform:rotate(-15deg);">
+              <div style="width:30px;height:100px;border-radius:15px;background:rgba(140, 184, 119, 0.2);border:1px solid var(--accent);"></div>
+              <div style="width:30px;height:120px;border-radius:15px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(4px);transform:translateY(-10px);"></div>
+              <div style="width:30px;height:100px;border-radius:15px;background:var(--bg-panel);border:1px solid var(--border);"></div>
+            </div>
+          </div>
+          <h4>Upcoming Project</h4>
+          <p>I am working on developing a new large language model (LLM).</p>
+          <div class="project-tags">
+            <span>Language Model</span>
+            <span>Research</span>
+            <span>WIP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<script>
-// === LOADER with cinematic wipe ===
-window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('done'),1800)});
+  <!-- CONTACT SECTION -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="contact-card">
+        <div class="contact-info">
+          <h2>CONTACT ME</h2>
+          <p>If you want to talk about language models, machine learning, or classical music, please reach out.</p>
+          <div class="contact-buttons">
+            <a href="https://github.com/phoenixdevellopment75-web" class="contact-btn" target="_blank" rel="noopener noreferrer">
+              <span class="material-symbols-rounded">code</span> GitHub
+            </a>
+            <a href="https://t.me/PhoenixEditz75" class="contact-btn" target="_blank" rel="noopener noreferrer">
+              <span class="material-symbols-rounded">send</span> Telegram
+            </a>
+            <a href="https://www.instagram.com/phoenix_veena/" class="contact-btn" target="_blank" rel="noopener noreferrer">
+              <span class="material-symbols-rounded">photo_camera</span> Instagram
+            </a>
+          </div>
+        </div>
+        
+        <!-- 2D Layered Paper Stack -->
+        <div class="contact-img-col">
+          <div class="material-paper-stack">
+            <div class="paper p-1"></div>
+            <div class="paper p-2"></div>
+            <div class="paper p-3">
+              <span class="material-symbols-rounded">chat</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-// === CURSOR GLOW ===
-const glow=document.getElementById('cursorGlow');
-document.addEventListener('mousemove',e=>{glow.style.transform=`translate(${e.clientX-200}px,${e.clientY-200}px)`});
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-huge-text">PHOENIX</div>
+      <div class="footer-meta">
+        <span>© 2026 Phoenix Dev Space</span>
+        <span>Built with <span class="material-symbols-rounded">favorite</span> & code</span>
+      </div>
+    </div>
+  </footer>
 
-// === FLOATING PARTICLES ===
-(function(){
-  const c=document.getElementById('particles'),ctx=c.getContext('2d');
-  let w,h,pts=[];
-  function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
-  resize();window.addEventListener('resize',resize);
-  for(let i=0;i<50;i++){
-    pts.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+.5,dx:(Math.random()-.5)*.3,dy:(Math.random()-.5)*.3,o:Math.random()*.3+.1});
-  }
-  function draw(){
-    ctx.clearRect(0,0,w,h);
-    pts.forEach(p=>{
-      p.x+=p.dx;p.y+=p.dy;
-      if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(107,154,91,${p.o})`;ctx.fill();
+  <script>
+    // === LOADER ===
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('done');
+      }, 1500);
     });
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
 
-// === PARALLAX on mesh blobs ===
-window.addEventListener('scroll',()=>{
-  const s=window.scrollY;
-  document.querySelectorAll('.mesh-blob').forEach((b,i)=>{
-    b.style.transform=`translateY(${s*(.05+i*.02)}px)`;
-  });
-});
+    // === NAVIGATION ACTIVE LINKS & BACKGROUND ===
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    });
 
-// === NAV ===
-const nav=document.getElementById('navbar');
-window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
-document.getElementById('menuBtn').addEventListener('click',()=>{
-  const n=document.getElementById('navLinks');n.classList.toggle('open');
-  document.getElementById('menuBtn').querySelector('span').textContent=n.classList.contains('open')?'close':'menu';
-});
-document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>{
-  document.getElementById('navLinks').classList.remove('open');
-  document.getElementById('menuBtn').querySelector('span').textContent='menu';
-}));
+    const sections = document.querySelectorAll('section, header');
+    const navItems = document.querySelectorAll('.nav-links li');
 
-// === SCROLL REVEAL ===
-const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){en.target.classList.add('vis');obs.unobserve(en.target)}})},{threshold:.1});
-document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-s').forEach(el=>obs.observe(el));
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (window.scrollY >= (sectionTop - 120)) {
+          current = section.getAttribute('id') || '';
+        }
+      });
 
-// === SMOOTH SCROLL ===
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});
-});
+      navItems.forEach(li => {
+        li.classList.remove('active');
+        const linkHref = li.querySelector('a').getAttribute('href');
+        if (linkHref === `#${current}`) {
+          li.classList.add('active');
+        }
+      });
+    });
 
-// === COUNTER ANIMATION for stats ===
-const cObs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){
-  const el=en.target,end=el.dataset.count;
-  if(!end)return;
-  let cur=0;const step=Math.ceil(end/40);
-  const iv=setInterval(()=>{cur+=step;if(cur>=end){cur=end;clearInterval(iv)}el.textContent=cur+'+'},30);
-  cObs.unobserve(el);
-}})},{threshold:.5});
-document.querySelectorAll('.a-num[data-count]').forEach(el=>cObs.observe(el));
-</script>
+    // === MOBILE MENU ===
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    
+    menuBtn.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      menuBtn.querySelector('span').textContent = open ? 'close' : 'menu';
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuBtn.querySelector('span').textContent = 'menu';
+      });
+    });
+
+    // === HERO SCROLL DOWN ===
+    const scrollDownBtn = document.getElementById('scrollDownBtn');
+    if (scrollDownBtn) {
+      scrollDownBtn.addEventListener('click', () => {
+        document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+
+    // === PASSIONS ACCORDION ===
+    const passionItems = document.querySelectorAll('.passion-item');
+    passionItems.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        passionItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+      });
+    });
+
+    // === THEME SWITCHER ===
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle.querySelector('span');
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.body.classList.add('light-mode');
+      themeIcon.textContent = 'dark_mode';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const isLight = document.body.classList.toggle('light-mode');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      themeIcon.textContent = isLight ? 'dark_mode' : 'light_mode';
+    });
+
+    // === 3D HERO CUBE INTERACTION ===
+    const heroCard = document.querySelector('.hero-card');
+    const cube = document.querySelector('.cube');
+    
+    if (heroCard && cube) {
+      heroCard.addEventListener('mousemove', e => {
+        const rect = heroCard.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+        const y = (e.clientY - rect.top) / rect.height - 0.5; // -0.5 to 0.5
+        
+        const scrollRot = parseFloat(document.documentElement.style.getPropertyValue('--scroll-rot-deg') || '0');
+        cube.style.transform = `rotateX(${-25 - y * 45}deg) rotateY(${45 + x * 60 + scrollRot}deg)`;
+      });
+      
+      heroCard.addEventListener('mouseleave', () => {
+        const scrollRot = parseFloat(document.documentElement.style.getPropertyValue('--scroll-rot-deg') || '0');
+        cube.style.transform = `rotateX(-25deg) rotateY(${45 + scrollRot}deg)`;
+      });
+    }
+
+    // === SCROLL-LINKED 3D EFFECTS (SCROLL PHYSICS) ===
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      
+      // Calculate scroll rotation (0.08 degrees per pixel scrolled)
+      const scrollRotDeg = scrollY * 0.08;
+      // Calculate scroll translation (-0.05px per pixel scrolled)
+      const scrollTransPx = scrollY * -0.05;
+      
+      // Cache rotation value for mouse hover combinations
+      document.documentElement.style.setProperty('--scroll-rot-deg', scrollRotDeg);
+      
+      // Select 3D shapes
+      const cubeEl = document.querySelector('.cube');
+      const orbEl = document.querySelector('.orb-3d');
+      
+      // Apply transforms to start shapes
+      if (cubeEl) {
+        cubeEl.style.transform = `rotateX(-25deg) rotateY(${45 + scrollRotDeg}deg) translateY(${scrollTransPx}px)`;
+      }
+      if (orbEl) {
+        orbEl.style.transform = `translateY(${scrollTransPx * 0.4}px)`;
+      }
+    });
+  </script>
 </body>
 </html>
