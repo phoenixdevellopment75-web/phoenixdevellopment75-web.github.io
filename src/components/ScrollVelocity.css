@@ -1,0 +1,40 @@
+.scroll-velocity-container {
+  width: 100%;
+  overflow: hidden;
+  padding: 24px 0;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.scroll-velocity-row {
+  white-space: nowrap;
+  display: flex;
+  overflow: hidden;
+}
+
+.scroll-velocity-track {
+  display: flex;
+  white-space: nowrap;
+  animation: velocity-scroll linear infinite;
+  will-change: transform;
+}
+
+.scroll-velocity-track span {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-main);
+  opacity: 0.85;
+  letter-spacing: -0.5px;
+}
+
+@keyframes velocity-scroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}

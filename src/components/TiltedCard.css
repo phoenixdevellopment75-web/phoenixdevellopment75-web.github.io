@@ -1,0 +1,38 @@
+.tilted-card-wrapper {
+  perspective: 1000px;
+  display: block;
+  height: 100%;
+}
+
+.tilted-card {
+  position: relative;
+  transition: transform 0.1s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
+  background: #FFFFFF;
+  border: 1px solid rgba(107, 142, 78, 0.14);
+  border-radius: 16px;
+  padding: 28px;
+  overflow: hidden;
+  height: 100%;
+  box-shadow: 0 4px 14px rgba(26, 36, 28, 0.05);
+}
+
+.tilted-card:hover {
+  border-color: #6B8E4E;
+  box-shadow: 0 20px 45px rgba(26, 36, 28, 0.12), 0 0 25px rgba(107, 142, 78, 0.15);
+}
+
+.tilted-card.leaving {
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.tilted-card-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle 220px at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, var(--glare-opacity, 0)), transparent);
+  transition: background 0.1s ease-out;
+  z-index: 10;
+  border-radius: inherit;
+}

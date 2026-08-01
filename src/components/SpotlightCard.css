@@ -1,0 +1,39 @@
+.spotlight-card {
+  position: relative;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(107, 142, 78, 0.14);
+  border-radius: 16px;
+  overflow: hidden;
+  --x: 50%;
+  --y: 50%;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  height: 100%;
+  box-shadow: 0 4px 14px rgba(26, 36, 28, 0.05);
+}
+
+.spotlight-card:hover {
+  border-color: rgba(107, 142, 78, 0.4);
+  box-shadow: 0 20px 45px rgba(26, 36, 28, 0.12);
+  transform: translateY(-4px);
+}
+
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle 320px at var(--x) var(--y), var(--spotlight-color, rgba(107, 142, 78, 0.12)), transparent);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  z-index: 0;
+}
+
+.spotlight-card:hover::before {
+  opacity: 1;
+}
+
+.spotlight-card-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}

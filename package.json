@@ -1,23 +1,21 @@
 {
   "name": "phoenix-portfolio",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/phoenixdevellopment75-web/phoenixdevellopment75-web.github.io.git"
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/phoenixdevellopment75-web/phoenixdevellopment75-web.github.io/issues"
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
-  "homepage": "https://github.com/phoenixdevellopment75-web/phoenixdevellopment75-web.github.io#readme",
   "devDependencies": {
-    "@playwright/test": "^1.61.0",
-    "@types/node": "^26.0.0"
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.4",
+    "vite": "^8.2.0"
   }
 }
