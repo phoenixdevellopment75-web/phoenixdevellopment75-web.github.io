@@ -2,11 +2,11 @@
   position: fixed;
   inset: 0;
   z-index: 10000;
-  background-color: #070707;
+  background-color: var(--bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), filter 0.8s ease;
+  transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s ease;
   opacity: 1;
   pointer-events: all;
   filter: blur(0px);
@@ -22,8 +22,8 @@
 
 .intro-overlay.fade-out {
   opacity: 0;
-  transform: scale(1.03);
-  filter: blur(12px);
+  transform: scale(1.02);
+  filter: blur(8px);
   pointer-events: none;
 }
 
@@ -44,36 +44,36 @@
   font-family: 'Manrope', 'Syne', sans-serif;
   font-size: clamp(2.4rem, 6vw, 3.8rem);
   font-weight: 800;
-  color: #FAFAFA;
+  color: var(--text-primary);
   letter-spacing: -2px;
 }
 
 .intro-dot {
   width: 10px;
   height: 10px;
-  background: #6B8E4E;
+  background: var(--accent);
   border-radius: 50%;
-  box-shadow: 0 0 24px rgba(107, 142, 78, 0.8);
+  box-shadow: 0 0 24px var(--accent-glow);
   animation: pulse-intro-dot 1.5s infinite ease-in-out;
 }
 
 @keyframes pulse-intro-dot {
   0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.6); opacity: 1; box-shadow: 0 0 32px rgba(107, 142, 78, 1); }
+  50% { transform: scale(1.6); opacity: 1; box-shadow: 0 0 32px var(--accent); }
 }
 
 .intro-decrypted-title {
-  color: #FAFAFA;
+  color: var(--text-primary);
 }
 
 .intro-dot-accent {
-  color: #6B8E4E;
+  color: var(--accent);
 }
 
 .intro-line-loader {
   width: 140px;
   height: 2px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--border-color);
   border-radius: 999px;
   overflow: hidden;
 }
@@ -81,9 +81,9 @@
 .intro-line-fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #6B8E4E, #9DC183);
-  transition: width 1.6s cubic-bezier(0.25, 1, 0.5, 1);
-  box-shadow: 0 0 12px rgba(107, 142, 78, 0.8);
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  transition: width 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 0 12px var(--accent-glow);
 }
 
 .intro-line-fill.active {

@@ -45,7 +45,7 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [badgeFilter, setBadgeFilter] = useState('all');
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('phoenix-theme') || 'dark';
+    return localStorage.getItem('phoenix-theme') || 'light';
   });
 
   useEffect(() => {

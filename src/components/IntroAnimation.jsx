@@ -8,12 +8,12 @@ export default function IntroAnimation({ onComplete }) {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setStage(1), 150);
-    const t2 = setTimeout(() => setStage(2), 1900);
+    const t1 = setTimeout(() => setStage(1), 80);
+    const t2 = setTimeout(() => setStage(2), 900);
     const t3 = setTimeout(() => {
       setHidden(true);
       if (onComplete) onComplete();
-    }, 2500);
+    }, 1300);
 
     return () => {
       clearTimeout(t1);
@@ -26,13 +26,12 @@ export default function IntroAnimation({ onComplete }) {
 
   return (
     <div className={`intro-overlay ${stage === 2 ? 'fade-out' : ''}`}>
-      {/* Background Aurora animation component */}
       <div className="intro-aurora-container">
         <Aurora
-          colorStops={['#506E39', '#6B8E4E', '#3A5228', '#9DC183']}
+          colorStops={['#6B8E4E', '#9DC183', '#506E39', '#B4DB96']}
           speed={8}
           blur={100}
-          opacity={0.3}
+          opacity={0.2}
         />
       </div>
 
@@ -41,8 +40,8 @@ export default function IntroAnimation({ onComplete }) {
           <span className="intro-dot" />
           <DecryptedText
             text="PHOENIX"
-            speed={35}
-            maxIterations={10}
+            speed={30}
+            maxIterations={8}
             sequential={true}
             className="intro-decrypted-title"
           />
