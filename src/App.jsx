@@ -117,8 +117,7 @@ function App() {
 
   return (
     <ClickSpark sparkColor="#9DC183" sparkSize={7} sparkRadius={24} sparkCount={6}>
-      {/* Intro Animation */}
-      <IntroAnimation />
+      {/* Subtle Dot Grid */}
 
       {/* Subtle Dot Grid */}
       <div className="dot-grid-bg">
