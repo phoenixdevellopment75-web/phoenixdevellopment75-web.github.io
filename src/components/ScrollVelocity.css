@@ -1,16 +1,17 @@
 .scroll-velocity-container {
   width: 100%;
   overflow: hidden;
-  padding: 24px 0;
-  background: var(--bg-card);
-  border-top: 1px solid var(--border-light);
-  border-bottom: 1px solid var(--border-light);
+  padding: 20px 0;
+  border-top: 1px solid var(--border-color, #1E1E1E);
+  border-bottom: 1px solid var(--border-color, #1E1E1E);
+  background: var(--bg-secondary, #0E0E0E);
 }
 
 .scroll-velocity-row {
   white-space: nowrap;
   display: flex;
   overflow: hidden;
+  margin: 4px 0;
 }
 
 .scroll-velocity-track {
@@ -20,14 +21,26 @@
   will-change: transform;
 }
 
-.scroll-velocity-track span {
-  font-family: var(--font-display);
-  font-size: clamp(1.8rem, 4vw, 3rem);
+.scroll-velocity-item {
+  font-family: var(--font-display, 'Manrope', sans-serif);
+  font-size: clamp(1.4rem, 3.5vw, 2.4rem);
   font-weight: 800;
   text-transform: uppercase;
-  color: var(--text-main);
-  opacity: 0.85;
+  color: var(--text-primary, #FAFAFA);
+  opacity: 0.15;
   letter-spacing: -0.5px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  flex-shrink: 0;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.08);
+}
+
+.scroll-velocity-dot {
+  font-size: 0.6em;
+  opacity: 0.3;
+  color: var(--accent, #6B8E4E);
 }
 
 @keyframes velocity-scroll {

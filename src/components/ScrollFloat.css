@@ -1,0 +1,18 @@
+.scroll-float-container {
+  display: inline-block;
+}
+
+.scroll-float-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(0, 36px, 0) rotateX(45deg);
+  transition-property: opacity, transform;
+  will-change: opacity, transform;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.scroll-float-char.visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotateX(0deg);
+}

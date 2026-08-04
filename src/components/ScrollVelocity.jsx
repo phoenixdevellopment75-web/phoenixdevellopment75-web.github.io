@@ -1,50 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import './ScrollVelocity.css';
 
+/**
+ * ScrollVelocity — Smooth infinite horizontal marquee
+ * Uses pure CSS animation (no scroll-linked jitter).
+ * Two rows scrolling in opposite directions for visual depth.
+ */
 export default function ScrollVelocity({
   texts = [],
-  velocity = 5,
+  velocity = 4,
   className = ''
 }) {
-  const [scrollVelocity, setScrollVelocity] = useState(0);
-  const lastScrollY = useRef(0);
-  const lastTime = useRef(performance.now());
-  const requestRef = useRef();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const currentTime = performance.now();
-      const deltaY = currentScrollY - lastScrollY.current;
-      const deltaTime = (currentTime - lastTime.current) / 1000;
-
-      if (deltaTime > 0) {
-        const v = deltaY / deltaTime;
-        setScrollVelocity(v * 0.05);
-      }
-
-      lastScrollY.current = currentScrollY;
-      lastTime.current = currentTime;
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    // Decay velocity back to 0 over time
-    const decay = () => {
-      setScrollVelocity((prev) => prev * 0.92);
-      requestRef.current = requestAnimationFrame(decay);
-    };
-
-    requestRef.current = requestAnimationFrame(decay);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      cancelAnimationFrame(requestRef.current);
-    };
-  }, []);
-
-  const totalVelocity = velocity + Math.min(Math.max(scrollVelocity, -30), 30);
-  const duration = Math.max(8, 40 / (1 + Math.abs(totalVelocity) * 0.1));
+  // Base duration — lower velocity = slower scroll
+  const baseDuration = Math.max(12, 60 / velocity);
 
   return (
     <div className={`scroll-velocity-container ${className}`}>
@@ -53,14 +21,17 @@ export default function ScrollVelocity({
           <div
             className="scroll-velocity-track"
             style={{
-              animationDuration: `${duration}s`,
-              animationDirection: totalVelocity < 0 ? 'reverse' : 'normal'
+              animationDuration: `${baseDuration + idx * 4}s`,
+              animationDirection: idx % 2 === 0 ? 'normal' : 'reverse',
             }}
           >
-            <span>{text} &nbsp;•&nbsp; </span>
-            <span>{text} &nbsp;•&nbsp; </span>
-            <span>{text} &nbsp;•&nbsp; </span>
-            <span>{text} &nbsp;•&nbsp; </span>
+            {/* Repeat 6x for seamless loop */}
+            {Array.from({ length: 6 }).map((_, i) => (
+              <span key={i} className="scroll-velocity-item">
+                {text}
+                <span className="scroll-velocity-dot">✦</span>
+              </span>
+            ))}
           </div>
         </div>
       ))}

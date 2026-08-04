@@ -2,9 +2,9 @@
   color: inherit;
   background: linear-gradient(
     120deg,
-    rgba(26, 36, 28, 0) 20%,
-    rgba(107, 142, 78, 0.9) 50%,
-    rgba(26, 36, 28, 0) 80%
+    rgba(255, 255, 255, 0) 20%,
+    rgba(157, 193, 131, 0.9) 50%,
+    rgba(255, 255, 255, 0) 80%
   );
   background-size: 200% 100%;
   -webkit-background-clip: text;

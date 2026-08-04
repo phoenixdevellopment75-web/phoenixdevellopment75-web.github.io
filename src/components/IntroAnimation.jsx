@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import DecryptedText from './DecryptedText';
-import ShinyText from './ShinyText';
+import Aurora from './Aurora';
 import './IntroAnimation.css';
 
 export default function IntroAnimation({ onComplete }) {
-  const [stage, setStage] = useState(0); // 0: loading, 1: text reveal, 2: fade out
+  const [stage, setStage] = useState(0); // 0: initial, 1: active, 2: exit
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    // Stage 0 -> 1: reveal text
-    const t1 = setTimeout(() => setStage(1), 300);
-    // Stage 1 -> 2: prepare exit
-    const t2 = setTimeout(() => setStage(2), 2200);
-    // Finish
+    const t1 = setTimeout(() => setStage(1), 150);
+    const t2 = setTimeout(() => setStage(2), 1900);
     const t3 = setTimeout(() => {
       setHidden(true);
       if (onComplete) onComplete();
-    }, 2800);
+    }, 2500);
 
     return () => {
       clearTimeout(t1);
@@ -29,22 +26,31 @@ export default function IntroAnimation({ onComplete }) {
 
   return (
     <div className={`intro-overlay ${stage === 2 ? 'fade-out' : ''}`}>
+      {/* Background Aurora animation component */}
+      <div className="intro-aurora-container">
+        <Aurora
+          colorStops={['#506E39', '#6B8E4E', '#3A5228', '#9DC183']}
+          speed={8}
+          blur={100}
+          opacity={0.3}
+        />
+      </div>
+
       <div className="intro-content">
-        <div className="intro-logo">
-          <span className="pulse-circle" />
+        <div className="intro-badge">
+          <span className="intro-dot" />
           <DecryptedText
-            text="PHOENIX.DEV"
+            text="PHOENIX"
             speed={35}
-            maxIterations={12}
+            maxIterations={10}
             sequential={true}
-            className="intro-decrypted"
+            className="intro-decrypted-title"
           />
+          <span className="intro-dot-accent">.</span>
         </div>
-        <div className={`intro-subtext ${stage >= 1 ? 'show' : ''}`}>
-          <ShinyText text="INITIALIZING CREATIVE WORKSPACE..." speed={2.5} />
-        </div>
-        <div className="intro-progress-bar">
-          <div className={`intro-progress-fill ${stage >= 1 ? 'fill' : ''}`} />
+
+        <div className="intro-line-loader">
+          <div className={`intro-line-fill ${stage >= 1 ? 'active' : ''}`} />
         </div>
       </div>
     </div>
