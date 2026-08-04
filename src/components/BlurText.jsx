@@ -3,14 +3,15 @@ import React, { useRef, useEffect, useState } from 'react';
 export default function BlurText({
   text = '',
   className = '',
-  delay = 100,
-  threshold = 0.1,
-  animateBy = 'words', // 'words' or 'letters'
+  delay = 60,
+  threshold = 0,
+  animateBy = 'words',
 }) {
   const containerRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 80);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -18,15 +19,18 @@ export default function BlurText({
           observer.disconnect();
         }
       },
-      { threshold }
+      { threshold: 0, rootMargin: '100px 0px' }
     );
 
     if (containerRef.current) {
       observer.observe(containerRef.current);
     }
 
-    return () => observer.disconnect();
-  }, [threshold]);
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, []);
 
   const items = animateBy === 'words' ? text.split(' ') : text.split('');
 
@@ -50,10 +54,10 @@ export default function BlurText({
             style={{
               display: 'inline-block',
               marginRight: animateBy === 'words' ? '0.28em' : '0.02em',
-              transition: `opacity 500ms ease ${itemDelay}ms, filter 500ms ease ${itemDelay}ms, transform 500ms ease ${itemDelay}ms`,
-              opacity: isVisible ? 1 : 0,
-              filter: isVisible ? 'blur(0px)' : 'blur(10px)',
-              transform: isVisible ? 'translateY(0)' : 'translateY(8px)',
+              transition: `opacity 400ms ease ${itemDelay}ms, filter 400ms ease ${itemDelay}ms, transform 400ms ease ${itemDelay}ms`,
+              opacity: isVisible ? 1 : 0.8,
+              filter: isVisible ? 'blur(0px)' : 'blur(4px)',
+              transform: isVisible ? 'translateY(0)' : 'translateY(4px)',
               willChange: 'opacity, filter, transform'
             }}
           >

@@ -2,17 +2,18 @@ import React, { useRef, useEffect, useState } from 'react';
 
 export default function AnimatedContent({
   children,
-  distance = 60,
+  distance = 30,
   direction = 'up',
   delay = 0,
-  duration = 0.6,
-  threshold = 0.1,
+  duration = 0.5,
+  threshold = 0,
   className = ''
 }) {
   const containerRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 100);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -20,15 +21,18 @@ export default function AnimatedContent({
           observer.disconnect();
         }
       },
-      { threshold }
+      { threshold: 0, rootMargin: '100px 0px' }
     );
 
     if (containerRef.current) {
       observer.observe(containerRef.current);
     }
 
-    return () => observer.disconnect();
-  }, [threshold]);
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, []);
 
   let transformFrom = '';
   switch (direction) {
@@ -46,7 +50,7 @@ export default function AnimatedContent({
       style={{
         transition: `opacity ${duration}s ease, transform ${duration}s ease`,
         transitionDelay: `${delay}ms`,
-        opacity: isVisible ? 1 : 0,
+        opacity: isVisible ? 1 : 0.8,
         transform: isVisible ? 'translate(0, 0)' : transformFrom,
         willChange: 'opacity, transform'
       }}

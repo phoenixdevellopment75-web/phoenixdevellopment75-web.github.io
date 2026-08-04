@@ -4,14 +4,15 @@ import './ScrollFloat.css';
 const ScrollFloat = ({
   children,
   className = '',
-  animationDuration = 1,
-  ease = 'cubic-bezier(0.175, 0.885, 0.32, 1.275)', // Back ease out approximation
-  stagger = 0.03
+  animationDuration = 0.6,
+  ease = 'ease-out',
+  stagger = 0.02
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const containerRef = useRef(null);
 
   useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 80);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -20,20 +21,17 @@ const ScrollFloat = ({
         }
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -10% 0px' // simple way to offset trigger somewhat
+        threshold: 0,
+        rootMargin: '100px 0px'
       }
     );
 
     const currentRef = containerRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
+    if (currentRef) observer.observe(currentRef);
 
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
+      clearTimeout(timer);
+      if (currentRef) observer.unobserve(currentRef);
     };
   }, []);
 

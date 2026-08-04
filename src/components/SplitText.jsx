@@ -3,16 +3,17 @@ import React, { useRef, useEffect, useState } from 'react';
 export default function SplitText({
   text = '',
   className = '',
-  delay = 50,
-  animationFrom = { opacity: 0, transform: 'translateY(40px)' },
+  delay = 35,
+  animationFrom = { opacity: 0, transform: 'translateY(20px)' },
   animationTo = { opacity: 1, transform: 'translateY(0)' },
-  threshold = 0.1,
+  threshold = 0,
   onAnimationComplete
 }) {
   const containerRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 80);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -20,22 +21,25 @@ export default function SplitText({
           observer.disconnect();
         }
       },
-      { threshold }
+      { threshold: 0, rootMargin: '100px 0px' }
     );
 
     if (containerRef.current) {
       observer.observe(containerRef.current);
     }
 
-    return () => observer.disconnect();
-  }, [threshold]);
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, []);
 
   const words = text.split(' ').map(word => word.split(''));
 
   useEffect(() => {
     if (isVisible && onAnimationComplete) {
       const totalDelay = text.replace(/\s/g, '').length * delay;
-      const timeout = setTimeout(onAnimationComplete, totalDelay + 300);
+      const timeout = setTimeout(onAnimationComplete, totalDelay + 200);
       return () => clearTimeout(timeout);
     }
   }, [isVisible, delay, text, onAnimationComplete]);
@@ -54,7 +58,7 @@ export default function SplitText({
                 key={charIdx}
                 style={{
                   display: 'inline-block',
-                  transition: `opacity 300ms ease, transform 300ms ease`,
+                  transition: `opacity 250ms ease, transform 250ms ease`,
                   transitionDelay: `${currentDelay}ms`,
                   ...(isVisible ? animationTo : animationFrom),
                   willChange: 'opacity, transform'

@@ -3,17 +3,18 @@ import React, { useRef, useState, useEffect } from 'react';
 const FadeContent = ({
   children,
   blur = true,
-  duration = 0.8,
+  duration = 0.6,
   delay = 0,
   easing = 'ease-out',
-  threshold = 0.15,
-  initialOpacity = 0,
+  threshold = 0,
+  initialOpacity = 1,
   className = ''
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const containerRef = useRef(null);
 
   useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 100);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -21,26 +22,21 @@ const FadeContent = ({
           observer.unobserve(entry.target);
         }
       },
-      {
-        threshold
-      }
+      { threshold: 0, rootMargin: '100px 0px' }
     );
 
     const currentRef = containerRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
+    if (currentRef) observer.observe(currentRef);
 
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
+      clearTimeout(timer);
+      if (currentRef) observer.unobserve(currentRef);
     };
-  }, [threshold]);
+  }, []);
 
   const style = {
     opacity: isVisible ? 1 : initialOpacity,
-    filter: blur ? (isVisible ? 'blur(0px)' : 'blur(8px)') : 'none',
+    filter: blur ? (isVisible ? 'blur(0px)' : 'blur(4px)') : 'none',
     transition: `opacity ${duration}s ${easing} ${delay}s, filter ${duration}s ${easing} ${delay}s`,
     willChange: 'opacity, filter'
   };
