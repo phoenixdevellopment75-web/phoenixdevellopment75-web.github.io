@@ -197,26 +197,16 @@ function App() {
           </div>
 
           <div className="container hero-content">
-            {/* Avatar + Status */}
+            {/* Avatar */}
             <FadeContent blur duration={0.6}>
               <div className="hero-top-row">
                 <img src="./pfp.jpg" alt="Phoenix" className="hero-avatar" />
-                <div className="hero-status">
-                  <span className="status-dot"></span>
-                  <span>Currently building a small-end LLM</span>
-                </div>
               </div>
             </FadeContent>
 
             {/* Headline */}
             <h1 className="hero-title">
-              <SplitText
-                text="I design & build"
-                delay={35}
-                animationFrom={{ opacity: 0, transform: 'translateY(24px)' }}
-                animationTo={{ opacity: 1, transform: 'translateY(0)' }}
-              />
-              <br />
+              <span className="hero-title-line">I design & build</span>
               <span className="accent">
                 <RotatingText
                   texts={[
