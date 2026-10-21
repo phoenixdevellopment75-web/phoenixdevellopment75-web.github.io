@@ -220,6 +220,14 @@ body {
   transform: translateY(-2px) scale(1.04);
 }
 
+.nav-link-item a.active {
+  color: #050507;
+  background: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px) scale(1.06);
+}
+
 .nav-right-actions {
   display: flex;
   align-items: center;
@@ -714,7 +722,32 @@ body {
   font-size: 14px;
   color: var(--text-secondary);
   line-height: 1.65;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+}
+
+.project-card-featured {
+  grid-column: 1 / -1;
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.project-bullet-features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 22px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.project-bullet-item {
+  font-size: 13px;
+  color: #e4e4e7;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .project-tech-pills {

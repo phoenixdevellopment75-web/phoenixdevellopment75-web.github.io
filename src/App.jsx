@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import KineticShapeIntro from './components/KineticShapeIntro';
 import LiquidGlassCard from './components/LiquidGlassCard';
@@ -29,47 +29,83 @@ export default function App() {
   const [badgeFilter, setBadgeFilter] = useState('all');
   const [replayIntroKey, setReplayIntroKey] = useState(0);
   const [emailCopied, setEmailCopied] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
 
+  // ScrollSpy: tracks current active section smoothly
+  useEffect(() => {
+    const sectionIds = ['hero', 'work', 'badges', 'story', 'skills', 'contact'];
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.offsetTop - 140;
+          const height = el.offsetHeight;
+          if (scrollY >= top && scrollY < top + height) {
+            setActiveSection(id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Shipped Projects (Spotlighting Wallpaper Studio v2.6.0-beta)
   const projects = [
     {
       id: 1,
-      title: 'Classmates Hub',
-      category: 'Web Community',
-      desc: 'A custom community portal engineered for our 10th-grade class to preserve connections — student profiles, academic directories, and interactive class history.',
-      tech: ['HTML5', 'CSS Grid', 'Vanilla JS', 'GitHub Pages'],
-      link: 'https://github.com/phoenixdevellopment75-web/Class10thForever-',
-      linkText: 'View Repository',
-      highlight: 'Live Community',
+      title: 'Material UI 3 Wallpaper Studio',
+      category: 'Android App · Jetpack Compose',
+      desc: 'A lightweight, battery-friendly Android app that generates crisp geometric wallpapers using pure math right on your phone. No internet needed, totally private, and it automatically tints itself to match your phone’s Material You colors.',
+      tech: ['Kotlin', 'Jetpack Compose', 'Skia 2D Canvas', 'Material 3 Expressive', 'Monet Dynamic Color'],
+      link: 'https://github.com/phoenixdevellopment75-web/Material-ui-3-wallpaper-studio-',
+      downloadLink: 'https://github.com/phoenixdevellopment75-web/Material-ui-3-wallpaper-studio-/releases',
+      linkText: 'View on GitHub',
+      highlight: 'v2.6.0-beta Latest',
+      featured: true,
+      featuresList: [
+        '⚡ 100% on-device math rendering (zero network, completely private)',
+        '🎨 Dynamic Material You theming (adapts to your wallpaper)',
+        '📱 Smooth 60/120 FPS canvas studio with tactile shape controls',
+        '🔋 Super light on battery and memory (even on 4GB RAM phones)',
+      ],
     },
     {
       id: 2,
-      title: 'In-Browser File Converter',
-      category: 'WebAssembly & Tooling',
-      desc: 'High-performance multimedia transcoding executed directly inside the user’s browser with zero external server uploads, preserving total privacy.',
-      tech: ['WebAssembly', 'FFmpeg.wasm', 'Web Workers', 'HTML5'],
-      link: 'https://github.com/phoenixdevellopment75-web',
-      linkText: 'Explore System',
-      highlight: 'Zero Server / 100% Private',
+      title: 'Classmates Hub',
+      category: 'Web Community',
+      desc: 'A community website built for our 10th-grade class to preserve memories and stay connected — with student profile cards, class structure, and directories.',
+      tech: ['HTML5', 'CSS Grid', 'Vanilla JS', 'GitHub Pages'],
+      link: 'https://github.com/phoenixdevellopment75-web/Class10thForever-',
+      linkText: 'View on GitHub',
+      highlight: 'Live Community',
+      featured: false,
     },
     {
       id: 3,
-      title: 'My Favourite Focus Clock',
-      category: 'Productivity & Sound',
-      desc: 'A distraction-free Pomodoro study timer with synthesized audio alerts, customizable work/rest cycles, and a deeply comfortable low-light interface.',
-      tech: ['JavaScript', 'Web Audio API', 'CSS Grid', 'LocalStorage'],
-      link: 'https://github.com/phoenixdevellopment75-web/My-favourite-clock-timer',
-      linkText: 'View Repository',
-      highlight: 'Audio Synthesis',
+      title: 'In-Browser File Converter',
+      category: 'WebAssembly Tool',
+      desc: 'Convert images, audio, and video directly inside your web browser. Everything runs locally on your device using WebAssembly so your files are never uploaded to any external server.',
+      tech: ['WebAssembly', 'FFmpeg.wasm', 'Web Workers', 'HTML5'],
+      link: 'https://github.com/phoenixdevellopment75-web',
+      linkText: 'Explore System',
+      highlight: '100% Private',
+      featured: false,
     },
     {
       id: 4,
-      title: 'Neurollm / NeuroSparse V1',
-      category: 'AI & Neural Systems',
-      desc: 'A transformer-based language model experiment coded from scratch in Python to explore byte-pair tokenization, multi-head attention mechanisms, and custom training loops.',
-      tech: ['Python', 'PyTorch', 'Transformer Architecture', 'Tokenization'],
-      link: 'https://github.com/phoenixdevellopment75-web/Neurollm',
-      linkText: 'Inspect Codebase',
-      highlight: 'Under Active Research',
+      title: 'My Favourite Focus Clock',
+      category: 'Productivity & Sound',
+      desc: 'A clean, distraction-free Pomodoro study timer with pleasant synthesized audio alerts, customizable intervals, and an eye-friendly dark design for focused learning.',
+      tech: ['JavaScript', 'Web Audio API', 'CSS Grid', 'LocalStorage'],
+      link: 'https://github.com/phoenixdevellopment75-web/My-favourite-clock-timer',
+      linkText: 'View on GitHub',
+      highlight: 'Audio Synthesis',
+      featured: false,
     },
   ];
 
@@ -77,7 +113,12 @@ export default function App() {
     {
       group: 'Languages',
       icon: 'code',
-      items: ['JavaScript (ES6+)', 'TypeScript', 'Python', 'Kotlin', 'HTML5 & Modern CSS', 'SQL'],
+      items: ['Kotlin', 'JavaScript (ES6+)', 'TypeScript', 'Python', 'HTML5 & Modern CSS', 'SQL'],
+    },
+    {
+      group: 'Android & UI/UX',
+      icon: 'android',
+      items: ['Jetpack Compose', 'Material 3 Expressive', 'Monet Color Engine', 'Skia 2D Canvas', 'Android Studio', 'MVVM / MVI'],
     },
     {
       group: 'Cloud & Infrastructure',
@@ -87,12 +128,7 @@ export default function App() {
     {
       group: 'Web & Systems',
       icon: 'terminal',
-      items: ['React 19', 'Vite', 'WebAssembly', 'FFmpeg.wasm', 'REST APIs', 'Android SDK'],
-    },
-    {
-      group: 'AI & Exploration',
-      icon: 'psychology',
-      items: ['Gemini Enterprise', 'Agent Development Kit', 'Attention Mechanism', 'Multi-agent Systems'],
+      items: ['React 19', 'Vite', 'WebAssembly', 'FFmpeg.wasm', 'REST APIs', 'Gemini Enterprise'],
     },
   ];
 
@@ -110,7 +146,7 @@ export default function App() {
 
   const stats = [
     { value: `${badges.length}`, label: 'Google Cloud Badges' },
-    { value: `${projects.length}+`, label: 'Shipped Projects' },
+    { value: `${projects.length}`, label: 'Shipped Projects' },
     { value: '16+', label: 'Core Technologies' },
     { value: '10 Yrs', label: 'Carnatic Music Discipline' },
   ];
@@ -137,7 +173,7 @@ export default function App() {
       {/* Ambient Monochromatic Dot Grid */}
       <div className="ambient-dot-grid" />
 
-      {/* ═══════════ Floating Liquid Glass Navbar ═══════════ */}
+      {/* ═══════════ Refined Floating Liquid Glass Navbar ═══════════ */}
       <header className="header-wrapper">
         <nav className="liquid-navbar">
           <a href="#hero" className="nav-brand">
@@ -147,14 +183,22 @@ export default function App() {
 
           <div className="nav-status-pill">
             <span className="status-indicator-dot" />
-            <span>Available for collaborations</span>
+            <span>16 y/o dev · Available for projects</span>
           </div>
 
           <ul className="nav-links-desktop">
-            <li className="nav-link-item"><a href="#work">Work</a></li>
-            <li className="nav-link-item"><a href="#badges">Badges</a></li>
-            <li className="nav-link-item"><a href="#story">Story</a></li>
-            <li className="nav-link-item"><a href="#skills">Skills</a></li>
+            <li className="nav-link-item">
+              <a href="#work" className={activeSection === 'work' ? 'active' : ''}>Work</a>
+            </li>
+            <li className="nav-link-item">
+              <a href="#badges" className={activeSection === 'badges' ? 'active' : ''}>Badges</a>
+            </li>
+            <li className="nav-link-item">
+              <a href="#story" className={activeSection === 'story' ? 'active' : ''}>Story</a>
+            </li>
+            <li className="nav-link-item">
+              <a href="#skills" className={activeSection === 'skills' ? 'active' : ''}>Skills</a>
+            </li>
           </ul>
 
           <div className="nav-right-actions">
@@ -180,13 +224,13 @@ export default function App() {
           <a href="#hero" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Home</a>
           <a href="#work" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Work</a>
           <a href="#badges" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Google Badges</a>
-          <a href="#story" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>About & Story</a>
+          <a href="#story" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>About &amp; Story</a>
           <a href="#skills" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Tech Stack</a>
-          <a href="#contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Get in Touch</a>
+          <a href="#contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Say Hello</a>
         </div>
       </header>
 
-      {/* ═══════════ Hero Section ═══════════ */}
+      {/* ═══════════ Hero Section (Simple & Human Tone) ═══════════ */}
       <section className="hero-section" id="hero">
         <div className="container">
           <div className="hero-avatar-container">
@@ -207,18 +251,17 @@ export default function App() {
           </div>
 
           <h1 className="hero-title-main">
-            Software built with purpose, precision <span className="hero-title-highlight">&amp; restraint.</span>
+            Hi, I'm Phoenix. I build clean Android apps <span className="hero-title-highlight">&amp; web tools.</span>
           </h1>
 
           <p className="hero-bio-lead">
-            Hey, I'm Phoenix — a 16-year-old developer obsessed with building clean Android systems,
-            modern web applications, and Google Cloud infrastructure. Trained in classical Carnatic music for 10 years,
-            bringing rhythm, rigor, and structure to every line of code.
+            I'm a 16-year-old self-taught developer who loves crafting tactile Android apps in Kotlin,
+            exploring Google Cloud systems, and playing the Carnatic Veena. I believe in simple code, fast tools, and zero bloat.
           </p>
 
           <div className="hero-action-buttons">
             <BouncyButton as="a" href="#work" variant="primary">
-              <span>Explore Selected Work</span>
+              <span>See What I've Built</span>
               <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>arrow_downward</span>
             </BouncyButton>
 
@@ -289,23 +332,23 @@ export default function App() {
         </div>
       </section>
 
-      {/* ═══════════ Selected Work / Featured Projects ═══════════ */}
+      {/* ═══════════ Featured Work (Highlighting Wallpaper Studio) ═══════════ */}
       <section className="section-wrapper" id="work">
         <div className="container">
           <div className="section-head-box">
             <div className="section-eyebrow">
-              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>code</span>
-              <span>Engineering &amp; Systems</span>
+              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>terminal</span>
+              <span>Selected Work</span>
             </div>
-            <h2 className="section-headline">Featured Projects</h2>
+            <h2 className="section-headline">Things I've Built</h2>
             <p className="section-subtext">
-              Real code shipped for real humans — from peer community networks and client-side WebAssembly converters to transformer neural networks from scratch.
+              Real projects I coded from scratch for real people. No fake AI demos — every app here has working code and a clear purpose.
             </p>
           </div>
 
           <div className="projects-grid-layout">
             {projects.map((p, idx) => (
-              <LiquidGlassCard key={p.id} interactive={true}>
+              <LiquidGlassCard key={p.id} interactive={true} className={p.featured ? 'project-card-featured' : ''}>
                 <div className="project-card-inner">
                   <div>
                     <div className="project-header-row">
@@ -315,6 +358,17 @@ export default function App() {
 
                     <h3 className="project-title-text">{p.title}</h3>
                     <p className="project-desc-text">{p.desc}</p>
+
+                    {/* Bullet features for Wallpaper Studio */}
+                    {p.featuresList && (
+                      <div className="project-bullet-features">
+                        {p.featuresList.map((feat, fIdx) => (
+                          <div key={fIdx} className="project-bullet-item">
+                            <span>{feat}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
                     <div className="project-tech-pills">
                       {p.tech.map(t => (
@@ -333,6 +387,18 @@ export default function App() {
                       <span>{p.linkText}</span>
                       <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>arrow_outward</span>
                     </a>
+
+                    {p.downloadLink && (
+                      <a
+                        href={p.downloadLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="project-btn-ghost"
+                      >
+                        <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>download</span>
+                        <span>Get APK</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               </LiquidGlassCard>
@@ -349,9 +415,9 @@ export default function App() {
               <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>verified</span>
               <span>Google Cloud Platform</span>
             </div>
-            <h2 className="section-headline">Verified Credentials</h2>
+            <h2 className="section-headline">Google Cloud Badges</h2>
             <p className="section-subtext">
-              Hands-on skill badges earned on Google Cloud spanning multi-agent workflows, Terraform infrastructure, BigQuery warehouses, and DevSecOps pipelines.
+              7 hands-on credentials I earned on Google Cloud. From building AI agents to writing Terraform scripts and managing BigQuery databases.
             </p>
           </div>
 
@@ -424,39 +490,39 @@ export default function App() {
               variant="secondary"
             >
               <span className="material-symbols-outlined" style={{ fontSize: '17px' }}>badge</span>
-              <span>Inspect Complete Official Google Cloud Profile</span>
+              <span>View Full Google Profile</span>
               <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>arrow_outward</span>
             </BouncyButton>
           </div>
         </div>
       </section>
 
-      {/* ═══════════ Authentic Story & Philosophy ═══════════ */}
+      {/* ═══════════ Story & Philosophy (Simple & Authentic) ═══════════ */}
       <section className="section-wrapper" id="story">
         <div className="container">
           <div className="section-head-box">
             <div className="section-eyebrow">
               <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>music_note</span>
-              <span>Philosophy &amp; Discipline</span>
+              <span>About Me</span>
             </div>
-            <h2 className="section-headline">Why Code Feels Like Music</h2>
+            <h2 className="section-headline">Code, Music &amp; Patience</h2>
           </div>
 
           <div className="story-grid-layout">
             <LiquidGlassCard interactive={false}>
               <div className="story-main-box">
                 <p className="story-lead-paragraph">
-                  I didn’t take the traditional path into programming. Over the last 2+ years, I taught myself software engineering through hands-on challenge quests, reading source code, and building real tools.
+                  I started coding about two years ago out of pure curiosity. I wanted to understand how apps on my phone actually worked, why some websites feel fast while others lag, and how to build helpful things from scratch.
                 </p>
                 <p className="story-body-paragraph">
-                  Parallel to engineering, I have spent the last <strong>10 years studying Carnatic classical music (Veena)</strong>. In Carnatic music, you cannot cheat the rhythm. Every <em>tala</em> (cycle) is mathematical, every <em>swara</em> (note) requires millimeter precision, and yet the highest beauty comes from structured improvisation.
+                  At the same time, I have been learning <strong>classical Carnatic music on the Veena for the past 10 years</strong>. People often wonder what classical music has to do with computer programming. In Carnatic music, you cannot rush or cheat the rhythm. Every note requires discipline, practice, and patience.
                 </p>
                 <p className="story-body-paragraph">
-                  Software architecture works identically. Writing resilient asynchronous flows, architecting decoupled state machines, and fine-tuning neural attention layers is simply rhythm applied to computation. No shortcuts, no unnecessary bloat — just pure, disciplined harmony.
+                  Building software feels the exact same way. Whether I'm optimizing offscreen canvas rendering in my Wallpaper Studio app or structuring state in React, having patience and respecting clean structure makes all the difference. No shortcuts — just good craftsmanship.
                 </p>
 
                 <div className="music-quote-box">
-                  "Structure is not the enemy of creativity; it is the canvas that allows mastery to breathe."
+                  "Patience isn't just about waiting; it's about paying close attention to every small detail along the way."
                 </div>
               </div>
             </LiquidGlassCard>
@@ -469,8 +535,18 @@ export default function App() {
                       <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>android</span>
                     </div>
                     <div>
-                      <div className="focus-text-title">Android Systems &amp; UI/UX</div>
-                      <div className="focus-text-desc">Deep enthusiasm for Kotlin, Android architecture, and tactile Material design.</div>
+                      <div className="focus-text-title">Android &amp; Jetpack Compose</div>
+                      <div className="focus-text-desc">Building responsive, battery-friendly apps in Kotlin with dynamic Material You colors.</div>
+                    </div>
+                  </div>
+
+                  <div className="focus-item">
+                    <div className="focus-icon-bullet">
+                      <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>brush</span>
+                    </div>
+                    <div>
+                      <div className="focus-text-title">Procedural Math &amp; Canvas</div>
+                      <div className="focus-text-desc">Writing custom 2D Skia algorithms that draw sharp vector designs on hardware with zero lag.</div>
                     </div>
                   </div>
 
@@ -480,17 +556,7 @@ export default function App() {
                     </div>
                     <div>
                       <div className="focus-text-title">Cloud Infrastructure</div>
-                      <div className="focus-text-desc">Reproducible IaC with Terraform, serverless microservices on Cloud Run, and BigQuery analytics.</div>
-                    </div>
-                  </div>
-
-                  <div className="focus-item">
-                    <div className="focus-icon-bullet">
-                      <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>memory</span>
-                    </div>
-                    <div>
-                      <div className="focus-text-title">Deep Learning from Scratch</div>
-                      <div className="focus-text-desc">Currently researching tokenizers, self-attention blocks, and transformer weight initialization.</div>
+                      <div className="focus-text-desc">Writing Terraform configurations, deploying to Cloud Run, and querying data with BigQuery.</div>
                     </div>
                   </div>
 
@@ -500,7 +566,7 @@ export default function App() {
                     </div>
                     <div>
                       <div className="focus-text-title">Carnatic Veena (10+ Years)</div>
-                      <div className="focus-text-desc">Classical discipline cultivating patience, micro-tuning, and relentless attention to detail.</div>
+                      <div className="focus-text-desc">A decade of classical discipline cultivating patience, micro-tuning, and focus.</div>
                     </div>
                   </div>
                 </div>
@@ -510,17 +576,17 @@ export default function App() {
         </div>
       </section>
 
-      {/* ═══════════ Interactive Tech Matrix ═══════════ */}
+      {/* ═══════════ Tech Matrix ═══════════ */}
       <section className="section-wrapper" id="skills">
         <div className="container">
           <div className="section-head-box">
             <div className="section-eyebrow">
               <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>tune</span>
-              <span>Tooling</span>
+              <span>Skills &amp; Tools</span>
             </div>
-            <h2 className="section-headline">Tech Matrix</h2>
+            <h2 className="section-headline">Technologies I Use</h2>
             <p className="section-subtext">
-              Technologies and toolchains I work with daily. Hover over any skill to feel the tactile spring response.
+              The languages, tools, and platforms I work with. Hover over any skill to feel the bouncy spring animation.
             </p>
           </div>
 
@@ -547,19 +613,19 @@ export default function App() {
         </div>
       </section>
 
-      {/* ═══════════ Contact Hub ═══════════ */}
+      {/* ═══════════ Contact Hub (Friendly & Humane) ═══════════ */}
       <section className="section-wrapper" id="contact">
         <div className="container">
           <LiquidGlassCard interactive={true}>
             <div className="contact-hub-card">
               <div className="section-eyebrow" style={{ marginBottom: '20px' }}>
                 <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>alternate_email</span>
-                <span>Direct Connection</span>
+                <span>Get In Touch</span>
               </div>
 
-              <h2 className="contact-headline">Let's build something meaningful.</h2>
+              <h2 className="contact-headline">Say Hello!</h2>
               <p className="contact-message-body">
-                Whether you have an Android app challenge, need cloud automation, want to collaborate on AI experiments, or just want to discuss Carnatic ragas and systems design — my inbox is open.
+                Have an idea for an Android app, want to collaborate on a web project, or just want to chat about code or music? My inbox is always open.
               </p>
 
               <div className="contact-actions-grid">
@@ -570,7 +636,7 @@ export default function App() {
                   <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>
                     {emailCopied ? 'check' : 'content_copy'}
                   </span>
-                  <span>{emailCopied ? 'Email Copied to Clipboard!' : 'Copy Direct Email'}</span>
+                  <span>{emailCopied ? 'Email Copied!' : 'Copy Email Address'}</span>
                 </BouncyButton>
 
                 <BouncyButton
@@ -642,7 +708,7 @@ export default function App() {
           </div>
 
           <div className="footer-bottom-line">
-            <p>© {new Date().getFullYear()} Phoenix · Crafted with React &amp; Liquid Glass · Strict Monochrome</p>
+            <p>© {new Date().getFullYear()} Phoenix · 16-year-old Android &amp; Web Developer · Built with React</p>
           </div>
         </div>
       </footer>
