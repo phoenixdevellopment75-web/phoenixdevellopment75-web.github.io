@@ -1,28 +1,11 @@
-import { useState, useEffect } from 'react';
-import DotGrid from './components/DotGrid';
-import SplitText from './components/SplitText';
-import BlurText from './components/BlurText';
-import AnimatedContent from './components/AnimatedContent';
-import SpotlightCard from './components/SpotlightCard';
-import Magnet from './components/Magnet';
-import DecryptedText from './components/DecryptedText';
-import ShinyText from './components/ShinyText';
-import ClickSpark from './components/ClickSpark';
-import IntroAnimation from './components/IntroAnimation';
-import RotatingText from './components/RotatingText';
-import ScrollVelocity from './components/ScrollVelocity';
-import Aurora from './components/Aurora';
-import StarBorder from './components/StarBorder';
-import FadeContent from './components/FadeContent';
-import ScrollFloat from './components/ScrollFloat';
-import Ribbons from './components/Ribbons';
-import GlitchText from './components/GlitchText';
-import Marquee from './components/Marquee';
-import CountUp from './components/CountUp';
-
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import KineticShapeIntro from './components/KineticShapeIntro';
+import LiquidGlassCard from './components/LiquidGlassCard';
+import BouncyButton from './components/BouncyButton';
 import { badges, categoryLabels, GOOGLE_PROFILE_URL } from './data/badges';
 
-/* ── SVG Icons ── */
+/* ── Minimalist SVG Icons (Pure Monochromatic) ── */
 const GitHubIcon = () => (
   <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
     <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
@@ -41,567 +24,628 @@ const TelegramIcon = () => (
   </svg>
 );
 
-function App() {
+export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [badgeFilter, setBadgeFilter] = useState('all');
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('phoenix-theme') || 'light';
-  });
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('phoenix-theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
-  const filteredBadges = badgeFilter === 'all'
-    ? badges
-    : badges.filter(b => b.category === badgeFilter);
+  const [replayIntroKey, setReplayIntroKey] = useState(0);
+  const [emailCopied, setEmailCopied] = useState(false);
 
   const projects = [
     {
-      id: 1, title: 'Classmates Hub', category: 'web',
-      desc: 'A community website built for our 10th-grade class to stay connected — student directory, class structure, and profile cards.',
-      tech: ['HTML5', 'CSS3', 'Vanilla JS', 'GitHub Pages'],
+      id: 1,
+      title: 'Classmates Hub',
+      category: 'Web Community',
+      desc: 'A custom community portal engineered for our 10th-grade class to preserve connections — student profiles, academic directories, and interactive class history.',
+      tech: ['HTML5', 'CSS Grid', 'Vanilla JS', 'GitHub Pages'],
       link: 'https://github.com/phoenixdevellopment75-web/Class10thForever-',
-      linkText: 'View on GitHub',
+      linkText: 'View Repository',
+      highlight: 'Live Community',
     },
     {
-      id: 2, title: 'In-Browser File Converter', category: 'web',
-      desc: 'Convert images, audio, and video directly inside your browser without uploading files to any external server.',
-      tech: ['WebAssembly', 'FFmpeg.wasm', 'HTML5'],
-      link: '#', linkText: 'Explore Project',
+      id: 2,
+      title: 'In-Browser File Converter',
+      category: 'WebAssembly & Tooling',
+      desc: 'High-performance multimedia transcoding executed directly inside the user’s browser with zero external server uploads, preserving total privacy.',
+      tech: ['WebAssembly', 'FFmpeg.wasm', 'Web Workers', 'HTML5'],
+      link: 'https://github.com/phoenixdevellopment75-web',
+      linkText: 'Explore System',
+      highlight: 'Zero Server / 100% Private',
     },
     {
-      id: 3, title: 'My Favourite Focus Clock', category: 'productivity',
-      desc: 'A Pomodoro timer with audio alerts, interval tracking, and an eye-friendly dark design for focused study sessions.',
-      tech: ['JavaScript', 'Web Audio API', 'CSS Grid'],
+      id: 3,
+      title: 'My Favourite Focus Clock',
+      category: 'Productivity & Sound',
+      desc: 'A distraction-free Pomodoro study timer with synthesized audio alerts, customizable work/rest cycles, and a deeply comfortable low-light interface.',
+      tech: ['JavaScript', 'Web Audio API', 'CSS Grid', 'LocalStorage'],
       link: 'https://github.com/phoenixdevellopment75-web/My-favourite-clock-timer',
-      linkText: 'View on GitHub',
+      linkText: 'View Repository',
+      highlight: 'Audio Synthesis',
+    },
+    {
+      id: 4,
+      title: 'Neurollm / NeuroSparse V1',
+      category: 'AI & Neural Systems',
+      desc: 'A transformer-based language model experiment coded from scratch in Python to explore byte-pair tokenization, multi-head attention mechanisms, and custom training loops.',
+      tech: ['Python', 'PyTorch', 'Transformer Architecture', 'Tokenization'],
+      link: 'https://github.com/phoenixdevellopment75-web/Neurollm',
+      linkText: 'Inspect Codebase',
+      highlight: 'Under Active Research',
     },
   ];
 
-  const techStack = [
-    'JavaScript (ES6+)',
-    'HTML5 & CSS3',
-    'Python',
-    'Google Cloud',
-    'Node.js',
-    'Git & GitHub',
-    'REST APIs',
-    'Kotlin & Android',
-    'Generative AI / Gemini',
-    'Terraform / IaC',
-    'BigQuery & SQL',
-    'Docker & Cloud Run',
+  const techMatrix = [
+    {
+      group: 'Languages',
+      icon: 'code',
+      items: ['JavaScript (ES6+)', 'TypeScript', 'Python', 'Kotlin', 'HTML5 & Modern CSS', 'SQL'],
+    },
+    {
+      group: 'Cloud & Infrastructure',
+      icon: 'cloud',
+      items: ['Google Cloud Platform', 'Terraform (IaC)', 'BigQuery', 'Docker', 'Cloud Run', 'Git & GitHub'],
+    },
+    {
+      group: 'Web & Systems',
+      icon: 'terminal',
+      items: ['React 19', 'Vite', 'WebAssembly', 'FFmpeg.wasm', 'REST APIs', 'Android SDK'],
+    },
+    {
+      group: 'AI & Exploration',
+      icon: 'psychology',
+      items: ['Gemini Enterprise', 'Agent Development Kit', 'Attention Mechanism', 'Multi-agent Systems'],
+    },
   ];
 
   const socialLinks = {
     github: 'https://github.com/phoenixdevellopment75-web',
     instagram: 'https://www.instagram.com/phoenix_veena/',
     telegram: 'https://t.me/PhoenixEditz75',
+    googleProfile: GOOGLE_PROFILE_URL,
+    email: 'phoenixdevellopment75@gmail.com',
   };
 
-  const closeMobile = () => setMobileMenuOpen(false);
+  const filteredBadges = badgeFilter === 'all'
+    ? badges
+    : badges.filter(b => b.category === badgeFilter);
 
-  /* ── Stats data ── */
   const stats = [
-    { value: badges.length, label: 'Google Badges', suffix: '' },
-    { value: 2, label: 'Years Building', suffix: '+' },
-    { value: projects.length, label: 'Projects Shipped', suffix: '+' },
-    { value: 12, label: 'Technologies', suffix: '+' },
+    { value: `${badges.length}`, label: 'Google Cloud Badges' },
+    { value: `${projects.length}+`, label: 'Shipped Projects' },
+    { value: '16+', label: 'Core Technologies' },
+    { value: '10 Yrs', label: 'Carnatic Music Discipline' },
   ];
 
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(socialLinks.email).then(() => {
+      setEmailCopied(true);
+      setTimeout(() => setEmailCopied(false), 2400);
+    });
+  };
+
+  const handleReplayIntro = () => {
+    try {
+      sessionStorage.removeItem('phoenix-intro-seen');
+    } catch {}
+    setReplayIntroKey(prev => prev + 1);
+  };
+
   return (
-    <ClickSpark sparkColor="#9DC183" sparkSize={7} sparkRadius={24} sparkCount={6}>
-      {/* Subtle Dot Grid */}
+    <div className="app-container">
+      {/* Animated Shape Intro (Monochrome Liquid Glass) */}
+      <KineticShapeIntro key={replayIntroKey} force={replayIntroKey > 0} />
 
-      {/* Subtle Dot Grid */}
-      <div className="dot-grid-bg">
-        <DotGrid
-          dotColor={theme === 'dark' ? "rgba(255, 255, 255, 0.03)" : "rgba(0, 0, 0, 0.04)"}
-          activeColor="rgba(107, 142, 78, 0.25)"
-          dotSize={1}
-          spacing={35}
-          interactionRadius={90}
-        />
-      </div>
+      {/* Ambient Monochromatic Dot Grid */}
+      <div className="ambient-dot-grid" />
 
-      <div className="page-content">
-        {/* ═══════════ Navigation ═══════════ */}
-        <header>
-          <div className="container nav-wrapper">
-            <a href="#hero" className="logo">PHOENIX<span>.</span></a>
+      {/* ═══════════ Floating Liquid Glass Navbar ═══════════ */}
+      <header className="header-wrapper">
+        <nav className="liquid-navbar">
+          <a href="#hero" className="nav-brand">
+            <span className="brand-text">PHOENIX</span>
+            <span className="brand-dot">.</span>
+          </a>
 
-            <ul className="nav-links">
-              <li><a href="#hero">Home</a></li>
-              <li><a href="#badges">Badges</a></li>
-              <li><a href="#projects">Work</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-
-            <div className="nav-right-actions">
-              {/* Theme Toggle Button */}
-              <button
-                className="theme-toggle-btn"
-                onClick={toggleTheme}
-                aria-label="Toggle Theme"
-                title={`Switch to ${theme === 'dark' ? 'White' : 'Dark'} theme`}
-              >
-                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
-                  {theme === 'dark' ? 'light_mode' : 'dark_mode'}
-                </span>
-              </button>
-
-              <Magnet strength={0.2}>
-                <a href="#contact" className="btn-nav desktop-only">
-                  Let's Talk
-                  <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>arrow_forward</span>
-                </a>
-              </Magnet>
-
-              <button
-                className="menu-toggle"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label="Toggle Menu"
-              >
-                <span className="material-symbols-outlined">
-                  {mobileMenuOpen ? 'close' : 'menu'}
-                </span>
-              </button>
-            </div>
+          <div className="nav-status-pill">
+            <span className="status-indicator-dot" />
+            <span>Available for collaborations</span>
           </div>
 
-          <nav className={`mobile-nav ${mobileMenuOpen ? 'open' : ''}`}>
-            <a href="#hero" onClick={closeMobile}>Home</a>
-            <a href="#badges" onClick={closeMobile}>Badges</a>
-            <a href="#projects" onClick={closeMobile}>Work</a>
-            <a href="#about" onClick={closeMobile}>About</a>
-            <a href="#contact" onClick={closeMobile}>Contact</a>
-          </nav>
-        </header>
+          <ul className="nav-links-desktop">
+            <li className="nav-link-item"><a href="#work">Work</a></li>
+            <li className="nav-link-item"><a href="#badges">Badges</a></li>
+            <li className="nav-link-item"><a href="#story">Story</a></li>
+            <li className="nav-link-item"><a href="#skills">Skills</a></li>
+          </ul>
 
-        {/* ═══════════ Hero Section ═══════════ */}
-        <section className="hero" id="hero">
-          <div className="hero-aurora-wrapper">
-            <Aurora
-              colorStops={['#506E39', '#6B8E4E', '#3A5228', '#9DC183']}
-              speed={10}
-              blur={120}
-              opacity={theme === 'dark' ? 0.12 : 0.08}
-            />
-          </div>
+          <div className="nav-right-actions">
+            <a href="#contact" className="nav-contact-btn">
+              <span>Let's Talk</span>
+              <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>arrow_outward</span>
+            </a>
 
-          <div className="container hero-content">
-            {/* Avatar */}
-            <FadeContent blur duration={0.6}>
-              <div className="hero-top-row">
-                <img src="./pfp.jpg" alt="Phoenix" className="hero-avatar" />
-              </div>
-            </FadeContent>
-
-            {/* Headline */}
-            <h1 className="hero-title">
-              <span className="hero-title-line">I design & build</span>
-              <span className="accent">
-                <RotatingText
-                  texts={[
-                    "cloud projects.",
-                    "simple web apps.",
-                    "AI tools.",
-                    "useful code."
-                  ]}
-                  rotationInterval={2800}
-                />
+            <button
+              className="nav-mobile-toggle"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle Navigation Menu"
+            >
+              <span className="material-symbols-outlined">
+                {mobileMenuOpen ? 'close' : 'menu'}
               </span>
-            </h1>
-
-            <FadeContent blur duration={0.7} delay={0.25}>
-              <p className="hero-subtitle">
-                Hey, I'm Phoenix. I'm a developer building web apps, completing Google Cloud labs, and working on AI projects.
-              </p>
-            </FadeContent>
-
-            {/* CTAs */}
-            <FadeContent blur duration={0.7} delay={0.4}>
-              <div className="hero-actions">
-                <Magnet strength={0.15}>
-                  <StarBorder as="a" color="#6B8E4E" speed="10s" className="btn-primary" href="#projects" style={{ borderRadius: '9999px' }}>
-                    See My Work
-                    <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>south</span>
-                  </StarBorder>
-                </Magnet>
-                <Magnet strength={0.15}>
-                  <a href="#badges" className="btn-secondary">
-                    <span className="material-symbols-outlined" style={{ fontSize: '18px', color: '#6B8E4E' }}>verified</span>
-                    {badges.length} Google Badges
-                  </a>
-                </Magnet>
-              </div>
-            </FadeContent>
-
-            {/* Social Row */}
-            <FadeContent blur duration={0.7} delay={0.55}>
-              <div className="hero-social-group">
-                <span className="hero-social-label">CONNECT //</span>
-                <div className="social-row">
-                  <Magnet strength={0.3}>
-                    <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="GitHub">
-                      <GitHubIcon />
-                    </a>
-                  </Magnet>
-                  <Magnet strength={0.3}>
-                    <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Instagram">
-                      <InstagramIcon />
-                    </a>
-                  </Magnet>
-                  <Magnet strength={0.3}>
-                    <a href={socialLinks.telegram} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Telegram">
-                      <TelegramIcon />
-                    </a>
-                  </Magnet>
-                </div>
-              </div>
-            </FadeContent>
+            </button>
           </div>
-        </section>
+        </nav>
 
-        {/* ═══════════ Scroll Marquee — Ghost Text ═══════════ */}
-        <ScrollVelocity
-          texts={[
-            "GOOGLE CLOUD BADGES",
-            "REACT & VANILLA WEB",
-            "TERRAFORM & BIGQUERY",
-            "PRACTICAL AI TOOLS"
-          ]}
-          velocity={3}
-        />
+        {/* Mobile Navigation Drawer */}
+        <div className={`mobile-nav-drawer ${mobileMenuOpen ? 'open' : ''}`}>
+          <a href="#hero" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Home</a>
+          <a href="#work" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Work</a>
+          <a href="#badges" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Google Badges</a>
+          <a href="#story" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>About & Story</a>
+          <a href="#skills" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Tech Stack</a>
+          <a href="#contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Get in Touch</a>
+        </div>
+      </header>
 
-        {/* ═══════════ Stats Strip (Launchfolio-style) ═══════════ */}
-        <section className="stats-strip" id="stats">
-          <div className="container">
-            <div className="stats-grid">
-              {stats.map((stat, i) => (
-                <AnimatedContent key={i} direction="up" distance={30} delay={i * 0.1}>
-                  <div className="stat-cell">
-                    <span className="stat-number">
-                      <CountUp from={0} to={stat.value} duration={2} />{stat.suffix}
-                    </span>
-                    <span className="stat-label">{stat.label}</span>
-                  </div>
-                </AnimatedContent>
-              ))}
+      {/* ═══════════ Hero Section ═══════════ */}
+      <section className="hero-section" id="hero">
+        <div className="container">
+          <div className="hero-avatar-container">
+            <div className="hero-avatar-frame">
+              <img
+                src="./pfp.jpg"
+                alt="Phoenix portrait"
+                className="hero-avatar-img"
+                onError={(e) => {
+                  e.target.src = './pfp.png';
+                }}
+              />
+              <div className="hero-badge-tag">
+                <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>verified</span>
+                <span>Dev</span>
+              </div>
             </div>
           </div>
-        </section>
 
-        {/* ═══════════ Badges Section ═══════════ */}
-        <section id="badges">
-          <div className="container">
-            <div className="section-header">
-              <FadeContent blur>
-                <div className="label-pill">
-                  <span className="material-symbols-outlined">verified</span>
-                  <span>Google Cloud Credentials</span>
+          <h1 className="hero-title-main">
+            Software built with purpose, precision <span className="hero-title-highlight">&amp; restraint.</span>
+          </h1>
+
+          <p className="hero-bio-lead">
+            Hey, I'm Phoenix — a 16-year-old developer obsessed with building clean Android systems,
+            modern web applications, and Google Cloud infrastructure. Trained in classical Carnatic music for 10 years,
+            bringing rhythm, rigor, and structure to every line of code.
+          </p>
+
+          <div className="hero-action-buttons">
+            <BouncyButton as="a" href="#work" variant="primary">
+              <span>Explore Selected Work</span>
+              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>arrow_downward</span>
+            </BouncyButton>
+
+            <BouncyButton as="a" href="#badges" variant="secondary">
+              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>verified</span>
+              <span>7 Google Cloud Credentials</span>
+            </BouncyButton>
+          </div>
+
+          <div className="hero-social-strip">
+            <a
+              href={socialLinks.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-social-pill"
+              aria-label="GitHub Profile"
+              title="GitHub"
+            >
+              <GitHubIcon />
+            </a>
+            <a
+              href={socialLinks.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-social-pill"
+              aria-label="Instagram Profile"
+              title="Instagram (@phoenix_veena)"
+            >
+              <InstagramIcon />
+            </a>
+            <a
+              href={socialLinks.telegram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-social-pill"
+              aria-label="Telegram"
+              title="Telegram"
+            >
+              <TelegramIcon />
+            </a>
+            <a
+              href={socialLinks.googleProfile}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-social-pill"
+              aria-label="Google Skills Profile"
+              title="Google Skills Profile"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>badge</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ Stats Strip (Liquid Glass) ═══════════ */}
+      <section className="stats-section">
+        <div className="container">
+          <div className="stats-glass-grid">
+            {stats.map((s, idx) => (
+              <LiquidGlassCard key={idx} interactive={true}>
+                <div className="stat-card-inner">
+                  <div className="stat-number-display">{s.value}</div>
+                  <div className="stat-label-text">{s.label}</div>
                 </div>
-              </FadeContent>
-              <h2 className="section-title">
-                <ScrollFloat animationDuration={0.8} stagger={0.04}>
-                  Earned Badges
-                </ScrollFloat>
-              </h2>
-              <FadeContent blur delay={0.1}>
-                <p className="section-desc">
-                  Badges earned by finishing hands-on labs and challenge quests on Google Cloud.
-                </p>
-              </FadeContent>
+              </LiquidGlassCard>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ Selected Work / Featured Projects ═══════════ */}
+      <section className="section-wrapper" id="work">
+        <div className="container">
+          <div className="section-head-box">
+            <div className="section-eyebrow">
+              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>code</span>
+              <span>Engineering &amp; Systems</span>
             </div>
+            <h2 className="section-headline">Featured Projects</h2>
+            <p className="section-subtext">
+              Real code shipped for real humans — from peer community networks and client-side WebAssembly converters to transformer neural networks from scratch.
+            </p>
+          </div>
 
-            {/* Filters */}
-            <FadeContent blur delay={0.15}>
-              <div className="filter-tabs">
-                {Object.entries(categoryLabels).map(([key, label]) => (
-                  <button
-                    key={key}
-                    className={`filter-tab ${badgeFilter === key ? 'active' : ''}`}
-                    onClick={() => setBadgeFilter(key)}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </FadeContent>
-
-            {/* Badges Grid */}
-            <div className="badges-grid">
-              {filteredBadges.map((badge, index) => (
-                <AnimatedContent key={badge.id} direction="up" distance={30} delay={index * 0.06}>
-                  <div className="badge-card">
-                    <div>
-                      <div className="badge-card-top">
-                        <div className="badge-image-wrapper">
-                          <img src={badge.image} alt={badge.title} />
-                        </div>
-                        <span className="badge-tag">
-                          {badge.category === 'ai' ? 'AI' : badge.category === 'cloud' ? 'Cloud' : badge.category === 'devsecops' ? 'DevSecOps' : 'Foundation'}
-                        </span>
-                      </div>
-                      <h3 className="badge-title">{badge.title}</h3>
-                      <div className="badge-date">
-                        <span className="material-symbols-outlined" style={{ fontSize: '12px' }}>schedule</span>
-                        {badge.date}
-                      </div>
-                      <p className="badge-desc">{badge.description}</p>
-                      <div className="badge-skills-list">
-                        {badge.skills.map(skill => (
-                          <span key={skill} className="skill-chip">{skill}</span>
-                        ))}
-                      </div>
+          <div className="projects-grid-layout">
+            {projects.map((p, idx) => (
+              <LiquidGlassCard key={p.id} interactive={true}>
+                <div className="project-card-inner">
+                  <div>
+                    <div className="project-header-row">
+                      <span className="project-index-num">0{idx + 1} //</span>
+                      <span className="project-status-tag">{p.highlight}</span>
                     </div>
-                    <a href={badge.badgeUrl} target="_blank" rel="noopener noreferrer" className="btn-badge-link">
-                      <ShinyText text="View on Google Skills" speed={3} />
+
+                    <h3 className="project-title-text">{p.title}</h3>
+                    <p className="project-desc-text">{p.desc}</p>
+
+                    <div className="project-tech-pills">
+                      {p.tech.map(t => (
+                        <span key={t} className="project-tech-pill">{t}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="project-footer-actions">
+                    <a
+                      href={p.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="project-btn-link"
+                    >
+                      <span>{p.linkText}</span>
+                      <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>arrow_outward</span>
+                    </a>
+                  </div>
+                </div>
+              </LiquidGlassCard>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ Google Cloud Credentials ═══════════ */}
+      <section className="section-wrapper" id="badges">
+        <div className="container">
+          <div className="section-head-box">
+            <div className="section-eyebrow">
+              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>verified</span>
+              <span>Google Cloud Platform</span>
+            </div>
+            <h2 className="section-headline">Verified Credentials</h2>
+            <p className="section-subtext">
+              Hands-on skill badges earned on Google Cloud spanning multi-agent workflows, Terraform infrastructure, BigQuery warehouses, and DevSecOps pipelines.
+            </p>
+          </div>
+
+          {/* Filter Pills */}
+          <div className="filter-tabs-row">
+            {Object.entries(categoryLabels).map(([key, label]) => (
+              <button
+                key={key}
+                type="button"
+                className={`bouncy-btn bouncy-btn-pill ${badgeFilter === key ? 'active' : ''}`}
+                onClick={() => setBadgeFilter(key)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {/* Badges Grid */}
+          <div className="badges-cards-grid">
+            {filteredBadges.map((badge) => (
+              <LiquidGlassCard key={badge.id} interactive={true}>
+                <div className="badge-card-box">
+                  <div>
+                    <div className="badge-top-meta">
+                      <div className="badge-image-container">
+                        <img src={badge.image} alt={badge.title} loading="lazy" />
+                      </div>
+                      <span className="badge-category-chip">
+                        {badge.category}
+                      </span>
+                    </div>
+
+                    <h3 className="badge-card-title">{badge.title}</h3>
+                    <div className="badge-card-date">
+                      <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>calendar_today</span>
+                      <span>Earned: {badge.date}</span>
+                    </div>
+
+                    <p className="badge-card-desc">{badge.description}</p>
+
+                    <div className="badge-skills-flex">
+                      {badge.skills.map(s => (
+                        <span key={s} className="badge-skill-tag">{s}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <a
+                      href={badge.badgeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="badge-action-link"
+                    >
+                      <span>Verify on Google Skills</span>
                       <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>open_in_new</span>
                     </a>
                   </div>
-                </AnimatedContent>
-              ))}
-            </div>
-
-            {/* Profile CTA */}
-            <FadeContent blur delay={0.1}>
-              <div className="profile-cta">
-                <Magnet strength={0.12}>
-                  <a href={GOOGLE_PROFILE_URL} target="_blank" rel="noopener noreferrer">
-                    <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>badge</span>
-                    View Full Google Profile
-                    <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>open_in_new</span>
-                  </a>
-                </Magnet>
-              </div>
-            </FadeContent>
-          </div>
-        </section>
-
-        {/* ═══════════ Projects Section ═══════════ */}
-        <section id="projects">
-          <div className="container">
-            <div className="section-header">
-              <FadeContent blur>
-                <div className="label-pill">
-                  <span className="material-symbols-outlined">code</span>
-                  <span>Selected Work</span>
                 </div>
-              </FadeContent>
-              <h2 className="section-title">
-                <ScrollFloat animationDuration={0.8} stagger={0.04}>
-                  Featured Projects
-                </ScrollFloat>
-              </h2>
-              <FadeContent blur delay={0.1}>
-                <p className="section-desc">
-                  Projects and tools I've built.
-                </p>
-              </FadeContent>
-            </div>
-
-            <div className="projects-grid">
-              {projects.map((project, index) => (
-                <AnimatedContent key={project.id} direction="up" distance={40} delay={index * 0.1}>
-                  <SpotlightCard
-                    spotlightColor="rgba(107, 142, 78, 0.06)"
-                    className="project-card"
-                  >
-                    <div className="project-body">
-                      <div className="project-number">0{index + 1}</div>
-                      <h3 className="project-title">
-                        <DecryptedText text={project.title} speed={40} revealDirection="start" />
-                      </h3>
-                      <p className="project-desc">{project.desc}</p>
-                      <div className="project-tech">
-                        {project.tech.map(t => <span key={t} className="tech-tag">{t}</span>)}
-                      </div>
-                      <div className="project-footer">
-                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
-                          {project.linkText}
-                          <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>arrow_outward</span>
-                        </a>
-                      </div>
-                    </div>
-                  </SpotlightCard>
-                </AnimatedContent>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ═══════════ Tech Marquee ═══════════ */}
-        <div className="tech-marquee-strip">
-          <Marquee speed={35} pauseOnHover>
-            {techStack.map((tech, i) => (
-              <span key={i} className="marquee-tech-item">
-                {tech}
-                <span className="marquee-sep">✦</span>
-              </span>
+              </LiquidGlassCard>
             ))}
-          </Marquee>
+          </div>
+
+          <div className="google-profile-cta-box">
+            <BouncyButton
+              as="a"
+              href={GOOGLE_PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="secondary"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '17px' }}>badge</span>
+              <span>Inspect Complete Official Google Cloud Profile</span>
+              <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>arrow_outward</span>
+            </BouncyButton>
+          </div>
         </div>
+      </section>
 
-        {/* ═══════════ About Section ═══════════ */}
-        <section id="about">
-          <div className="container">
-            <div className="section-header">
-              <FadeContent blur>
-                <div className="label-pill">
-                  <span className="material-symbols-outlined">person</span>
-                  <span>About Me</span>
-                </div>
-              </FadeContent>
-              <h2 className="section-title">
-                <ScrollFloat animationDuration={0.8} stagger={0.04}>
-                  A Little Story
-                </ScrollFloat>
-              </h2>
+      {/* ═══════════ Authentic Story & Philosophy ═══════════ */}
+      <section className="section-wrapper" id="story">
+        <div className="container">
+          <div className="section-head-box">
+            <div className="section-eyebrow">
+              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>music_note</span>
+              <span>Philosophy &amp; Discipline</span>
             </div>
+            <h2 className="section-headline">Why Code Feels Like Music</h2>
+          </div>
 
-            <FadeContent blur delay={0.1}>
-              <div className="about-grid">
-                <div className="about-text">
-                  <p>
-                    I'm a developer who loves building things with code. Over the past 2+ years, I've taught myself web development, cloud computing, and AI.
-                  </p>
-                  <p>
-                    I like testing my skills on Google Cloud challenge labs, building clean web tools, and learning how things work under the hood.
-                  </p>
+          <div className="story-grid-layout">
+            <LiquidGlassCard interactive={false}>
+              <div className="story-main-box">
+                <p className="story-lead-paragraph">
+                  I didn’t take the traditional path into programming. Over the last 2+ years, I taught myself software engineering through hands-on challenge quests, reading source code, and building real tools.
+                </p>
+                <p className="story-body-paragraph">
+                  Parallel to engineering, I have spent the last <strong>10 years studying Carnatic classical music (Veena)</strong>. In Carnatic music, you cannot cheat the rhythm. Every <em>tala</em> (cycle) is mathematical, every <em>swara</em> (note) requires millimeter precision, and yet the highest beauty comes from structured improvisation.
+                </p>
+                <p className="story-body-paragraph">
+                  Software architecture works identically. Writing resilient asynchronous flows, architecting decoupled state machines, and fine-tuning neural attention layers is simply rhythm applied to computation. No shortcuts, no unnecessary bloat — just pure, disciplined harmony.
+                </p>
+
+                <div className="music-quote-box">
+                  "Structure is not the enemy of creativity; it is the canvas that allows mastery to breathe."
                 </div>
+              </div>
+            </LiquidGlassCard>
 
-                <div className="about-sidebar">
-                  <h4>Tools & Technologies</h4>
-                  <div className="skills-list">
-                    {techStack.map(t => (
-                      <Magnet key={t} strength={0.15}>
-                        <span className="skill-tag">{t}</span>
-                      </Magnet>
-                    ))}
+            <LiquidGlassCard interactive={false}>
+              <div className="story-sidebar-box">
+                <div className="sidebar-focus-list">
+                  <div className="focus-item">
+                    <div className="focus-icon-bullet">
+                      <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>android</span>
+                    </div>
+                    <div>
+                      <div className="focus-text-title">Android Systems &amp; UI/UX</div>
+                      <div className="focus-text-desc">Deep enthusiasm for Kotlin, Android architecture, and tactile Material design.</div>
+                    </div>
                   </div>
 
-                  <div className="currently-building">
-                    <h4>What I'm Working On</h4>
-                    <p>
-                      Currently building a small-end LLM from scratch — learning how tokenization, neural network layers, and training loops work.
-                    </p>
-                    <div className="status-line">
-                      <span className="status-dot"></span>
-                      In progress
+                  <div className="focus-item">
+                    <div className="focus-icon-bullet">
+                      <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>cloud_sync</span>
+                    </div>
+                    <div>
+                      <div className="focus-text-title">Cloud Infrastructure</div>
+                      <div className="focus-text-desc">Reproducible IaC with Terraform, serverless microservices on Cloud Run, and BigQuery analytics.</div>
+                    </div>
+                  </div>
+
+                  <div className="focus-item">
+                    <div className="focus-icon-bullet">
+                      <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>memory</span>
+                    </div>
+                    <div>
+                      <div className="focus-text-title">Deep Learning from Scratch</div>
+                      <div className="focus-text-desc">Currently researching tokenizers, self-attention blocks, and transformer weight initialization.</div>
+                    </div>
+                  </div>
+
+                  <div className="focus-item">
+                    <div className="focus-icon-bullet">
+                      <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>queue_music</span>
+                    </div>
+                    <div>
+                      <div className="focus-text-title">Carnatic Veena (10+ Years)</div>
+                      <div className="focus-text-desc">Classical discipline cultivating patience, micro-tuning, and relentless attention to detail.</div>
                     </div>
                   </div>
                 </div>
               </div>
-            </FadeContent>
+            </LiquidGlassCard>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ═══════════ Contact Section ═══════════ */}
-        <section id="contact" className="contact-section">
-          <div className="ribbons-wrapper">
-            <Ribbons baseHue={120} count={3} speed={0.4} opacity={0.06} />
-          </div>
-
-          <div className="container">
-            <FadeContent blur>
-              <div className="contact-inner">
-                <div className="label-pill" style={{ marginBottom: '16px' }}>
-                  <span className="material-symbols-outlined">mail</span>
-                  <span>Get in Touch</span>
-                </div>
-
-                <h2 className="contact-heading">
-                  <BlurText text="Let's Work Together" delay={60} />
-                </h2>
-
-                <p className="contact-desc">
-                  Have a project idea, want to collaborate, or just want to connect?
-                  Reach out through any of these platforms.
-                </p>
-
-                <div className="contact-links">
-                  <Magnet strength={0.12}>
-                    <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" className="contact-link-btn">
-                      <GitHubIcon /> GitHub
-                    </a>
-                  </Magnet>
-                  <Magnet strength={0.12}>
-                    <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="contact-link-btn">
-                      <InstagramIcon /> Instagram
-                    </a>
-                  </Magnet>
-                  <Magnet strength={0.12}>
-                    <a href={socialLinks.telegram} target="_blank" rel="noopener noreferrer" className="contact-link-btn">
-                      <TelegramIcon /> Telegram
-                    </a>
-                  </Magnet>
-                  <Magnet strength={0.12}>
-                    <a href={GOOGLE_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="contact-link-btn">
-                      <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>verified</span>
-                      Google Skills
-                    </a>
-                  </Magnet>
-                </div>
-              </div>
-            </FadeContent>
-          </div>
-        </section>
-
-        {/* ═══════════ Footer ═══════════ */}
-        <footer>
-          <div className="container footer-inner">
-            <div className="footer-left">
-              <div className="footer-logo">
-                <GlitchText
-                  text="PHOENIX."
-                  speed={5}
-                  enableShadow={false}
-                  colors={{
-                    primary: theme === 'dark' ? '#FAFAFA' : '#1A241C',
-                    glitch1: '#9DC183',
-                    glitch2: '#506E39'
-                  }}
-                />
-              </div>
-              <div className="footer-links">
-                <a href="#badges">Badges</a>
-                <a href="#projects">Work</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-              </div>
+      {/* ═══════════ Interactive Tech Matrix ═══════════ */}
+      <section className="section-wrapper" id="skills">
+        <div className="container">
+          <div className="section-head-box">
+            <div className="section-eyebrow">
+              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>tune</span>
+              <span>Tooling</span>
             </div>
-
-            <div className="footer-right">
-              <div className="social-row">
-                <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="GitHub">
-                  <GitHubIcon />
-                </a>
-                <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Instagram">
-                  <InstagramIcon />
-                </a>
-                <a href={socialLinks.telegram} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Telegram">
-                  <TelegramIcon />
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="container" style={{ textAlign: 'center', marginTop: '24px' }}>
-            <p className="footer-credit">
-              © 2026 Phoenix · Built with React
+            <h2 className="section-headline">Tech Matrix</h2>
+            <p className="section-subtext">
+              Technologies and toolchains I work with daily. Hover over any skill to feel the tactile spring response.
             </p>
           </div>
-        </footer>
-      </div>
-    </ClickSpark>
+
+          <div className="tech-matrix-grid">
+            {techMatrix.map((tGroup) => (
+              <LiquidGlassCard key={tGroup.group} interactive={true}>
+                <div className="tech-group-card">
+                  <div className="tech-group-title">
+                    <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>{tGroup.icon}</span>
+                    <span>{tGroup.group}</span>
+                  </div>
+
+                  <div className="tech-chips-wrap">
+                    {tGroup.items.map(skill => (
+                      <span key={skill} className="tech-interactive-chip">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </LiquidGlassCard>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ Contact Hub ═══════════ */}
+      <section className="section-wrapper" id="contact">
+        <div className="container">
+          <LiquidGlassCard interactive={true}>
+            <div className="contact-hub-card">
+              <div className="section-eyebrow" style={{ marginBottom: '20px' }}>
+                <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>alternate_email</span>
+                <span>Direct Connection</span>
+              </div>
+
+              <h2 className="contact-headline">Let's build something meaningful.</h2>
+              <p className="contact-message-body">
+                Whether you have an Android app challenge, need cloud automation, want to collaborate on AI experiments, or just want to discuss Carnatic ragas and systems design — my inbox is open.
+              </p>
+
+              <div className="contact-actions-grid">
+                <BouncyButton
+                  onClick={handleCopyEmail}
+                  variant="primary"
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>
+                    {emailCopied ? 'check' : 'content_copy'}
+                  </span>
+                  <span>{emailCopied ? 'Email Copied to Clipboard!' : 'Copy Direct Email'}</span>
+                </BouncyButton>
+
+                <BouncyButton
+                  as="a"
+                  href={socialLinks.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="secondary"
+                >
+                  <GitHubIcon />
+                  <span>GitHub</span>
+                </BouncyButton>
+
+                <BouncyButton
+                  as="a"
+                  href={socialLinks.telegram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="secondary"
+                >
+                  <TelegramIcon />
+                  <span>Telegram</span>
+                </BouncyButton>
+
+                <BouncyButton
+                  as="a"
+                  href={socialLinks.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="secondary"
+                >
+                  <InstagramIcon />
+                  <span>Instagram</span>
+                </BouncyButton>
+              </div>
+            </div>
+          </LiquidGlassCard>
+        </div>
+      </section>
+
+      {/* ═══════════ Minimalist Monochrome Footer ═══════════ */}
+      <footer className="app-footer">
+        <div className="container">
+          <div className="footer-inner-flex">
+            <div className="footer-brand">
+              <span>PHOENIX</span>
+              <span style={{ color: '#71717a' }}>.</span>
+            </div>
+
+            <div className="footer-nav-links">
+              <a href="#work" className="footer-nav-link">Work</a>
+              <a href="#badges" className="footer-nav-link">Badges</a>
+              <a href="#story" className="footer-nav-link">Story</a>
+              <a href="#skills" className="footer-nav-link">Skills</a>
+              <a href="#contact" className="footer-nav-link">Contact</a>
+            </div>
+
+            <div>
+              <button
+                type="button"
+                className="replay-intro-btn"
+                onClick={handleReplayIntro}
+                title="Replay the kinetic geometric intro animation"
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>replay</span>
+                <span>Replay Intro</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="footer-bottom-line">
+            <p>© {new Date().getFullYear()} Phoenix · Crafted with React &amp; Liquid Glass · Strict Monochrome</p>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }
-
-export default App;

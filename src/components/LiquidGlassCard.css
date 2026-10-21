@@ -1,0 +1,55 @@
+/* ══════════════════════════════════════════════════════════
+   Liquid Glass Card — Aesthetic Minimalist Monochrome
+   Refined Specular Glare + Bouncy Spring Hover Physics
+   ══════════════════════════════════════════════════════════ */
+
+.liquid-glass-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  box-shadow: 
+    0 16px 40px -12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.22);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: 
+    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.3s ease,
+    box-shadow 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.liquid-glass-card.interactive:hover {
+  transform: translateY(-6px) scale(1.015);
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 
+    0 24px 50px -12px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.4);
+}
+
+.liquid-glass-card.interactive:active {
+  transform: translateY(-2px) scale(0.99);
+  transition-duration: 0.15s;
+}
+
+/* Mouse Specular Spotlight (Strict Monochrome: Pure White Alpha Glare) */
+.glass-specular-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.liquid-glass-card:hover .glass-specular-glare {
+  opacity: 1;
+}
+
+.liquid-glass-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+}

@@ -1,0 +1,260 @@
+/* ══════════════════════════════════════════════════════════
+   Kinetic Shape Intro — Aesthetic Minimalist Monochrome
+   Liquid Glass Inspired Geometry + Bouncy Spring Physics
+   ══════════════════════════════════════════════════════════ */
+
+.kinetic-intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #050507;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.6s ease;
+}
+
+.kinetic-intro-overlay.exiting {
+  opacity: 0;
+  transform: scale(1.04);
+  pointer-events: none;
+}
+
+/* Background subtle ambient glass grid */
+.intro-grid-backdrop {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  opacity: 0.6;
+}
+
+/* Center Stage */
+.intro-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* Shape Container */
+.intro-shape-wrapper {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Kinetic Shape Elements */
+.intro-shape-outer {
+  transform-origin: center;
+  animation: introOuterMorph 2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite alternate;
+}
+
+.intro-shape-inner {
+  transform-origin: center;
+  animation: introInnerSpin 3s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+.intro-shape-core {
+  transform-origin: center;
+  animation: introCorePulse 1.6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+/* Liquid Glass Lens Disk Behind SVG */
+.intro-glass-lens {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.8),
+    inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  transform-origin: center;
+  animation: introGlassSwell 2.4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite alternate;
+}
+
+/* Typography Reveal */
+.intro-text-wrapper {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.intro-title {
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  animation: introTitleBounce 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.intro-dot {
+  color: #ffffff;
+  font-size: 42px;
+  line-height: 0;
+  margin-left: 2px;
+  animation: introDotPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s backwards;
+}
+
+.intro-tagline {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #71717a;
+  margin-top: 8px;
+  font-weight: 500;
+  animation: introFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s backwards;
+}
+
+/* Skip Button Pill */
+.intro-skip-btn {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #a1a1aa;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.intro-skip-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.intro-skip-btn:active {
+  transform: scale(0.96);
+}
+
+/* Keyframes */
+@keyframes introOuterMorph {
+  0% {
+    transform: rotate(0deg) scale(0.92);
+    border-radius: 36px;
+  }
+  50% {
+    transform: rotate(90deg) scale(1.08);
+    border-radius: 50%;
+  }
+  100% {
+    transform: rotate(180deg) scale(0.92);
+    border-radius: 36px;
+  }
+}
+
+@keyframes introInnerSpin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(-180deg) scale(1.15);
+  }
+  100% {
+    transform: rotate(-360deg) scale(1);
+  }
+}
+
+@keyframes introCorePulse {
+  0%, 100% {
+    transform: scale(0.85);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes introGlassSwell {
+  0% {
+    transform: scale(0.95) rotate(0deg);
+    border-radius: 40px;
+  }
+  100% {
+    transform: scale(1.08) rotate(45deg);
+    border-radius: 54px;
+  }
+}
+
+@keyframes introTitleBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes introDotPop {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1.4);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes introFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,117 @@
+/* ══════════════════════════════════════════════════════════
+   Bouncy Button — Tactile Spring Dynamics & Monochrome
+   ══════════════════════════════════════════════════════════ */
+
+.bouncy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 9999px;
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  user-select: none;
+  outline: none;
+  transition: 
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.bouncy-btn-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Primary Variant: Solid High-Contrast White with Black Text */
+.bouncy-btn-primary {
+  background: #ffffff;
+  color: #050507;
+  border-color: #ffffff;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+}
+
+.bouncy-btn-primary:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 
+    0 8px 30px rgba(255, 255, 255, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.8);
+  background: #f4f4f5;
+}
+
+.bouncy-btn-primary:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+  transition-duration: 0.12s;
+}
+
+/* Secondary / Liquid Glass Variant */
+.bouncy-btn-secondary,
+.bouncy-btn-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.bouncy-btn-secondary:hover,
+.bouncy-btn-glass:hover {
+  transform: translateY(-3px) scale(1.03);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 
+    0 8px 30px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.bouncy-btn-secondary:active,
+.bouncy-btn-glass:active {
+  transform: translateY(1px) scale(0.97);
+  background: rgba(255, 255, 255, 0.04);
+  transition-duration: 0.12s;
+}
+
+/* Pill Filter Tab Variant */
+.bouncy-btn-pill {
+  padding: 8px 18px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #a1a1aa;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bouncy-btn-pill:hover {
+  transform: translateY(-2px) scale(1.04);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.bouncy-btn-pill.active {
+  background: #ffffff;
+  color: #050507;
+  border-color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
+}
+
+.bouncy-btn-pill.active:hover {
+  transform: translateY(-2px) scale(1.04);
+  background: #f4f4f5;
+}
