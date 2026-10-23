@@ -1,8 +1,26 @@
-import React, { useState, useEffect, useCallback } from 'react';
+/*
+ * Copyright 2026 Phoenix (phoenixdevellopment75@gmail.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import KineticShapeIntro from './components/KineticShapeIntro';
 import LiquidGlassCard from './components/LiquidGlassCard';
 import BouncyButton from './components/BouncyButton';
+import MagneticButton from './components/MagneticButton';
+import ScrollReveal from './components/ScrollReveal';
 import { badges, categoryLabels, GOOGLE_PROFILE_URL } from './data/badges';
 
 /* ── Minimalist SVG Icons (Pure Monochromatic) ── */
@@ -167,7 +185,7 @@ export default function App() {
 
   return (
     <div className="app-container">
-      {/* Animated Shape Intro (Monochrome Liquid Glass) */}
+      {/* Animated Shape Intro (Monochrome Precision SVG Line-Drawing) */}
       <KineticShapeIntro key={replayIntroKey} force={replayIntroKey > 0} />
 
       {/* Ambient Monochromatic Dot Grid */}
@@ -202,10 +220,12 @@ export default function App() {
           </ul>
 
           <div className="nav-right-actions">
-            <a href="#contact" className="nav-contact-btn">
-              <span>Let's Talk</span>
-              <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>arrow_outward</span>
-            </a>
+            <MagneticButton strength={0.25} as="div">
+              <a href="#contact" className="nav-contact-btn">
+                <span>Let's Talk</span>
+                <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>arrow_outward</span>
+              </a>
+            </MagneticButton>
 
             <button
               className="nav-mobile-toggle"
@@ -230,7 +250,7 @@ export default function App() {
         </div>
       </header>
 
-      {/* ═══════════ Hero Section (Simple & Human Tone) ═══════════ */}
+      {/* ═══════════ Hero Section (Editorial Minimalist & Handcrafted) ═══════════ */}
       <section className="hero-section" id="hero">
         <div className="container">
           <div className="hero-avatar-container">
@@ -250,176 +270,222 @@ export default function App() {
             </div>
           </div>
 
+          {/* Monospace Editorial Metadata Stamp */}
+          <div className="hero-meta-bar">
+            <div className="hero-meta-item">
+              <span className="hero-meta-dot" />
+              <span>SYS // PHOENIX-2026</span>
+            </div>
+            <div className="hero-meta-sep" />
+            <div className="hero-meta-item">
+              <span>EDITION // MONOCHROME</span>
+            </div>
+            <div className="hero-meta-sep" />
+            <div className="hero-meta-item">
+              <span>LATENCY // 0MS (ON-DEVICE)</span>
+            </div>
+          </div>
+
           <h1 className="hero-title-main">
             Hi, I'm Phoenix. I build clean Android apps <span className="hero-title-highlight">&amp; web tools.</span>
           </h1>
 
           <p className="hero-bio-lead">
-            I'm a 16-year-old self-taught developer who loves crafting tactile Android apps in Kotlin,
-            exploring Google Cloud systems, and playing the Carnatic Veena. I believe in simple code, fast tools, and zero bloat.
+            I'm a 16-year-old self-taught developer crafting tactile Android experiences in Kotlin,
+            exploring Google Cloud systems, and practicing the Carnatic Veena. I build software with mathematical precision, clean architecture, and zero bloat.
           </p>
 
           <div className="hero-action-buttons">
-            <BouncyButton as="a" href="#work" variant="primary">
-              <span>See What I've Built</span>
-              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>arrow_downward</span>
-            </BouncyButton>
+            <MagneticButton strength={0.35} as="div">
+              <BouncyButton as="a" href="#work" variant="primary">
+                <span>See What I've Built</span>
+                <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>arrow_downward</span>
+              </BouncyButton>
+            </MagneticButton>
 
-            <BouncyButton as="a" href="#badges" variant="secondary">
-              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>verified</span>
-              <span>7 Google Cloud Credentials</span>
-            </BouncyButton>
+            <MagneticButton strength={0.35} as="div">
+              <BouncyButton as="a" href="#badges" variant="secondary">
+                <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>verified</span>
+                <span>7 Google Cloud Credentials</span>
+              </BouncyButton>
+            </MagneticButton>
           </div>
 
           <div className="hero-social-strip">
-            <a
-              href={socialLinks.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-social-pill"
-              aria-label="GitHub Profile"
-              title="GitHub"
-            >
-              <GitHubIcon />
-            </a>
-            <a
-              href={socialLinks.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-social-pill"
-              aria-label="Instagram Profile"
-              title="Instagram (@phoenix_veena)"
-            >
-              <InstagramIcon />
-            </a>
-            <a
-              href={socialLinks.telegram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-social-pill"
-              aria-label="Telegram"
-              title="Telegram"
-            >
-              <TelegramIcon />
-            </a>
-            <a
-              href={socialLinks.googleProfile}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-social-pill"
-              aria-label="Google Skills Profile"
-              title="Google Skills Profile"
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>badge</span>
-            </a>
+            <MagneticButton strength={0.4} as="div">
+              <a
+                href={socialLinks.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-social-pill"
+                aria-label="GitHub Profile"
+                title="GitHub"
+              >
+                <GitHubIcon />
+              </a>
+            </MagneticButton>
+            <MagneticButton strength={0.4} as="div">
+              <a
+                href={socialLinks.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-social-pill"
+                aria-label="Instagram Profile"
+                title="Instagram (@phoenix_veena)"
+              >
+                <InstagramIcon />
+              </a>
+            </MagneticButton>
+            <MagneticButton strength={0.4} as="div">
+              <a
+                href={socialLinks.telegram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-social-pill"
+                aria-label="Telegram"
+                title="Telegram"
+              >
+                <TelegramIcon />
+              </a>
+            </MagneticButton>
+            <MagneticButton strength={0.4} as="div">
+              <a
+                href={socialLinks.googleProfile}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-social-pill"
+                aria-label="Google Skills Profile"
+                title="Google Skills Profile"
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>badge</span>
+              </a>
+            </MagneticButton>
           </div>
         </div>
       </section>
+
+      <div className="section-divider" />
 
       {/* ═══════════ Stats Strip (Liquid Glass) ═══════════ */}
       <section className="stats-section">
         <div className="container">
-          <div className="stats-glass-grid">
-            {stats.map((s, idx) => (
-              <LiquidGlassCard key={idx} interactive={true}>
-                <div className="stat-card-inner">
-                  <div className="stat-number-display">{s.value}</div>
-                  <div className="stat-label-text">{s.label}</div>
-                </div>
-              </LiquidGlassCard>
-            ))}
-          </div>
+          <ScrollReveal delay={50}>
+            <div className="stats-glass-grid">
+              {stats.map((s, idx) => (
+                <LiquidGlassCard key={idx} interactive={true}>
+                  <div className="stat-card-inner">
+                    <div className="stat-number-display">{s.value}</div>
+                    <div className="stat-label-text">{s.label}</div>
+                  </div>
+                </LiquidGlassCard>
+              ))}
+            </div>
+          </ScrollReveal>
         </div>
       </section>
+
+      <div className="section-divider" />
 
       {/* ═══════════ Featured Work (Highlighting Wallpaper Studio) ═══════════ */}
       <section className="section-wrapper" id="work">
         <div className="container">
-          <div className="section-head-box">
-            <div className="section-eyebrow">
-              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>terminal</span>
-              <span>Selected Work</span>
+          <ScrollReveal>
+            <div className="section-head-box">
+              <div className="section-eyebrow">
+                <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>terminal</span>
+                <span>Selected Work</span>
+              </div>
+              <h2 className="section-headline">Things I've Built</h2>
+              <p className="section-subtext">
+                Real projects I coded from scratch for real people. No fake AI demos — every app here has working code and a clear purpose.
+              </p>
             </div>
-            <h2 className="section-headline">Things I've Built</h2>
-            <p className="section-subtext">
-              Real projects I coded from scratch for real people. No fake AI demos — every app here has working code and a clear purpose.
-            </p>
-          </div>
+          </ScrollReveal>
 
           <div className="projects-grid-layout">
             {projects.map((p, idx) => (
-              <LiquidGlassCard key={p.id} interactive={true} className={p.featured ? 'project-card-featured' : ''}>
-                <div className="project-card-inner">
-                  <div>
-                    <div className="project-header-row">
-                      <span className="project-index-num">0{idx + 1} //</span>
-                      <span className="project-status-tag">{p.highlight}</span>
-                    </div>
+              <ScrollReveal key={p.id} delay={idx * 80} distance="24px">
+                <LiquidGlassCard interactive={true} className={p.featured ? 'project-card-featured' : ''}>
+                  <div className="project-card-inner">
+                    <div>
+                      <div className="project-header-row">
+                        <span className="project-index-num">0{idx + 1} //</span>
+                        <span className="project-status-tag">{p.highlight}</span>
+                      </div>
 
-                    <h3 className="project-title-text">{p.title}</h3>
-                    <p className="project-desc-text">{p.desc}</p>
+                      <h3 className="project-title-text">{p.title}</h3>
+                      <p className="project-desc-text">{p.desc}</p>
 
-                    {/* Bullet features for Wallpaper Studio */}
-                    {p.featuresList && (
-                      <div className="project-bullet-features">
-                        {p.featuresList.map((feat, fIdx) => (
-                          <div key={fIdx} className="project-bullet-item">
-                            <span>{feat}</span>
-                          </div>
+                      {/* Bullet features for Wallpaper Studio */}
+                      {p.featuresList && (
+                        <div className="project-bullet-features">
+                          {p.featuresList.map((feat, fIdx) => (
+                            <div key={fIdx} className="project-bullet-item">
+                              <span>{feat}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="project-tech-pills">
+                        {p.tech.map(t => (
+                          <span key={t} className="project-tech-pill">{t}</span>
                         ))}
                       </div>
-                    )}
+                    </div>
 
-                    <div className="project-tech-pills">
-                      {p.tech.map(t => (
-                        <span key={t} className="project-tech-pill">{t}</span>
-                      ))}
+                    <div className="project-footer-actions">
+                      <MagneticButton strength={0.3} as="div">
+                        <a
+                          href={p.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="project-btn-link"
+                        >
+                          <span>{p.linkText}</span>
+                          <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>arrow_outward</span>
+                        </a>
+                      </MagneticButton>
+
+                      {p.downloadLink && (
+                        <MagneticButton strength={0.3} as="div">
+                          <a
+                            href={p.downloadLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-btn-ghost"
+                          >
+                            <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>download</span>
+                            <span>Get APK</span>
+                          </a>
+                        </MagneticButton>
+                      )}
                     </div>
                   </div>
-
-                  <div className="project-footer-actions">
-                    <a
-                      href={p.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="project-btn-link"
-                    >
-                      <span>{p.linkText}</span>
-                      <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>arrow_outward</span>
-                    </a>
-
-                    {p.downloadLink && (
-                      <a
-                        href={p.downloadLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="project-btn-ghost"
-                      >
-                        <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>download</span>
-                        <span>Get APK</span>
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </LiquidGlassCard>
+                </LiquidGlassCard>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
+      <div className="section-divider" />
+
       {/* ═══════════ Google Cloud Credentials ═══════════ */}
       <section className="section-wrapper" id="badges">
         <div className="container">
-          <div className="section-head-box">
-            <div className="section-eyebrow">
-              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>verified</span>
-              <span>Google Cloud Platform</span>
+          <ScrollReveal>
+            <div className="section-head-box">
+              <div className="section-eyebrow">
+                <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>verified</span>
+                <span>Google Cloud Platform</span>
+              </div>
+              <h2 className="section-headline">Google Cloud Badges</h2>
+              <p className="section-subtext">
+                7 hands-on credentials I earned on Google Cloud. From building AI agents to writing Terraform scripts and managing BigQuery databases.
+              </p>
             </div>
-            <h2 className="section-headline">Google Cloud Badges</h2>
-            <p className="section-subtext">
-              7 hands-on credentials I earned on Google Cloud. From building AI agents to writing Terraform scripts and managing BigQuery databases.
-            </p>
-          </div>
+          </ScrollReveal>
 
           {/* Filter Pills */}
           <div className="filter-tabs-row">
@@ -437,243 +503,275 @@ export default function App() {
 
           {/* Badges Grid */}
           <div className="badges-cards-grid">
-            {filteredBadges.map((badge) => (
-              <LiquidGlassCard key={badge.id} interactive={true}>
-                <div className="badge-card-box">
-                  <div>
-                    <div className="badge-top-meta">
-                      <div className="badge-image-container">
-                        <img src={badge.image} alt={badge.title} loading="lazy" />
+            {filteredBadges.map((badge, idx) => (
+              <ScrollReveal key={badge.id} delay={Math.min(idx * 60, 300)} distance="20px">
+                <LiquidGlassCard interactive={true}>
+                  <div className="badge-card-box">
+                    <div>
+                      <div className="badge-top-meta">
+                        <div className="badge-image-container">
+                          <img src={badge.image} alt={badge.title} loading="lazy" />
+                        </div>
+                        <span className="badge-category-chip">
+                          {badge.category}
+                        </span>
                       </div>
-                      <span className="badge-category-chip">
-                        {badge.category}
-                      </span>
+
+                      <h3 className="badge-card-title">{badge.title}</h3>
+                      <div className="badge-card-date">
+                        <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>calendar_today</span>
+                        <span>Earned: {badge.date}</span>
+                      </div>
+
+                      <p className="badge-card-desc">{badge.description}</p>
+
+                      <div className="badge-skills-flex">
+                        {badge.skills.map(s => (
+                          <span key={s} className="badge-skill-tag">{s}</span>
+                        ))}
+                      </div>
                     </div>
 
-                    <h3 className="badge-card-title">{badge.title}</h3>
-                    <div className="badge-card-date">
-                      <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>calendar_today</span>
-                      <span>Earned: {badge.date}</span>
-                    </div>
-
-                    <p className="badge-card-desc">{badge.description}</p>
-
-                    <div className="badge-skills-flex">
-                      {badge.skills.map(s => (
-                        <span key={s} className="badge-skill-tag">{s}</span>
-                      ))}
+                    <div>
+                      <MagneticButton strength={0.3} as="div">
+                        <a
+                          href={badge.badgeUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="badge-action-link"
+                        >
+                          <span>Verify on Google Skills</span>
+                          <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>open_in_new</span>
+                        </a>
+                      </MagneticButton>
                     </div>
                   </div>
-
-                  <div>
-                    <a
-                      href={badge.badgeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="badge-action-link"
-                    >
-                      <span>Verify on Google Skills</span>
-                      <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>open_in_new</span>
-                    </a>
-                  </div>
-                </div>
-              </LiquidGlassCard>
+                </LiquidGlassCard>
+              </ScrollReveal>
             ))}
           </div>
 
-          <div className="google-profile-cta-box">
-            <BouncyButton
-              as="a"
-              href={GOOGLE_PROFILE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="secondary"
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: '17px' }}>badge</span>
-              <span>View Full Google Profile</span>
-              <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>arrow_outward</span>
-            </BouncyButton>
-          </div>
+          <ScrollReveal delay={100}>
+            <div className="google-profile-cta-box">
+              <MagneticButton strength={0.3} as="div">
+                <BouncyButton
+                  as="a"
+                  href={GOOGLE_PROFILE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="secondary"
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '17px' }}>badge</span>
+                  <span>View Full Google Profile</span>
+                  <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>arrow_outward</span>
+                </BouncyButton>
+              </MagneticButton>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
+
+      <div className="section-divider" />
 
       {/* ═══════════ Story & Philosophy (Simple & Authentic) ═══════════ */}
       <section className="section-wrapper" id="story">
         <div className="container">
-          <div className="section-head-box">
-            <div className="section-eyebrow">
-              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>music_note</span>
-              <span>About Me</span>
+          <ScrollReveal>
+            <div className="section-head-box">
+              <div className="section-eyebrow">
+                <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>music_note</span>
+                <span>About Me</span>
+              </div>
+              <h2 className="section-headline">Code, Music &amp; Patience</h2>
             </div>
-            <h2 className="section-headline">Code, Music &amp; Patience</h2>
-          </div>
+          </ScrollReveal>
 
-          <div className="story-grid-layout">
-            <LiquidGlassCard interactive={false}>
-              <div className="story-main-box">
-                <p className="story-lead-paragraph">
-                  I started coding about two years ago out of pure curiosity. I wanted to understand how apps on my phone actually worked, why some websites feel fast while others lag, and how to build helpful things from scratch.
-                </p>
-                <p className="story-body-paragraph">
-                  At the same time, I have been learning <strong>classical Carnatic music on the Veena for the past 10 years</strong>. People often wonder what classical music has to do with computer programming. In Carnatic music, you cannot rush or cheat the rhythm. Every note requires discipline, practice, and patience.
-                </p>
-                <p className="story-body-paragraph">
-                  Building software feels the exact same way. Whether I'm optimizing offscreen canvas rendering in my Wallpaper Studio app or structuring state in React, having patience and respecting clean structure makes all the difference. No shortcuts — just good craftsmanship.
-                </p>
+          <ScrollReveal delay={80}>
+            <div className="story-grid-layout">
+              <LiquidGlassCard interactive={false}>
+                <div className="story-main-box">
+                  <p className="story-lead-paragraph">
+                    I started coding about two years ago out of pure curiosity. I wanted to understand how apps on my phone actually worked, why some websites feel fast while others lag, and how to build helpful things from scratch.
+                  </p>
+                  <p className="story-body-paragraph">
+                    At the same time, I have been learning <strong>classical Carnatic music on the Veena for the past 10 years</strong>. People often wonder what classical music has to do with computer programming. In Carnatic music, you cannot rush or cheat the rhythm. Every note requires discipline, practice, and patience.
+                  </p>
+                  <p className="story-body-paragraph">
+                    Building software feels the exact same way. Whether I'm optimizing offscreen canvas rendering in my Wallpaper Studio app or structuring state in React, having patience and respecting clean structure makes all the difference. No shortcuts — just good craftsmanship.
+                  </p>
 
-                <div className="music-quote-box">
-                  "Patience isn't just about waiting; it's about paying close attention to every small detail along the way."
-                </div>
-              </div>
-            </LiquidGlassCard>
-
-            <LiquidGlassCard interactive={false}>
-              <div className="story-sidebar-box">
-                <div className="sidebar-focus-list">
-                  <div className="focus-item">
-                    <div className="focus-icon-bullet">
-                      <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>android</span>
-                    </div>
-                    <div>
-                      <div className="focus-text-title">Android &amp; Jetpack Compose</div>
-                      <div className="focus-text-desc">Building responsive, battery-friendly apps in Kotlin with dynamic Material You colors.</div>
-                    </div>
-                  </div>
-
-                  <div className="focus-item">
-                    <div className="focus-icon-bullet">
-                      <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>brush</span>
-                    </div>
-                    <div>
-                      <div className="focus-text-title">Procedural Math &amp; Canvas</div>
-                      <div className="focus-text-desc">Writing custom 2D Skia algorithms that draw sharp vector designs on hardware with zero lag.</div>
-                    </div>
-                  </div>
-
-                  <div className="focus-item">
-                    <div className="focus-icon-bullet">
-                      <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>cloud_sync</span>
-                    </div>
-                    <div>
-                      <div className="focus-text-title">Cloud Infrastructure</div>
-                      <div className="focus-text-desc">Writing Terraform configurations, deploying to Cloud Run, and querying data with BigQuery.</div>
-                    </div>
-                  </div>
-
-                  <div className="focus-item">
-                    <div className="focus-icon-bullet">
-                      <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>queue_music</span>
-                    </div>
-                    <div>
-                      <div className="focus-text-title">Carnatic Veena (10+ Years)</div>
-                      <div className="focus-text-desc">A decade of classical discipline cultivating patience, micro-tuning, and focus.</div>
-                    </div>
+                  <div className="music-quote-box">
+                    "Patience isn't just about waiting; it's about paying close attention to every small detail along the way."
                   </div>
                 </div>
-              </div>
-            </LiquidGlassCard>
-          </div>
+              </LiquidGlassCard>
+
+              <LiquidGlassCard interactive={false}>
+                <div className="story-sidebar-box">
+                  <div className="sidebar-focus-list">
+                    <div className="focus-item">
+                      <div className="focus-icon-bullet">
+                        <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>android</span>
+                      </div>
+                      <div>
+                        <div className="focus-text-title">Android &amp; Jetpack Compose</div>
+                        <div className="focus-text-desc">Building responsive, battery-friendly apps in Kotlin with dynamic Material You colors.</div>
+                      </div>
+                    </div>
+
+                    <div className="focus-item">
+                      <div className="focus-icon-bullet">
+                        <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>brush</span>
+                      </div>
+                      <div>
+                        <div className="focus-text-title">Procedural Math &amp; Canvas</div>
+                        <div className="focus-text-desc">Writing custom 2D Skia algorithms that draw sharp vector designs on hardware with zero lag.</div>
+                      </div>
+                    </div>
+
+                    <div className="focus-item">
+                      <div className="focus-icon-bullet">
+                        <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>cloud_sync</span>
+                      </div>
+                      <div>
+                        <div className="focus-text-title">Cloud Infrastructure</div>
+                        <div className="focus-text-desc">Writing Terraform configurations, deploying to Cloud Run, and querying data with BigQuery.</div>
+                      </div>
+                    </div>
+
+                    <div className="focus-item">
+                      <div className="focus-icon-bullet">
+                        <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>queue_music</span>
+                      </div>
+                      <div>
+                        <div className="focus-text-title">Carnatic Veena (10+ Years)</div>
+                        <div className="focus-text-desc">A decade of classical discipline cultivating patience, micro-tuning, and focus.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </LiquidGlassCard>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
+
+      <div className="section-divider" />
 
       {/* ═══════════ Tech Matrix ═══════════ */}
       <section className="section-wrapper" id="skills">
         <div className="container">
-          <div className="section-head-box">
-            <div className="section-eyebrow">
-              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>tune</span>
-              <span>Skills &amp; Tools</span>
+          <ScrollReveal>
+            <div className="section-head-box">
+              <div className="section-eyebrow">
+                <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>tune</span>
+                <span>Skills &amp; Tools</span>
+              </div>
+              <h2 className="section-headline">Technologies I Use</h2>
+              <p className="section-subtext">
+                The languages, tools, and platforms I work with. Hover over any skill to feel the bouncy spring animation.
+              </p>
             </div>
-            <h2 className="section-headline">Technologies I Use</h2>
-            <p className="section-subtext">
-              The languages, tools, and platforms I work with. Hover over any skill to feel the bouncy spring animation.
-            </p>
-          </div>
+          </ScrollReveal>
 
-          <div className="tech-matrix-grid">
-            {techMatrix.map((tGroup) => (
-              <LiquidGlassCard key={tGroup.group} interactive={true}>
-                <div className="tech-group-card">
-                  <div className="tech-group-title">
-                    <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>{tGroup.icon}</span>
-                    <span>{tGroup.group}</span>
-                  </div>
+          <ScrollReveal delay={80}>
+            <div className="tech-matrix-grid">
+              {techMatrix.map((tGroup) => (
+                <LiquidGlassCard key={tGroup.group} interactive={true}>
+                  <div className="tech-group-card">
+                    <div className="tech-group-title">
+                      <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>{tGroup.icon}</span>
+                      <span>{tGroup.group}</span>
+                    </div>
 
-                  <div className="tech-chips-wrap">
-                    {tGroup.items.map(skill => (
-                      <span key={skill} className="tech-interactive-chip">
-                        {skill}
-                      </span>
-                    ))}
+                    <div className="tech-chips-wrap">
+                      {tGroup.items.map(skill => (
+                        <span key={skill} className="tech-interactive-chip">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </LiquidGlassCard>
-            ))}
-          </div>
+                </LiquidGlassCard>
+              ))}
+            </div>
+          </ScrollReveal>
         </div>
       </section>
+
+      <div className="section-divider" />
 
       {/* ═══════════ Contact Hub (Friendly & Humane) ═══════════ */}
       <section className="section-wrapper" id="contact">
         <div className="container">
-          <LiquidGlassCard interactive={true}>
-            <div className="contact-hub-card">
-              <div className="section-eyebrow" style={{ marginBottom: '20px' }}>
-                <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>alternate_email</span>
-                <span>Get In Touch</span>
+          <ScrollReveal>
+            <LiquidGlassCard interactive={true}>
+              <div className="contact-hub-card">
+                <div className="section-eyebrow" style={{ marginBottom: '20px' }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>alternate_email</span>
+                  <span>Get In Touch</span>
+                </div>
+
+                <h2 className="contact-headline">Say Hello!</h2>
+                <p className="contact-message-body">
+                  Have an idea for an Android app, want to collaborate on a web project, or just want to chat about code or music? My inbox is always open.
+                </p>
+
+                <div className="contact-actions-grid">
+                  <MagneticButton strength={0.35} as="div">
+                    <BouncyButton
+                      onClick={handleCopyEmail}
+                      variant="primary"
+                    >
+                      <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>
+                        {emailCopied ? 'check' : 'content_copy'}
+                      </span>
+                      <span>{emailCopied ? 'Email Copied!' : 'Copy Email Address'}</span>
+                    </BouncyButton>
+                  </MagneticButton>
+
+                  <MagneticButton strength={0.35} as="div">
+                    <BouncyButton
+                      as="a"
+                      href={socialLinks.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      variant="secondary"
+                    >
+                      <GitHubIcon />
+                      <span>GitHub</span>
+                    </BouncyButton>
+                  </MagneticButton>
+
+                  <MagneticButton strength={0.35} as="div">
+                    <BouncyButton
+                      as="a"
+                      href={socialLinks.telegram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      variant="secondary"
+                    >
+                      <TelegramIcon />
+                      <span>Telegram</span>
+                    </BouncyButton>
+                  </MagneticButton>
+
+                  <MagneticButton strength={0.35} as="div">
+                    <BouncyButton
+                      as="a"
+                      href={socialLinks.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      variant="secondary"
+                    >
+                      <InstagramIcon />
+                      <span>Instagram</span>
+                    </BouncyButton>
+                  </MagneticButton>
+                </div>
               </div>
-
-              <h2 className="contact-headline">Say Hello!</h2>
-              <p className="contact-message-body">
-                Have an idea for an Android app, want to collaborate on a web project, or just want to chat about code or music? My inbox is always open.
-              </p>
-
-              <div className="contact-actions-grid">
-                <BouncyButton
-                  onClick={handleCopyEmail}
-                  variant="primary"
-                >
-                  <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>
-                    {emailCopied ? 'check' : 'content_copy'}
-                  </span>
-                  <span>{emailCopied ? 'Email Copied!' : 'Copy Email Address'}</span>
-                </BouncyButton>
-
-                <BouncyButton
-                  as="a"
-                  href={socialLinks.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="secondary"
-                >
-                  <GitHubIcon />
-                  <span>GitHub</span>
-                </BouncyButton>
-
-                <BouncyButton
-                  as="a"
-                  href={socialLinks.telegram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="secondary"
-                >
-                  <TelegramIcon />
-                  <span>Telegram</span>
-                </BouncyButton>
-
-                <BouncyButton
-                  as="a"
-                  href={socialLinks.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="secondary"
-                >
-                  <InstagramIcon />
-                  <span>Instagram</span>
-                </BouncyButton>
-              </div>
-            </div>
-          </LiquidGlassCard>
+            </LiquidGlassCard>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -708,7 +806,7 @@ export default function App() {
           </div>
 
           <div className="footer-bottom-line">
-            <p>© {new Date().getFullYear()} Phoenix · 16-year-old Android &amp; Web Developer · Built with React</p>
+            <p>© {new Date().getFullYear()} Phoenix · 16-year-old Android &amp; Web Developer · Licensed under Apache-2.0</p>
           </div>
         </div>
       </footer>
