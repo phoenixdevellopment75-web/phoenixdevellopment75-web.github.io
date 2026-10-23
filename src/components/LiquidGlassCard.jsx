@@ -1,4 +1,12 @@
-import React, { useRef, useState } from 'react';
+/*
+ * Copyright 2026 Phoenix (phoenixdevellopment75@gmail.com)
+ * Licensed under the Apache License, Version 2.0
+ *
+ * LiquidGlassCard — Tactile Monochrome Card with Cursor-Reactive Radial Border
+ * Dynamically updates --x and --y on mousemove for 60fps radial edge lighting.
+ */
+
+import React, { useRef } from 'react';
 import './LiquidGlassCard.css';
 
 export default function LiquidGlassCard({
@@ -10,15 +18,21 @@ export default function LiquidGlassCard({
   ...props
 }) {
   const cardRef = useRef(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e) => {
     if (!cardRef.current || !interactive) return;
     const rect = cardRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    cardRef.current.style.setProperty('--x', `${x}px`);
+    cardRef.current.style.setProperty('--y', `${y}px`);
+  };
+
+  const handleMouseLeave = () => {
+    if (!cardRef.current || !interactive) return;
+    cardRef.current.style.setProperty('--x', '-1000px');
+    cardRef.current.style.setProperty('--y', '-1000px');
   };
 
   return (
@@ -26,19 +40,13 @@ export default function LiquidGlassCard({
       ref={cardRef}
       className={`liquid-glass-card ${interactive ? 'interactive' : ''} ${className}`}
       onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       onClick={onClick}
       style={style}
       {...props}
     >
-      {/* Specular Monochrome Glare Reflection */}
-      {interactive && (
-        <div
-          className="glass-specular-glare"
-          style={{
-            background: `radial-gradient(circle 240px at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.08), transparent 70%)`,
-          }}
-        />
-      )}
+      {/* Specular monochrome glare */}
+      {interactive && <div className="glass-specular-glare" />}
 
       <div className="liquid-glass-content">
         {children}

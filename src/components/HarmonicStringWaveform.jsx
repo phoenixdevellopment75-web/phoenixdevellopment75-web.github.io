@@ -16,6 +16,7 @@
  * HarmonicStringWaveform — Tactile interactive Carnatic Veena string physics.
  * 4 harmonic courses (Sa, Pa, Sa', Pa'). Pluck on hover/touch.
  * Zero CPU/GPU overhead when off-screen via IntersectionObserver.
+ * Strict bounds clipping on pointer tracking and overlays.
  */
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
@@ -202,14 +203,23 @@ export default function HarmonicStringWaveform() {
     };
   }, [pluck]);
 
-  // Handle pointer hover / pluck
+  // Handle pointer hover / pluck with strict bounds clipping
   const handlePointerMove = (e) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const rawX = e.clientX - rect.left;
+    const rawY = e.clientY - rect.top;
+
+    // Strict bounds clipping: if outside canvas, reset velocity and return
+    if (rawX < 0 || rawX > rect.width || rawY < 0 || rawY > rect.height) {
+      mousePos.current.prevY = -1000;
+      return;
+    }
+
+    const x = Math.max(0, Math.min(rect.width, rawX));
+    const y = Math.max(0, Math.min(rect.height, rawY));
 
     if (mousePos.current.prevY !== -1000) {
       const dy = Math.abs(y - mousePos.current.prevY);

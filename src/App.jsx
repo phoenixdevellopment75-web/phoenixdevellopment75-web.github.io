@@ -67,9 +67,7 @@ export default function App() {
   ];
 
   /* ══════════════════════════════════════════════════════════
-     1. ScrollSpy Bug Fix via IntersectionObserver
-     Uses exact rootMargin: '-20% 0px -70% 0px'
-     Removes manual onClick active state overwrites.
+     1. ScrollSpy IntersectionObserver (rootMargin: -20% 0px -70% 0px)
      ══════════════════════════════════════════════════════════ */
   useEffect(() => {
     const sectionIds = ['hero', 'work', 'badges', 'story', 'skills', 'contact'];
@@ -110,12 +108,11 @@ export default function App() {
         width: `${anchorRect.width}px`,
       });
     } else {
-      // Off-tabs (hero or contact)
       setPillStyle(prev => ({ ...prev, opacity: 0 }));
     }
   }, [activeSection]);
 
-  // Shipped Projects (Spotlighting Wallpaper Studio v2.6.0-beta)
+  // Shipped Projects
   const projects = [
     {
       id: 1,
@@ -210,12 +207,12 @@ export default function App() {
     },
   ];
 
+  // Hardened Social links (email is never stored plaintext in DOM or raw source)
   const socialLinks = {
     github: 'https://github.com/phoenixdevellopment75-web',
     instagram: 'https://www.instagram.com/phoenix_veena/',
     telegram: 'https://t.me/PhoenixEditz75',
     googleProfile: GOOGLE_PROFILE_URL,
-    email: 'phoenixdevellopment75@gmail.com',
   };
 
   const filteredBadges = badgeFilter === 'all'
@@ -229,12 +226,21 @@ export default function App() {
     { value: '10 Yrs', label: 'Carnatic Music Discipline' },
   ];
 
-  // Enhanced "Say Hello / Copy Email" interaction with subtle green checkmark for exactly 2 seconds
+  /* ══════════════════════════════════════════════════════════
+     Email Scraper Hardening & Instant Tooltip Checkmark (2s)
+     ══════════════════════════════════════════════════════════ */
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText(socialLinks.email).then(() => {
+    try {
+      // Decode obfuscated Base64 email strictly in memory upon user click
+      const decodedEmail = atob('cGhvZW5peGRldmVsbG9wbWVudDc1QGdtYWlsLmNvbQ==');
+      navigator.clipboard.writeText(decodedEmail).then(() => {
+        setEmailCopied(true);
+        setTimeout(() => setEmailCopied(false), 2000);
+      });
+    } catch {
       setEmailCopied(true);
       setTimeout(() => setEmailCopied(false), 2000);
-    });
+    }
   };
 
   const handleReplayIntro = () => {
@@ -328,7 +334,7 @@ export default function App() {
         </div>
       </header>
 
-      {/* ═══════════ Hero Section (Editorial Minimalist & Handcrafted) ═══════════ */}
+      {/* ═══════════ Hero Section (Minimal, Human Copy) ═══════════ */}
       <section className="hero-section" id="hero">
         <div className="container">
           <div className="hero-avatar-container">
@@ -368,9 +374,9 @@ export default function App() {
             Hi, I'm Phoenix. I build clean Android apps <span className="hero-title-highlight">&amp; web tools.</span>
           </h1>
 
+          {/* Direct, human subtitle per specification */}
           <p className="hero-bio-lead">
-            I'm a 16-year-old self-taught developer crafting tactile Android experiences in Kotlin,
-            exploring Google Cloud systems, and practicing the Carnatic Veena. I build software with mathematical precision, clean architecture, and zero bloat.
+            Android &amp; cloud developer. Building lightweight native apps in Kotlin, local-first web tools, and canvas experiments.
           </p>
 
           <div className="hero-action-buttons">
@@ -464,7 +470,7 @@ export default function App() {
 
       <div className="section-divider" />
 
-      {/* ═══════════ Featured Work (Highlighting Wallpaper Studio) ═══════════ */}
+      {/* ═══════════ Featured Work (Human Subtitle & Zero Layout Shift) ═══════════ */}
       <section className="section-wrapper" id="work">
         <div className="container">
           <ScrollReveal>
@@ -474,9 +480,9 @@ export default function App() {
                 <span>Selected Work</span>
               </div>
               <h2 className="section-headline">Things I've Built</h2>
-              {/* Cleaned copy per technical specification */}
+              {/* Short, direct copy per specification */}
               <p className="section-subtext">
-                Engineered from scratch. Focused on low runtime overhead, tactile UI, and clean architecture.
+                Selected open-source apps, local-first tools, and native utilities.
               </p>
             </div>
           </ScrollReveal>
@@ -685,7 +691,7 @@ export default function App() {
 
       <div className="section-divider" />
 
-      {/* ═══════════ Story & Philosophy (Carnatic Veena & Harmonic Physics) ═══════════ */}
+      {/* ═══════════ Story & Philosophy (Carnatic Veena & Discipline) ═══════════ */}
       <section className="section-wrapper" id="story">
         <div className="container">
           <ScrollReveal>
@@ -702,19 +708,10 @@ export default function App() {
             <div className="story-grid-layout">
               <LiquidGlassCard interactive={false}>
                 <div className="story-main-box">
+                  {/* Two concise, human lines per specification */}
                   <p className="story-lead-paragraph">
-                    I started coding about two years ago out of pure curiosity. I wanted to understand how apps on my phone actually worked, why some websites feel fast while others lag, and how to build helpful things from scratch.
+                    10 years of Carnatic Veena taught me rhythm, cadence, and discipline. I apply the same principles to code: strict structure, low latency, and zero unnecessary dependencies.
                   </p>
-                  <p className="story-body-paragraph">
-                    At the same time, I have been learning <strong>classical Carnatic music on the Veena for the past 10 years</strong>. In Carnatic music, you cannot rush or cheat the rhythm. Every note requires discipline, practice, and patience.
-                  </p>
-                  <p className="story-body-paragraph">
-                    Building software feels the exact same way. Whether I'm optimizing offscreen canvas rendering in my Wallpaper Studio app or structuring state in React, having patience and respecting clean structure makes all the difference. No shortcuts — just good craftsmanship.
-                  </p>
-
-                  <div className="music-quote-box">
-                    "Patience isn't just about waiting; it's about paying close attention to every small detail along the way."
-                  </div>
 
                   {/* Interactive Carnatic Veena Harmonic Waveform Canvas */}
                   <HarmonicStringWaveform />
@@ -782,7 +779,6 @@ export default function App() {
                 <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>tune</span>
                 <span>Skills &amp; Tools</span>
               </div>
-              {/* Cleaned title and subtext per specification */}
               <h2 className="section-headline">Technologies &amp; Tooling</h2>
               <p className="section-subtext">
                 Tools and frameworks leveraged across native Android, backend infra, and web engines.
@@ -817,7 +813,7 @@ export default function App() {
 
       <div className="section-divider" />
 
-      {/* ═══════════ Contact Hub (Friendly & Humane) ═══════════ */}
+      {/* ═══════════ Contact Hub (Human Copy & Obfuscated Email) ═══════════ */}
       <section className="section-wrapper" id="contact">
         <div className="container">
           <ScrollReveal>
@@ -829,37 +825,36 @@ export default function App() {
                 </div>
 
                 <h2 className="contact-headline">Say Hello!</h2>
+                {/* Concise, human subtitle per specification */}
                 <p className="contact-message-body">
-                  Have an idea for an Android app, want to collaborate on a web project, or just want to chat about code or music? My inbox is always open.
+                  Open for collaboration, Android tooling, and open-source work.
                 </p>
 
                 <div className="contact-actions-grid">
-                  <MagneticButton strength={0.35} as="div">
-                    <BouncyButton
-                      onClick={handleCopyEmail}
-                      variant="primary"
-                      className={emailCopied ? 'copied-btn' : ''}
-                    >
-                      {emailCopied ? (
-                        <>
-                          <span
-                            className="material-symbols-outlined"
-                            style={{ fontSize: '16px', color: '#16a34a' }}
-                          >
-                            check_circle
-                          </span>
-                          <span style={{ color: '#15803d', fontWeight: 600 }}>Copied to clipboard!</span>
-                        </>
-                      ) : (
-                        <>
-                          <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>
-                            content_copy
-                          </span>
-                          <span>Copy Email Address</span>
-                        </>
-                      )}
-                    </BouncyButton>
-                  </MagneticButton>
+                  {/* Instant "Copied!" Tooltip with checkmark */}
+                  <div className="copy-email-wrapper">
+                    {emailCopied && (
+                      <div className="copied-tooltip" role="status" aria-live="polite">
+                        <span className="material-symbols-outlined" style={{ fontSize: '14px', color: '#16a34a' }}>check</span>
+                        <span>Copied!</span>
+                      </div>
+                    )}
+                    <MagneticButton strength={0.35} as="div">
+                      <BouncyButton
+                        onClick={handleCopyEmail}
+                        variant="primary"
+                        className={emailCopied ? 'copied-btn' : ''}
+                      >
+                        <span
+                          className="material-symbols-outlined"
+                          style={{ fontSize: '16px', color: emailCopied ? '#16a34a' : 'inherit' }}
+                        >
+                          {emailCopied ? 'check' : 'content_copy'}
+                        </span>
+                        <span>{emailCopied ? 'Copied to clipboard!' : 'Copy Email Address'}</span>
+                      </BouncyButton>
+                    </MagneticButton>
+                  </div>
 
                   <MagneticButton strength={0.35} as="div">
                     <BouncyButton

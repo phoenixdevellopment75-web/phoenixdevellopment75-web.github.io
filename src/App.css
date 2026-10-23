@@ -11,6 +11,7 @@
  *   • WCAG AA Accessibility Contrast Compliant (all text >= 4.5:1 ratio)
  *   • Zero layout-shift expandable drawers (grid-template-rows 0fr -> 1fr)
  *   • Smoothly animated sliding active pill for navigation
+ *   • Scroll margin offset (100px) so sticky navbar never obscures headers
  *   • prefers-reduced-motion respected throughout
  */
 
@@ -101,13 +102,25 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.35); }
 
 /* ══════════════════════════════════════════════════════════
-   Layout & Background
+   Layout & Background System
    ══════════════════════════════════════════════════════════ */
 .app-container {
   position: relative;
   min-height: 100vh;
   background-color: var(--bg-base);
   overflow: clip; /* clip avoids breaking backdrop-filter */
+}
+
+/* Scroll margin offset so sticky navbar never covers headers */
+#hero,
+#work,
+#badges,
+#story,
+#skills,
+#contact,
+.section-wrapper,
+.hero-section {
+  scroll-margin-top: 100px;
 }
 
 /* Ambient dot grid — fixed behind all content */
@@ -802,6 +815,7 @@ body {
   transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
   width: 100%;
+  contain: paint;
 }
 .project-expandable-drawer.is-expanded {
   grid-template-rows: 1fr;
@@ -810,6 +824,7 @@ body {
 .project-expandable-content {
   min-height: 0;
   overflow: hidden;
+  width: 100%;
 }
 
 .project-details-box {
@@ -1081,31 +1096,11 @@ body {
 .story-main-box { padding: 36px; }
 
 .story-lead-paragraph {
-  font-size: 17px;
+  font-size: 18px;
   color: #ffffff;
-  line-height: 1.75;
+  line-height: 1.7;
   margin-bottom: 22px;
   font-weight: 400;
-}
-
-.story-body-paragraph {
-  font-size: 14.5px;
-  color: var(--text-secondary);
-  line-height: 1.8;
-  margin-bottom: 18px;
-}
-
-/* Quote block — bespoke editorial */
-.music-quote-box {
-  margin-top: 24px;
-  padding: 18px 22px;
-  border-radius: 0 10px 10px 0;
-  background: rgba(255, 255, 255, 0.024);
-  border-left: 2px solid rgba(255, 255, 255, 0.22);
-  font-style: italic;
-  font-size: 14px;
-  color: var(--text-secondary);
-  line-height: 1.65;
 }
 
 .story-sidebar-box {
@@ -1215,7 +1210,7 @@ body {
 }
 
 /* ══════════════════════════════════════════════════════════
-   Contact
+   Contact & Instant Tooltip Feedback
    ══════════════════════════════════════════════════════════ */
 .contact-hub-card {
   padding: clamp(36px, 6vw, 72px);
@@ -1247,6 +1242,50 @@ body {
   justify-content: center;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+/* Copy email wrapper and floating tooltip */
+.copy-email-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.copied-tooltip {
+  position: absolute;
+  top: -38px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background: #ffffff;
+  color: #050507;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  animation: tooltipBounceIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  z-index: 20;
+  white-space: nowrap;
+}
+
+.copied-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px 4px 0 4px;
+  border-style: solid;
+  border-color: #ffffff transparent transparent transparent;
+}
+
+@keyframes tooltipBounceIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(6px) scale(0.9); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
 }
 
 /* ══════════════════════════════════════════════════════════
