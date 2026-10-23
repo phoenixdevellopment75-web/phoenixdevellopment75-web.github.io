@@ -14,20 +14,21 @@
  * limitations under the License.
  *
  * HarmonicStringWaveform — Tactile interactive Carnatic Veena string physics.
+ * Autumn golden hour & warm brass string palette.
  * 4 harmonic courses (Sa, Pa, Sa', Pa'). Pluck on hover/touch.
  * Zero CPU/GPU overhead when off-screen via IntersectionObserver.
- * Strict bounds clipping on pointer tracking and overlays.
  */
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import './HarmonicStringWaveform.css';
 
 // Carnatic Veena 4-string fundamental ratios (Sa - Pa - Sa' - Pa')
+// Tuned to warm bronze and golden tones matching physical Veena strings
 const STRINGS = [
-  { note: 'Sa',  freq: 1.0,  label: 'Mandra Shadjam (Lower Sa)',   opacity: 0.9,  color: '#ffffff' },
-  { note: 'Pa',  freq: 1.5,  label: 'Mandra Panchamam (Lower Pa)',  opacity: 0.75, color: '#e4e4e7' },
-  { note: 'Sa˙', freq: 2.0,  label: 'Madhya Shadjam (Middle Sa)',   opacity: 0.6,  color: '#cbd5e1' },
-  { note: 'Pa˙', freq: 3.0,  label: 'Madhya Panchamam (Middle Pa)', opacity: 0.45, color: '#94a3b8' },
+  { note: 'Sa',  freq: 1.0,  label: 'Mandra Shadjam (Lower Sa)',   opacity: 0.95, color: '#DE9B52' },
+  { note: 'Pa',  freq: 1.5,  label: 'Mandra Panchamam (Lower Pa)',  opacity: 0.85, color: '#E5AF68' },
+  { note: 'Sa˙', freq: 2.0,  label: 'Madhya Shadjam (Middle Sa)',   opacity: 0.75, color: '#F4CE94' },
+  { note: 'Pa˙', freq: 3.0,  label: 'Madhya Panchamam (Middle Pa)', opacity: 0.65, color: '#FFFFFF' },
 ];
 
 export default function HarmonicStringWaveform() {
@@ -71,7 +72,7 @@ export default function HarmonicStringWaveform() {
       const rect = container.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = rect.width;
-      height = rect.height || 160;
+      height = rect.height || 140;
 
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
@@ -99,9 +100,9 @@ export default function HarmonicStringWaveform() {
       const availableHeight = height - verticalPadding * 2;
       const stringSpacing = availableHeight / (numStrings - 1 || 1);
 
-      // Draw faint brass fret lines (representing Veena frets)
-      const numFrets = 12;
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+      // Draw faint brass fret lines (representing Veena 24 frets)
+      const numFrets = 14;
+      ctx.strokeStyle = 'rgba(222, 155, 82, 0.12)';
       ctx.lineWidth = 1;
       for (let f = 1; f < numFrets; f++) {
         const fx = (width / numFrets) * f;
@@ -147,24 +148,24 @@ export default function HarmonicStringWaveform() {
           }
         }
 
-        // String styling
+        // String styling with warm golden amber tones
         ctx.strokeStyle = strConfig.color;
-        ctx.globalAlpha = strConfig.opacity * (0.6 + (state.amp / 26) * 0.4);
-        ctx.lineWidth = Math.max(1, 2.2 - i * 0.35);
+        ctx.globalAlpha = strConfig.opacity * (0.7 + (state.amp / 26) * 0.3);
+        ctx.lineWidth = Math.max(1.2, 2.4 - i * 0.35);
         ctx.stroke();
 
         // String glow when vibrating
         if (state.amp > 1) {
           ctx.save();
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
-          ctx.lineWidth = 4 + (state.amp / 26) * 4;
+          ctx.strokeStyle = 'rgba(222, 155, 82, 0.4)';
+          ctx.lineWidth = 4 + (state.amp / 26) * 5;
           ctx.stroke();
           ctx.restore();
         }
 
-        // Fixed bridge pegs at ends
-        ctx.fillStyle = '#ffffff';
-        ctx.globalAlpha = 0.9;
+        // Fixed bridge brass pegs at ends
+        ctx.fillStyle = '#DE9B52';
+        ctx.globalAlpha = 0.95;
         ctx.beginPath();
         ctx.arc(8, baseY, 2.5, 0, Math.PI * 2);
         ctx.fill();
@@ -273,7 +274,7 @@ export default function HarmonicStringWaveform() {
 
       <div className="harmonic-footer-meta">
         <span>SA (C#) · PA (G#) · SA' (C#') · PA' (G#')</span>
-        <span>ZERO RUNTIME OFF-SCREEN // 60 FPS MATH</span>
+        <span>10 YEARS CLASSICAL DISCIPLINE // ZERO RUNTIME OVERHEAD</span>
       </div>
     </div>
   );
