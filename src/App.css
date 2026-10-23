@@ -90,7 +90,7 @@ body {
   position: relative;
   min-height: 100vh;
   background-color: var(--bg-base);
-  overflow: hidden;
+  overflow: clip;
 }
 
 .ambient-dot-grid {
