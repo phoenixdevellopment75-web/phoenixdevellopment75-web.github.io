@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Phoenix Portfolio — Clean Editorial Redesign
- * Inspired by tactile editorial poster design with cream, autumn golden hour,
- * deep black, and white. Zero AI gradients.
+ * Phoenix Portfolio — Clean Editorial Design
+ * Palette: Cream Linen, Autumn Golden Hour, Deep Black, White. Zero AI gradients.
  */
 
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import HarmonicStringWaveform from './components/HarmonicStringWaveform';
 import { badges, categoryLabels, GOOGLE_PROFILE_URL } from './data/badges';
 
-/* ── Minimalist SVG Icons (Pure Monochromatic) ── */
+/* ── Minimalist SVG Icons ── */
 const GitHubIcon = () => (
   <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
     <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
@@ -48,16 +46,15 @@ export default function App() {
   const [emailCopied, setEmailCopied] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
 
-  // Navigation Links
   const navTabs = [
-    { id: 'hero', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'content', label: 'Content' },
-    { id: 'badges', label: 'Badges' },
+    { id: 'hero',    label: 'Home'    },
+    { id: 'about',   label: 'About'   },
+    { id: 'content', label: 'Work'    },
+    { id: 'badges',  label: 'Badges'  },
     { id: 'contact', label: 'Contact' },
   ];
 
-  // ScrollSpy via IntersectionObserver
+  // ScrollSpy via IntersectionObserver — no manual active state overwrite
   useEffect(() => {
     const sectionIds = ['hero', 'about', 'content', 'badges', 'contact'];
     const elements = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
@@ -65,9 +62,7 @@ export default function App() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
         });
       },
       { rootMargin: '-20% 0px -70% 0px' }
@@ -77,24 +72,22 @@ export default function App() {
     return () => observer.disconnect();
   }, []);
 
-  // Filtered Google Cloud Badges
   const filteredBadges = badgeFilter === 'all'
     ? badges
     : badges.filter(b => b.category === badgeFilter);
 
-  // Social Links
   const socialLinks = {
-    github: 'https://github.com/phoenixdevellopment75-web',
-    instagram: 'https://www.instagram.com/phoenix_veena/',
-    telegram: 'https://t.me/PhoenixEditz75',
+    github:        'https://github.com/phoenixdevellopment75-web',
+    instagram:     'https://www.instagram.com/phoenix_veena/',
+    telegram:      'https://t.me/PhoenixEditz75',
     googleProfile: GOOGLE_PROFILE_URL,
   };
 
-  // Scraper-resistant email copy handler (decoded only upon click)
+  // Scraper-resistant — decoded only on click
   const handleCopyEmail = () => {
     try {
-      const decodedEmail = atob('cGhvZW5peGRldmVsbG9wbWVudDc1QGdtYWlsLmNvbQ==');
-      navigator.clipboard.writeText(decodedEmail).then(() => {
+      const email = atob('cGhvZW5peGRldmVsbG9wbWVudDc1QGdtYWlsLmNvbQ==');
+      navigator.clipboard.writeText(email).then(() => {
         setEmailCopied(true);
         setTimeout(() => setEmailCopied(false), 2000);
       });
@@ -104,13 +97,12 @@ export default function App() {
     }
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
     <div className="app-wrapper">
-      {/* ═══════════ Floating Editorial Header ═══════════ */}
+
+      {/* ═══════════ Floating Editorial Navbar ═══════════ */}
       <header className="header-wrapper">
         <nav className="editorial-navbar">
           <a href="#hero" className="nav-brand-group">
@@ -154,7 +146,7 @@ export default function App() {
           </div>
         </nav>
 
-        {/* Mobile Navigation Drawer */}
+        {/* Mobile Drawer */}
         <div className={`mobile-menu-drawer ${mobileMenuOpen ? 'open' : ''}`}>
           {navTabs.map((tab) => (
             <a
@@ -178,11 +170,11 @@ export default function App() {
       </header>
 
       <main>
-        {/* ═══════════ HERO SECTION — Recreating Reference Poster ═══════════ */}
+        {/* ═══════════ HERO — Editorial Poster Typography + Depth Portrait ═══════════ */}
         <section className="hero-stage-section" id="hero">
-          <div className="content-container">
+          <div className="hero-inner-constrained">
             <div className="hero-art-wrapper">
-              {/* Massive Editorial "PORTFOLIO" Letters with depth layering */}
+              {/* Constrained "PORTFOLIO" title — no 100vw stretch */}
               <div className="portfolio-title-container">
                 <div className="portfolio-letter-row">
                   <span className="portfolio-char char-p">P</span>
@@ -198,31 +190,43 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Seated Depth Effect Cutout (Phoenix in sweater with golden hour light) */}
+              {/* Phoenix cutout — layered behind the letters (z-index 3 cuts through) */}
               <div className="hero-person-cutout-box">
                 <img
                   src="./phoenix_hero.png"
-                  alt="Phoenix Developer portrait"
+                  alt="Phoenix, developer"
                   className="hero-person-img"
-                  onError={(e) => {
-                    e.target.src = './pfp.png';
-                  }}
+                  onError={(e) => { e.target.src = './pfp.png'; }}
                 />
               </div>
 
-              {/* Name stamp under the cutout */}
-              <div className="hero-caption-name">
-                PHOENIX DEV // '26
+              <div className="hero-caption-name">PHOENIX DEV // '26</div>
+            </div>
+
+            {/* Hero intro — natural voice */}
+            <div className="hero-intro-strip">
+              <p className="hero-intro-text">
+                Hey, I'm Phoenix. I'm a 16-year-old self-taught developer from India currently
+                in 11th grade (PCM). When I'm not studying, I build lightweight Android apps in
+                Kotlin and local-first web tools. I've also trained in the Saraswati Veena for
+                over 10 years.
+              </p>
+              <div className="hero-stat-chips">
+                <span className="hero-stat-chip">🎵 10 Yrs Saraswati Veena</span>
+                <span className="hero-stat-chip">📱 Android · Kotlin</span>
+                <span className="hero-stat-chip">☁️ 7 GCP Badges</span>
+                <span className="hero-stat-chip">🇮🇳 India</span>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ═══════════ SECTION 2: Lanyard ID Pass + Editorial Bio ═══════════ */}
+        {/* ═══════════ ABOUT — Lanyard ID + 3-Column Bio ═══════════ */}
         <section className="editorial-profile-section" id="about">
           <div className="content-container">
             <div className="profile-editorial-grid">
-              {/* Hanging Physical Lanyard Badge */}
+
+              {/* Hanging Lanyard Badge */}
               <div className="lanyard-hanging-wrapper">
                 <div className="lanyard-strap" />
                 <div className="lanyard-clip" />
@@ -233,38 +237,20 @@ export default function App() {
                       src="./pfp.jpg"
                       alt="Phoenix official pass photo"
                       className="id-photo-img"
-                      onError={(e) => {
-                        e.target.src = './pfp.png';
-                      }}
+                      onError={(e) => { e.target.src = './pfp.png'; }}
                     />
                   </div>
                   <div className="id-card-details">
                     <div className="id-person-name">PHOENIX</div>
                     <div className="id-person-role">11TH GRADE PCM · ANDROID DEV</div>
                     <div style={{ fontSize: '11px', color: 'var(--ink-muted)', marginTop: '2px' }}>
-                      Veena &amp; Vocal Practitioner (10 Yrs)
+                      India · Available for Projects
                     </div>
                   </div>
                   <div className="id-barcode-graphic">
-                    <div className="id-barcode-bar" style={{ width: '3px' }} />
-                    <div className="id-barcode-bar" style={{ width: '1px' }} />
-                    <div className="id-barcode-bar" style={{ width: '4px' }} />
-                    <div className="id-barcode-bar" style={{ width: '2px' }} />
-                    <div className="id-barcode-bar" style={{ width: '5px' }} />
-                    <div className="id-barcode-bar" style={{ width: '1px' }} />
-                    <div className="id-barcode-bar" style={{ width: '3px' }} />
-                    <div className="id-barcode-bar" style={{ width: '2px' }} />
-                    <div className="id-barcode-bar" style={{ width: '4px' }} />
-                    <div className="id-barcode-bar" style={{ width: '1px' }} />
-                    <div className="id-barcode-bar" style={{ width: '3px' }} />
-                    <div className="id-barcode-bar" style={{ width: '2px' }} />
-                    <div className="id-barcode-bar" style={{ width: '5px' }} />
-                    <div className="id-barcode-bar" style={{ width: '2px' }} />
-                    <div className="id-barcode-bar" style={{ width: '4px' }} />
-                    <div className="id-barcode-bar" style={{ width: '1px' }} />
-                    <div className="id-barcode-bar" style={{ width: '3px' }} />
-                    <div className="id-barcode-bar" style={{ width: '2px' }} />
-                    <div className="id-barcode-bar" style={{ width: '6px' }} />
+                    {[3,1,4,2,5,1,3,2,4,1,3,2,5,2,4,1,3,2,6].map((w, i) => (
+                      <div key={i} className="id-barcode-bar" style={{ width: `${w}px` }} />
+                    ))}
                   </div>
                   <div style={{ fontSize: '9px', fontFamily: 'var(--font-mono)', color: 'var(--ink-dim)', marginTop: '4px', textAlign: 'center' }}>
                     ID: PHX-2026-PCM-CARNATIC
@@ -272,115 +258,88 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Right Profile & Experience Editorial Columns */}
+              {/* Right — bio editorial columns */}
               <div className="profile-main-editorial">
                 <div>
                   <h2 className="editorial-greeting-title">
                     Hi, I'm <span>Phoenix</span>
                   </h2>
                   <p className="editorial-lead-bio" style={{ marginTop: '12px' }}>
-                    I am a 16-year-old self-taught developer from India, currently in 11th grade studying Physics, Chemistry, and Mathematics (PCM). Alongside sciences, I have trained for over a decade in classical Carnatic vocal and the Saraswati Veena. That same rhythmic discipline guides how I build software: strict mathematical structure, clean architecture, low runtime overhead, and tactile user experiences.
+                    I am a 16-year-old self-taught developer from India, currently in 11th grade
+                    studying Physics, Chemistry, and Mathematics. I build native Android apps in
+                    Kotlin and local-first web tools. 10+ years of Carnatic Veena taught me
+                    rhythm, cadence, and the patience to get things right.
                   </p>
                 </div>
 
-                {/* 3-Column Editorial Grid (Matching Reference Poster) */}
+                {/* 3-Column editorial grid */}
                 <div className="editorial-three-columns">
-                  {/* Column 1: Studies & Discipline */}
+                  {/* Studies */}
                   <div>
                     <div className="column-header-title">Studies &amp; Discipline</div>
                     <div className="column-item-entry">
-                      <div className="column-entry-title">11th Grade PCM Track</div>
-                      <div className="column-entry-desc">Advanced Physics, Chemistry &amp; Mathematics coursework.</div>
+                      <div className="column-entry-title">11th Grade PCM</div>
+                      <div className="column-entry-desc">Physics, Chemistry &amp; Mathematics.</div>
                       <div className="column-entry-date">2025 – Present</div>
                     </div>
                     <div className="column-item-entry">
                       <div className="column-entry-title">Carnatic Vocal &amp; Veena</div>
-                      <div className="column-entry-desc">10+ years of classical discipline, microtonal tuning, and tala rhythm.</div>
-                      <div className="column-entry-date">2016 – Present (10 Yrs)</div>
+                      <div className="column-entry-desc">10 Yrs Saraswati Veena — classical tala, microtonal tuning.</div>
+                      <div className="column-entry-date">2016 – Present</div>
                     </div>
                     <div className="column-item-entry">
-                      <div className="column-entry-title">Self-Taught Systems &amp; Dev</div>
-                      <div className="column-entry-desc">Android architecture, 2D graphics math, and cloud infrastructure.</div>
+                      <div className="column-entry-title">Self-Taught Dev</div>
+                      <div className="column-entry-desc">Android architecture, 2D canvas math, cloud infra.</div>
                       <div className="column-entry-date">2023 – Present</div>
                     </div>
                   </div>
 
-                  {/* Column 2: Core Expertise */}
+                  {/* Core Skills */}
                   <div>
-                    <div className="column-header-title">Core Expertise</div>
+                    <div className="column-header-title">Core Skills</div>
                     <div className="column-item-entry">
-                      <div className="column-entry-title">Native Android Engineering</div>
-                      <div className="column-entry-desc">Kotlin, Jetpack Compose, Material 3 Expressive, Monet dynamic colors.</div>
+                      <div className="column-entry-title">Native Android</div>
+                      <div className="column-entry-desc">Kotlin, Jetpack Compose, Material 3, Monet colors.</div>
                     </div>
                     <div className="column-item-entry">
-                      <div className="column-entry-title">Skia 2D Procedural Graphics</div>
-                      <div className="column-entry-desc">Pure mathematical canvas rendering engines executing at 60/120 FPS.</div>
+                      <div className="column-entry-title">Skia 2D Graphics</div>
+                      <div className="column-entry-desc">Procedural canvas rendering at 60/120 FPS on-device.</div>
                     </div>
                     <div className="column-item-entry">
                       <div className="column-entry-title">Cloud &amp; DevOps</div>
-                      <div className="column-entry-desc">Google Cloud Platform, Terraform (IaC), BigQuery, Cloud Run, Docker.</div>
+                      <div className="column-entry-desc">Google Cloud, Terraform, BigQuery, Docker, Cloud Run.</div>
                     </div>
                   </div>
 
-                  {/* Column 3: Contact & Links */}
+                  {/* Connect */}
                   <div>
                     <div className="column-header-title">Connect</div>
-                    <a
-                      href={socialLinks.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="connect-entry-link"
-                    >
+                    <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" className="connect-entry-link">
                       <GitHubIcon />
                       <span>github.com/phoenixdevellopment75-web</span>
                     </a>
-                    <a
-                      href={socialLinks.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="connect-entry-link"
-                    >
+                    <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="connect-entry-link">
                       <InstagramIcon />
                       <span>instagram.com/phoenix_veena</span>
                     </a>
-                    <a
-                      href={socialLinks.telegram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="connect-entry-link"
-                    >
+                    <a href={socialLinks.telegram} target="_blank" rel="noopener noreferrer" className="connect-entry-link">
                       <TelegramIcon />
                       <span>t.me/PhoenixEditz75</span>
                     </a>
-                    <a
-                      href={socialLinks.googleProfile}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="connect-entry-link"
-                    >
+                    <a href={socialLinks.googleProfile} target="_blank" rel="noopener noreferrer" className="connect-entry-link">
                       <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>badge</span>
                       <span>Google Skills Profile</span>
                     </a>
                   </div>
                 </div>
 
-                {/* Softwares & Tooling Row */}
+                {/* Tech stack pills */}
                 <div className="software-stack-row">
-                  <div className="software-heading">Softwares &amp; Technologies</div>
+                  <div className="software-heading">Technologies &amp; Tooling</div>
                   <div className="software-chips-flex">
-                    <span className="software-badge-pill">Kotlin</span>
-                    <span className="software-badge-pill">Jetpack Compose</span>
-                    <span className="software-badge-pill">Android Studio</span>
-                    <span className="software-badge-pill">Skia Canvas</span>
-                    <span className="software-badge-pill">Python</span>
-                    <span className="software-badge-pill">React 19</span>
-                    <span className="software-badge-pill">JavaScript (ES6+)</span>
-                    <span className="software-badge-pill">Google Cloud</span>
-                    <span className="software-badge-pill">Terraform (IaC)</span>
-                    <span className="software-badge-pill">BigQuery</span>
-                    <span className="software-badge-pill">Docker</span>
-                    <span className="software-badge-pill">WebAssembly</span>
-                    <span className="software-badge-pill">Git / GitHub</span>
+                    {['Kotlin','Jetpack Compose','Android Studio','Skia Canvas','Python','React 19',
+                      'JavaScript ES6+','Google Cloud','Terraform','BigQuery','Docker','WebAssembly','Git / GitHub']
+                      .map(t => <span key={t} className="software-badge-pill">{t}</span>)}
                   </div>
                 </div>
               </div>
@@ -388,239 +347,149 @@ export default function App() {
           </div>
         </section>
 
-        {/* ═══════════ SECTION 3: "CONTENT" & 5-Column Project Showcase ═══════════ */}
+        {/* ═══════════ WORK — 5-Column Project Grid ═══════════ */}
         <section className="content-showcase-section" id="content">
           <div className="content-container">
             <div className="content-header-art">
-              {/* Step numbers: 01, 02, 03, 04, 05 */}
               <div className="content-steps-row">
-                <span className="content-step-num">01</span>
-                <span className="content-step-num">02</span>
-                <span className="content-step-num">03</span>
-                <span className="content-step-num">04</span>
-                <span className="content-step-num">05</span>
+                {['01','02','03','04','05'].map(n => (
+                  <span key={n} className="content-step-num">{n}</span>
+                ))}
               </div>
-              {/* Giant Outlined Typography */}
-              <div className="content-big-outline-text">
-                CONTENT
-              </div>
+              <div className="content-big-outline-text">CONTENT</div>
             </div>
 
-            {/* 5 Distinctive Columns (Matching the Reference Poster) */}
+            {/* Work section subtitle */}
+            <p className="work-section-subtitle">
+              Apps and tools I built from scratch — zero fake demos or clones.
+            </p>
+
+            {/* 5 project columns — simplified: icon mockup + 1-line desc + giant number */}
             <div className="five-columns-project-grid">
-              {/* Column 1: Wallpaper Studio (Blue #2B557F) */}
+
+              {/* 1 — Wallpaper Studio (Blue) */}
               <div className="content-col-card col-theme-1">
-                <div>
+                <div className="col-top-content">
                   <div className="col-mockup-frame">
                     <div className="mockup-inner-art">
-                      <span className="material-symbols-outlined" style={{ fontSize: '38px', color: '#FFFFFF' }}>
-                        wallpaper
-                      </span>
-                      <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em' }}>
-                        25+ SKIA MATH PATTERNS
-                      </div>
+                      <span className="material-symbols-outlined" style={{ fontSize: '42px', color: '#FFFFFF' }}>wallpaper</span>
+                      <div className="mockup-label">25+ SKIA PATTERNS</div>
                     </div>
                   </div>
-
-                  <div className="col-badge-tag">Android App · Skia 2D</div>
-                  <h3 className="col-project-title" style={{ marginTop: '8px' }}>
-                    Material UI 3 Wallpaper Studio
-                  </h3>
+                  <div className="col-badge-tag">Android · Skia 2D</div>
+                  <h3 className="col-project-title">Material UI 3 Wallpaper Studio</h3>
                   <p className="col-project-desc">
-                    Generates crisp geometric wallpapers using pure procedural math right on device. 100% private, zero network requests, and dynamic Monet palette tinting.
+                    Generates procedural geometric wallpapers right on your phone without internet access or data leaks.
                   </p>
-
-                  <div className="col-action-btns">
-                    <a
-                      href="https://github.com/phoenixdevellopment75-web/Material-ui-3-wallpaper-studio-/releases"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="col-btn-white"
-                    >
-                      <span className="material-symbols-outlined" style={{ fontSize: '15px' }}>download</span>
-                      <span>Get APK (v2.6.0)</span>
-                    </a>
-                    <a
-                      href="https://github.com/phoenixdevellopment75-web/Material-ui-3-wallpaper-studio-"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="col-btn-outline"
-                    >
-                      <span>View GitHub Repo</span>
-                      <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>open_in_new</span>
-                    </a>
+                  <div className="col-links-row">
+                    <a href="https://github.com/phoenixdevellopment75-web/Material-ui-3-wallpaper-studio-/releases" target="_blank" rel="noopener noreferrer" className="col-link-chip">↓ APK v2.6.0</a>
+                    <a href="https://github.com/phoenixdevellopment75-web/Material-ui-3-wallpaper-studio-" target="_blank" rel="noopener noreferrer" className="col-link-chip col-link-ghost">GitHub ↗</a>
                   </div>
                 </div>
-
                 <div className="content-bottom-num">1</div>
               </div>
 
-              {/* Column 2: Classmates Hub (Khaki/Camel #C29F74) */}
+              {/* 2 — Classmates Hub (Khaki) */}
               <div className="content-col-card col-theme-2">
-                <div>
+                <div className="col-top-content">
                   <div className="col-mockup-frame">
                     <div className="mockup-inner-art">
-                      <span className="material-symbols-outlined" style={{ fontSize: '38px', color: '#141414' }}>
-                        groups
-                      </span>
-                      <div style={{ fontSize: '11px', fontWeight: 800, color: '#141414', letterSpacing: '0.05em' }}>
-                        CLASS 10TH VAULT
-                      </div>
+                      <span className="material-symbols-outlined" style={{ fontSize: '42px', color: '#141414' }}>groups</span>
+                      <div className="mockup-label" style={{ color: '#141414' }}>CLASS 10TH VAULT</div>
                     </div>
                   </div>
-
-                  <div className="col-badge-tag">Web Community</div>
-                  <h3 className="col-project-title" style={{ marginTop: '8px', color: '#141414' }}>
-                    Classmates Hub
-                  </h3>
-                  <p className="col-project-desc">
-                    A community website built for our 10th-grade class to preserve memories, student directory cards, and class events with zero bundle bloat.
+                  <div className="col-badge-tag">Web · Community</div>
+                  <h3 className="col-project-title" style={{ color: '#141414' }}>Classmates Hub</h3>
+                  <p className="col-project-desc" style={{ color: '#2C261F' }}>
+                    A class portal I built for my 10th-grade batch to save memories and stay connected.
                   </p>
-
-                  <div className="col-action-btns">
-                    <a
-                      href="https://github.com/phoenixdevellopment75-web/Class10thForever-"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="col-btn-white"
-                      style={{ background: '#141414', color: '#FFFFFF' }}
-                    >
-                      <span>Explore Repo</span>
-                      <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>open_in_new</span>
-                    </a>
+                  <div className="col-links-row">
+                    <a href="https://github.com/phoenixdevellopment75-web/Class10thForever-" target="_blank" rel="noopener noreferrer" className="col-link-chip" style={{ background: '#141414', color: '#FFF' }}>GitHub ↗</a>
                   </div>
                 </div>
-
-                <div className="content-bottom-num">2</div>
+                <div className="content-bottom-num" style={{ color: 'rgba(20,20,20,0.75)' }}>2</div>
               </div>
 
-              {/* Column 3: In-Browser File Converter (Green #65855B) */}
+              {/* 3 — File Converter (Green) */}
               <div className="content-col-card col-theme-3">
-                <div>
+                <div className="col-top-content">
                   <div className="col-mockup-frame">
                     <div className="mockup-inner-art">
-                      <span className="material-symbols-outlined" style={{ fontSize: '38px', color: '#FFFFFF' }}>
-                        swap_horizontal_circle
-                      </span>
-                      <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em' }}>
-                        WASM / FFMPEG WORKER
-                      </div>
+                      <span className="material-symbols-outlined" style={{ fontSize: '42px', color: '#FFFFFF' }}>swap_horizontal_circle</span>
+                      <div className="mockup-label">WASM · FFMPEG</div>
                     </div>
                   </div>
-
                   <div className="col-badge-tag">WASM · 100% Private</div>
-                  <h3 className="col-project-title" style={{ marginTop: '8px' }}>
-                    In-Browser File Converter
-                  </h3>
+                  <h3 className="col-project-title">In-Browser File Converter</h3>
                   <p className="col-project-desc">
-                    Converts images, audio, and video directly inside the browser using client-side FFmpeg.wasm workers. Zero files ever touch an external server.
+                    Converts audio, video, and images directly in the browser via WebAssembly so files never leave your device.
                   </p>
-
-                  <div className="col-action-btns">
-                    <a
-                      href="https://github.com/phoenixdevellopment75-web"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="col-btn-white"
-                    >
-                      <span>Explore System</span>
-                      <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>open_in_new</span>
-                    </a>
+                  <div className="col-links-row">
+                    <a href="https://github.com/phoenixdevellopment75-web" target="_blank" rel="noopener noreferrer" className="col-link-chip">GitHub ↗</a>
                   </div>
                 </div>
-
                 <div className="content-bottom-num">3</div>
               </div>
 
-              {/* Column 4: Focus Study Clock (Rust #C25345) */}
+              {/* 4 — Focus Clock (Rust) */}
               <div className="content-col-card col-theme-4">
-                <div>
+                <div className="col-top-content">
                   <div className="col-mockup-frame">
                     <div className="mockup-inner-art">
-                      <span className="material-symbols-outlined" style={{ fontSize: '38px', color: '#FFFFFF' }}>
-                        alarm
-                      </span>
-                      <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em' }}>
-                        SYNTHESIZED WEB AUDIO
-                      </div>
+                      <span className="material-symbols-outlined" style={{ fontSize: '42px', color: '#FFFFFF' }}>alarm</span>
+                      <div className="mockup-label">SYNTH AUDIO</div>
                     </div>
                   </div>
-
-                  <div className="col-badge-tag">Productivity &amp; Sound</div>
-                  <h3 className="col-project-title" style={{ marginTop: '8px' }}>
-                    My Favourite Focus Clock
-                  </h3>
+                  <div className="col-badge-tag">Productivity · Sound</div>
+                  <h3 className="col-project-title">Focus Clock</h3>
                   <p className="col-project-desc">
-                    A clean Pomodoro study timer with pleasant synthesized audio alerts, customizable intervals, and an eye-friendly dark design for focused learning.
+                    A distraction-free Pomodoro timer with clean synthesized audio alerts.
                   </p>
-
-                  <div className="col-action-btns">
-                    <a
-                      href="https://github.com/phoenixdevellopment75-web/My-favourite-clock-timer"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="col-btn-white"
-                    >
-                      <span>View GitHub Repo</span>
-                      <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>open_in_new</span>
-                    </a>
+                  <div className="col-links-row">
+                    <a href="https://github.com/phoenixdevellopment75-web/My-favourite-clock-timer" target="_blank" rel="noopener noreferrer" className="col-link-chip">GitHub ↗</a>
                   </div>
                 </div>
-
                 <div className="content-bottom-num">4</div>
               </div>
 
-              {/* Column 5: Google Cloud Credentials (Slate #4C6E96) */}
+              {/* 5 — Cloud Credentials (Slate) */}
               <div className="content-col-card col-theme-5">
-                <div>
+                <div className="col-top-content">
                   <div className="col-mockup-frame">
                     <div className="mockup-inner-art">
-                      <span className="material-symbols-outlined" style={{ fontSize: '38px', color: '#FFFFFF' }}>
-                        verified_user
-                      </span>
-                      <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em' }}>
-                        7 VERIFIED GCP BADGES
-                      </div>
+                      <span className="material-symbols-outlined" style={{ fontSize: '42px', color: '#FFFFFF' }}>verified_user</span>
+                      <div className="mockup-label">7 VERIFIED BADGES</div>
                     </div>
                   </div>
-
                   <div className="col-badge-tag">Google Cloud Platform</div>
-                  <h3 className="col-project-title" style={{ marginTop: '8px' }}>
-                    Google Cloud Credentials
-                  </h3>
+                  <h3 className="col-project-title">Cloud Credentials</h3>
                   <p className="col-project-desc">
-                    Hands-on credentials in Multi-agent AI systems with Gemini Enterprise, Terraform (IaC), BigQuery data warehouses, and secure software delivery.
+                    7 verified Google Cloud skill badges in BigQuery, Terraform, and cloud architecture.
                   </p>
-
-                  <div className="col-action-btns">
-                    <a
-                      href="#badges"
-                      className="col-btn-white"
-                    >
-                      <span>Inspect Badges</span>
-                      <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>arrow_downward</span>
-                    </a>
+                  <div className="col-links-row">
+                    <a href="#badges" className="col-link-chip">See Badges ↓</a>
                   </div>
                 </div>
-
                 <div className="content-bottom-num">5</div>
               </div>
+
             </div>
           </div>
         </section>
 
-        {/* ═══════════ SECTION 4: Google Cloud Badges Interactive Gallery ═══════════ */}
+        {/* ═══════════ BADGES — Google Cloud Credentials Gallery ═══════════ */}
         <section className="credentials-gallery-section" id="badges">
           <div className="content-container">
             <div className="section-head-editorial">
               <span className="section-tag-eyebrow">Google Cloud Platform</span>
               <h2 className="section-main-heading">Verified Cloud Credentials</h2>
               <p className="section-editorial-subtext">
-                7 verified skill badges earned by completing hands-on challenge labs on Google Cloud Platform—covering agentic AI workflows, infrastructure as code, BigQuery, and security.
+                7 verified skill badges earned by completing hands-on challenge labs on Google Cloud —
+                covering agentic AI, infrastructure as code, BigQuery, and security.
               </p>
             </div>
 
-            {/* Filter Tabs */}
+            {/* Filter pills */}
             <div className="badge-filter-tabs">
               {Object.entries(categoryLabels).map(([key, label]) => (
                 <button
@@ -634,7 +503,7 @@ export default function App() {
               ))}
             </div>
 
-            {/* Badges Grid */}
+            {/* Badges grid */}
             <div className="badges-cards-container">
               {filteredBadges.map((badge) => (
                 <div key={badge.id} className="badge-editorial-card">
@@ -645,12 +514,10 @@ export default function App() {
                       </div>
                       <span className="badge-category-tag">{badge.category}</span>
                     </div>
-
                     <h3 className="badge-card-name">{badge.title}</h3>
                     <div className="badge-card-date-stamp">Earned: {badge.date}</div>
                     <p className="badge-card-body-text">{badge.description}</p>
                   </div>
-
                   <a
                     href={badge.badgeUrl}
                     target="_blank"
@@ -673,59 +540,34 @@ export default function App() {
                 style={{ padding: '12px 28px', fontSize: '14px' }}
               >
                 <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>badge</span>
-                <span>View Full Public Google Skills Profile</span>
+                <span>View Full Google Skills Profile</span>
                 <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>open_in_new</span>
               </a>
             </div>
           </div>
         </section>
 
-        {/* ═══════════ SECTION 5: Carnatic Veena Harmonic Physics ═══════════ */}
-        <section className="veena-physics-section">
-          <div className="content-container">
-            <div style={{ maxWidth: '840px', margin: '0 auto' }}>
-              <div className="section-head-editorial" style={{ textAlign: 'center', alignItems: 'center' }}>
-                <span className="section-tag-eyebrow">Acoustic Math &amp; Classical Rigor</span>
-                <h2 className="section-main-heading">10 Years of Veena Discipline</h2>
-                <p className="section-editorial-subtext" style={{ textAlign: 'center' }}>
-                  10 years of Carnatic Veena taught me rhythm, cadence, and discipline. I apply the same principles to code: strict structure, low latency, and zero unnecessary dependencies.
-                </p>
-              </div>
-
-              {/* Interactive Veena Harmonic Waveform Canvas */}
-              <HarmonicStringWaveform />
-            </div>
-          </div>
-        </section>
-
-        {/* ═══════════ SECTION 6: Functional Social Media Cards & Contact ═══════════ */}
+        {/* ═══════════ CONTACT ═══════════ */}
         <section className="contact-hub-section" id="contact">
           <div className="content-container">
             <div className="section-head-editorial" style={{ textAlign: 'center', alignItems: 'center' }}>
               <span className="section-tag-eyebrow">Get In Touch</span>
               <h2 className="section-main-heading">Connect &amp; Collaborate</h2>
               <p className="section-editorial-subtext" style={{ textAlign: 'center' }}>
-                Open for collaboration on native Android apps, local-first web tooling, and open-source software.
+                Have an Android app idea, want to collaborate on a project, or just chat about tech?
+                Drop me a message below.
               </p>
             </div>
 
-            {/* 3 Prominent Functional Social Media Cards */}
+            {/* 3 Social Cards */}
             <div className="social-cards-grid">
-              {/* GitHub Card */}
-              <a
-                href={socialLinks.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-editorial-card"
-              >
+              <a href={socialLinks.github} target="_blank" rel="noopener noreferrer" className="social-editorial-card">
                 <div>
-                  <div className="social-card-top-icon">
-                    <GitHubIcon />
-                  </div>
+                  <div className="social-card-top-icon"><GitHubIcon /></div>
                   <h3 className="social-card-platform">GitHub</h3>
                   <div className="social-card-handle">@phoenixdevellopment75-web</div>
                   <p className="social-card-desc">
-                    Explore my repositories, open-source Android wallpaper studio codebase, and private local-first WASM utilities.
+                    Open-source Android wallpaper studio, local-first WASM utilities, and more.
                   </p>
                 </div>
                 <div className="social-card-action-label">
@@ -734,21 +576,13 @@ export default function App() {
                 </div>
               </a>
 
-              {/* Instagram Card */}
-              <a
-                href={socialLinks.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-editorial-card"
-              >
+              <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="social-editorial-card">
                 <div>
-                  <div className="social-card-top-icon">
-                    <InstagramIcon />
-                  </div>
+                  <div className="social-card-top-icon"><InstagramIcon /></div>
                   <h3 className="social-card-platform">Instagram</h3>
                   <div className="social-card-handle">@phoenix_veena</div>
                   <p className="social-card-desc">
-                    Follow my 10-year classical Carnatic music journey, Veena practice recordings, and creative life in India.
+                    Classical Carnatic music, Veena practice recordings, and life in India.
                   </p>
                 </div>
                 <div className="social-card-action-label">
@@ -757,21 +591,13 @@ export default function App() {
                 </div>
               </a>
 
-              {/* Telegram Card */}
-              <a
-                href={socialLinks.telegram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-editorial-card"
-              >
+              <a href={socialLinks.telegram} target="_blank" rel="noopener noreferrer" className="social-editorial-card">
                 <div>
-                  <div className="social-card-top-icon">
-                    <TelegramIcon />
-                  </div>
+                  <div className="social-card-top-icon"><TelegramIcon /></div>
                   <h3 className="social-card-platform">Telegram</h3>
                   <div className="social-card-handle">@PhoenixEditz75</div>
                   <p className="social-card-desc">
-                    Direct real-time messaging for quick project discussions, questions about Android development, or tech chats.
+                    Quick project questions, Android development chats, or just say hi.
                   </p>
                 </div>
                 <div className="social-card-action-label">
@@ -781,11 +607,11 @@ export default function App() {
               </a>
             </div>
 
-            {/* Email Copy Card with Instant Tooltip Checkmark */}
+            {/* Email copy card */}
             <div className="email-copy-editorial-box">
-              <h3 className="email-box-title">Direct Inquiries</h3>
+              <h3 className="email-box-title">Direct Email</h3>
               <p className="email-box-subtext">
-                Feel free to email me directly regarding open-source Android work or collaboration.
+                Open for collaboration, Android tooling, and open-source work.
               </p>
 
               <div className="email-button-wrapper">
@@ -820,26 +646,21 @@ export default function App() {
             </div>
 
             <div className="footer-links-group">
-              <a href="#hero" className="footer-nav-link">Home</a>
-              <a href="#about" className="footer-nav-link">About</a>
-              <a href="#content" className="footer-nav-link">Content</a>
-              <a href="#badges" className="footer-nav-link">Badges</a>
+              <a href="#hero"    className="footer-nav-link">Home</a>
+              <a href="#about"   className="footer-nav-link">About</a>
+              <a href="#content" className="footer-nav-link">Work</a>
+              <a href="#badges"  className="footer-nav-link">Badges</a>
               <a href="#contact" className="footer-nav-link">Contact</a>
             </div>
 
-            <button
-              type="button"
-              className="footer-back-to-top"
-              onClick={scrollToTop}
-              title="Back to top"
-            >
+            <button type="button" className="footer-back-to-top" onClick={scrollToTop} title="Back to top">
               <span>Back to Top</span>
               <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>arrow_upward</span>
             </button>
           </div>
 
           <div className="footer-copy-text">
-            © {new Date().getFullYear()} Phoenix · 16-year-old Android &amp; Web Developer · 11th Grade PCM · Licensed under Apache-2.0
+            © {new Date().getFullYear()} Phoenix · 16-year-old Android &amp; Web Developer · 11th Grade PCM · Apache-2.0
           </div>
         </div>
       </footer>

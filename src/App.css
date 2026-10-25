@@ -115,7 +115,7 @@ body {
 
 /* Section scroll-margin to prevent navbar clipping */
 #hero, #about, #content, #badges, #contact, .section-anchor {
-  scroll-margin-top: 90px;
+  scroll-margin-top: 100px;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -294,28 +294,34 @@ body {
 }
 
 /* ══════════════════════════════════════════════════════════
-   HERO SECTION — Recreating Reference Image Design
-   Huge playful "PORTFOLIO" typography + Phoenix cutout depth
+   HERO SECTION — Editorial Poster Typography + Depth Portrait
    ══════════════════════════════════════════════════════════ */
 .hero-stage-section {
   padding-top: 130px;
-  padding-bottom: 60px;
+  padding-bottom: 40px;
   text-align: center;
   position: relative;
   overflow: hidden;
 }
 
+/* Constrained inner so font never stretches across 100vw */
+.hero-inner-constrained {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
 .hero-art-wrapper {
   position: relative;
-  max-width: 900px;
+  max-width: 860px;
   margin: 0 auto;
-  min-height: 520px;
+  min-height: 500px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
 }
 
-/* Giant "PORTFOLIO" Editorial Letters */
+/* Giant "PORTFOLIO" Editorial Letters — constrained font */
 .portfolio-title-container {
   position: absolute;
   top: 10px;
@@ -338,35 +344,35 @@ body {
 
 .portfolio-char {
   font-family: var(--font-display);
-  font-size: clamp(68px, 14vw, 150px);
+  font-size: clamp(52px, 8vw, 110px);
   font-weight: 900;
   color: var(--deep-black);
   line-height: 0.9;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   display: inline-block;
   transform-origin: center;
   transition: transform 0.4s var(--spring-bounce);
 }
 
-/* Playful tilts matching reference image */
-.char-p { transform: rotate(-8deg) translateY(4px); }
+/* Playful tilts */
+.char-p  { transform: rotate(-8deg) translateY(4px); }
 .char-o1 { transform: rotate(4deg) translateY(-8px); }
-.char-r { transform: rotate(-5deg) translateY(6px); }
-.char-t { transform: rotate(6deg) translateY(-12px); font-size: clamp(74px, 15vw, 165px); }
-.char-f { transform: rotate(-7deg) translateY(2px); }
-.char-o2 { transform: rotate(5deg) translateY(-10px); }
-.char-l { transform: rotate(-3deg) translateY(6px); }
-.char-i { transform: rotate(2deg) translateY(-2px); }
+.char-r  { transform: rotate(-5deg) translateY(6px); }
+.char-t  { transform: rotate(6deg) translateY(-10px); font-size: clamp(58px, 9vw, 122px); }
+.char-f  { transform: rotate(-7deg) translateY(2px); }
+.char-o2 { transform: rotate(5deg) translateY(-9px); }
+.char-l  { transform: rotate(-3deg) translateY(6px); }
+.char-i  { transform: rotate(2deg) translateY(-2px); }
 .char-o3 { transform: rotate(6deg) translateY(-8px); }
 
 .portfolio-year-tag {
   font-family: var(--font-display);
-  font-size: clamp(28px, 5vw, 56px);
+  font-size: clamp(22px, 3.5vw, 46px);
   font-weight: 800;
   color: var(--autumn-gold);
   position: absolute;
   top: -10px;
-  right: 4%;
+  right: 2%;
   transform: rotate(6deg);
 }
 
@@ -374,8 +380,8 @@ body {
 .hero-person-cutout-box {
   position: relative;
   z-index: 3;
-  width: 320px;
-  max-width: 90vw;
+  width: 300px;
+  max-width: 85vw;
   margin-top: 60px;
   display: flex;
   justify-content: center;
@@ -384,7 +390,7 @@ body {
 .hero-person-img {
   width: 100%;
   height: auto;
-  max-height: 480px;
+  max-height: 460px;
   object-fit: contain;
   display: block;
   filter: drop-shadow(0 16px 30px rgba(30, 20, 10, 0.18));
@@ -395,12 +401,48 @@ body {
   bottom: 12px;
   left: 20px;
   font-family: var(--font-heading);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.22em;
   color: var(--autumn-gold);
   text-transform: uppercase;
   z-index: 4;
+}
+
+/* Hero intro strip below the depth art */
+.hero-intro-strip {
+  max-width: 680px;
+  margin: 40px auto 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.hero-intro-text {
+  font-size: 16px;
+  color: var(--ink-secondary);
+  line-height: 1.75;
+}
+
+.hero-stat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.hero-stat-chip {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: #FFFFFF;
+  border: 1px solid var(--cream-border);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-secondary);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -821,57 +863,74 @@ body {
   margin-bottom: 8px;
 }
 
-.col-project-desc {
-  font-size: 12.5px;
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.88);
-  margin-bottom: 14px;
+/* Work section subtitle */
+.work-section-subtitle {
+  text-align: center;
+  font-size: 15px;
+  color: var(--ink-muted);
+  margin-bottom: 36px;
+  margin-top: -10px;
 }
 
-.col-action-btns {
+/* Top content wrapper (grows to push number to bottom) */
+.col-top-content {
   display: flex;
   flex-direction: column;
+  flex: 1;
+}
+
+.col-project-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+/* Mockup frame label text */
+.mockup-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Simplified link row — replaces nested button columns */
+.col-links-row {
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+  margin-top: auto;
   margin-bottom: 12px;
 }
 
-.col-btn-white {
+.col-link-chip {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 8px 14px;
-  border-radius: 8px;
+  gap: 4px;
+  padding: 6px 14px;
+  border-radius: 9999px;
   background: #FFFFFF;
   color: var(--deep-black);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
   text-decoration: none;
   transition: var(--transition-fast);
+  white-space: nowrap;
 }
 
-.col-btn-white:hover {
+.col-link-chip:hover {
   background: #F4EFE6;
   transform: translateY(-1px);
 }
 
-.col-btn-outline {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 7px 14px;
-  border-radius: 8px;
+.col-link-ghost {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  color: inherit;
-  font-size: 12px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: var(--transition-fast);
+  border: 1px solid rgba(255, 255, 255, 0.40);
+  color: #FFFFFF;
 }
 
-.col-btn-outline:hover {
+.col-link-ghost:hover {
   background: rgba(255, 255, 255, 0.15);
 }
 
@@ -1063,17 +1122,7 @@ body {
 }
 
 /* ══════════════════════════════════════════════════════════
-   SECTION 5: Carnatic Veena Interactive Waveform Canvas
-   ══════════════════════════════════════════════════════════ */
-.veena-physics-section {
-  padding: 70px 0;
-  background: #FFFFFF;
-  border-top: 1px solid var(--cream-border);
-  border-bottom: 1px solid var(--cream-border);
-}
-
-/* ══════════════════════════════════════════════════════════
-   SECTION 6: Functional Social Media Cards & Contact Hub
+   SECTION 5: Functional Social Media Cards & Contact Hub
    ══════════════════════════════════════════════════════════ */
 .contact-hub-section {
   padding: 80px 0 100px;
